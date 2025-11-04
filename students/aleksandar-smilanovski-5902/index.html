@@ -1,67 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctor Who Episodes Explorer</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Doctor Who Episodes Explorer</title>
+  <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Doctor Who Episodes Explorer</h1>
-            <p>Explore episodes through time and space</p>
-        </header>
+  <div class="container">
+    <header>
+      <h1>Doctor Who Episodes Explorer</h1>
+      <p>Explore episodes through time and space</p>
+    </header>
 
-        <!-- Filter Section -->
-        <section class="filters">
-            <div class="filter-group">
-                <label for="name-filter">Episode Name:</label>
-                <input type="text" id="name-filter" placeholder="Search episodes...">
-            </div>
-            <!-- Add more filters as needed -->
-        </section>
+    <!-- Filter Section -->
+    <section class="filters" aria-label="Filters">
+      <div class="filter-group">
+        <label for="name-filter">Search:</label>
+        <input type="text" id="name-filter" placeholder="Title, writer, doctor, companion, director..." aria-label="Search episodes"/>
+      </div>
+      <div id="status" class="visually-hidden" aria-live="polite"></div>
+    </section>
 
-        <!-- Main Content -->
-        <main>
-            <!-- Loading State -->
-            <div id="loading" class="loading">
-                Loading episodes...
-            </div>
+    <!-- Main Content -->
+    <main>
+      <!-- Loading State -->
+      <div id="loading" class="loading">Loading episodes...</div>
 
-            <!-- Error Display -->
-            <div id="error" class="error" style="display: none;">
-                <!-- Error messages will be inserted here -->
-            </div>
+      <!-- Error Display -->
+      <div id="error" class="error" style="display:none;"></div>
 
-            <!-- Episodes Table -->
-            <table id="episodes-table" style="display: none;">
-                <thead>
-                    <tr>
-                        <th data-sort="rank">Rank</th>
-                        <th data-sort="title">Title</th>
-                        <th data-sort="series">Series</th>
-                        <th data-sort="era">Era</th>
-                        <th data-sort="broadcast_date">Year</th>
-                        <th data-sort="director">Director</th>
-                        <th data-sort="writer">Writer</th>
-                        <th data-sort="doctor">Doctor</th>
-                        <th data-sort="companion">Companion</th>
-                        <th data-sort="cast">Cast</th>
-                    </tr>
-                </thead>
-                <tbody id="episodes-body">
-                    <!-- Episodes will be inserted here -->
-                </tbody>
-            </table>
+      <!-- Episodes Table -->
+      <table id="episodes-table" style="display:none;" aria-label="Episodes table">
+        <thead>
+          <tr>
+            <th data-sort="rank" tabindex="0" aria-sort="none">Rank</th>
+            <th data-sort="title" tabindex="0" aria-sort="none">Title</th>
+            <th data-sort="series" tabindex="0" aria-sort="none">Series</th>
+            <th data-sort="era" tabindex="0" aria-sort="none">Era</th>
+            <th data-sort="broadcast_date" tabindex="0" aria-sort="none">Year</th>
+            <th data-sort="director" tabindex="0" aria-sort="none">Director</th>
+            <th data-sort="writer" tabindex="0" aria-sort="none">Writer</th>
+            <th data-sort="doctor" tabindex="0" aria-sort="none">Doctor</th>
+            <th data-sort="companion" tabindex="0" aria-sort="none">Companion</th>
+            <th data-sort="cast" tabindex="0" aria-sort="none">Cast</th>
+          </tr>
+        </thead>
+        <tbody id="episodes-body"></tbody>
+      </table>
 
-            <!-- No Results Message -->
-            <div id="no-results" class="no-results" style="display: none;">
-                No episodes match your search criteria.
-            </div>
-        </main>
-    </div>
+      <!-- No Results Message -->
+      <div id="no-results" class="no-results" style="display:none;">
+        No episodes match your search criteria.
+      </div>
+    </main>
+  </div>
 
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
