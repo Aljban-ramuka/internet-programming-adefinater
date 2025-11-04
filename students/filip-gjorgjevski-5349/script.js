@@ -1,6 +1,14 @@
 // Configuration
 const CONFIG = {
-    DATA_URL: 'https://raw.githubusercontent.com/sweko/internet-programming-adefinater/refs/heads/preparation/data/doctor-who-episodes-full.json',
+    // Array of all data sources to fetch
+    DATA_URLS: [
+        'https://raw.githubusercontent.com/sweko/internet-programming-adefinater/refs/heads/preparation/data/doctor-who-episodes-01-10.json',
+        'https://raw.githubusercontent.com/sweko/internet-programming-adefinater/refs/heads/preparation/data/doctor-who-episodes-11-20.json',
+        'https://raw.githubusercontent.com/sweko/internet-programming-adefinater/refs/heads/preparation/data/doctor-who-episodes-21-30.json',
+        'https://raw.githubusercontent.com/sweko/internet-programming-adefinater/refs/heads/preparation/data/doctor-who-episodes-31-40.json',
+        'https://raw.githubusercontent.com/sweko/internet-programming-adefinater/refs/heads/preparation/data/doctor-who-episodes-41-50.json',
+        'https://raw.githubusercontent.com/sweko/internet-programming-adefinater/refs/heads/preparation/data/doctor-who-episodes-51-65.json'
+    ]
 };
 
 // State Management
@@ -46,26 +54,42 @@ function setupEventListeners() {
     });
 }
 
-// Data Loading
+// Data Loading - MODIFIED FOR MULTIPLE URLS
 async function loadEpisodes() {
     try {
         showLoading(true);
-        const response = await fetch(CONFIG.DATA_URL);
-        // Handle network errors gracefully
-        if (!response.ok) {
-            throw new Error(`Network response was not ok: ${response.statusText}`);
+        
+        // Create an array of fetch promises from all URLs
+        const promises = CONFIG.DATA_URLS.map(url => fetch(url));
+        
+        // Wait for all fetch requests to complete in parallel
+        const responses = await Promise.all(promises);
+
+        // Check if any response failed
+        for (const response of responses) {
+            if (!response.ok) {
+                throw new Error(`Network response was not ok: ${response.statusText} for ${response.url}`);
+            }
         }
-        const data = await response.json();
-        state.episodes = data.episodes; 
+
+        // Parse JSON from all successful responses
+        const jsonDataArray = await Promise.all(responses.map(res => res.json()));
+
+        // Extract the 'episodes' array from each object and flatten into a single array
+        const allEpisodes = jsonDataArray.flatMap(data => data.episodes);
+
+        state.episodes = allEpisodes;
         applyFiltersAndSort();
+
     } catch (error) {
-        // Display error message if fetch fails
+        // Display error message if any fetch fails
         showError(`Failed to load episodes: ${error.message}`);
     } finally {
-        // Show/hide loading states appropriately
+        // Hide loading state when done
         showLoading(false);
     }
 }
+
 
 // Main function to apply filters and sorting, then update the display
 function applyFiltersAndSort() {
