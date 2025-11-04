@@ -25,8 +25,7 @@ let state = {
     },
     filters: {
         name: ''          // Current filter value
-    },
-    focusedRowIndex: -1   // Track keyboard-focused row
+    }
 };
 
 // Initialize Application
@@ -37,29 +36,12 @@ async function init() {
 
 // Event Listeners Setup
 function setupEventListeners() {
-    // Make table headers keyboard accessible
-    const headers = document.querySelectorAll('th[data-sort]');
-    headers.forEach(header => {
-        // Make header cells tabbable
-        header.tabIndex = 0;
-        
-        // Handle click for sorting
-        header.addEventListener('click', () => {
-            const field = header.dataset.sort;
-            sortEpisodes(field);
-        });
-        
-        // Handle keyboard for sorting
-        header.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                const field = header.dataset.sort;
-                sortEpisodes(field);
-            }
-        });
-    });
+    // TODO: Implement event listeners for:
+    // 1. Filter input changes
+    // 2. Column header clicks (sorting)
+    // 3. Additional filter changes
     
-    // Filter input listener with keyboard navigation
+    // Filter input listener
     const filterInput = document.getElementById('name-filter');
     if (filterInput) {
         filterInput.addEventListener('input', (e) => {
@@ -68,8 +50,14 @@ function setupEventListeners() {
         });
     }
 
-    // Global keyboard navigation for table
-    document.addEventListener('keydown', handleTableNavigation);
+    // Column header click listeners
+    const headers = document.querySelectorAll('th[data-sort]');
+    headers.forEach(header => {
+        header.addEventListener('click', () => {
+            const field = header.dataset.sort;
+            sortEpisodes(field);
+        });
+    });
 }
 
 // Data Loading
@@ -426,23 +414,60 @@ function filterEpisodes() {
     // Be defensive: ensure we have an array to iterate
     const source = Array.isArray(state.episodes) ? state.episodes : [];
 
-    state.filtered = source.filter(episode => {
-        if (!searchTerm) return true;
-
-        // Use normalized sort/display fields for searching
-        const title = (episode._sort && episode._sort.title) ? episode._sort.title : '';
-        const doctor = (episode._sort && episode._sort.doctor) ? episode._sort.doctor : '';
-        const companion = (episode._sort && episode._sort.companion) ? episode._sort.companion : '';
-
-        return title.includes(searchTerm) || doctor.includes(searchTerm) || companion.includes(searchTerm);
-    });
-
-    // Maintain current sort without toggling direction
-    if (state.sort.field) {
-        sortEpisodes(state.sort.field, true);
-    } else {
-        displayEpisodes(state.filtered);
+    if (!searchTerm) {
+        state.filtered = source;
+        // Just sort by rank when no search
+        sortEpisodes('rank', true);
+        return;
     }
+
+    // For each episode, determine its relevance score
+    const matchingEpisodes = source.map(episode => {
+        // Get normalized fields for searching
+        const title = ((episode._sort && episode._sort.title) || '').toLowerCase();
+        const allFields = [
+            title,
+            ((episode._sort && episode._sort.doctor) || ''),
+            ((episode._sort && episode._sort.companion) || ''),
+            ((episode._sort && episode._sort.director) || ''),
+            ((episode._sort && episode._sort.writer) || ''),
+            ((episode._sort && episode._sort.era) || '')
+        ].map(f => f.toLowerCase());
+
+        // Calculate match score (higher is better)
+        let score = 0;
+        
+        // 1. Exact title match (highest priority)
+        if (title === searchTerm) {
+            score = 4;
+        }
+        // 2. Title contains search term
+        else if (title.includes(searchTerm)) {
+            score = 3;
+        }
+        // 3. Any field contains search term
+        else if (allFields.some(f => f.includes(searchTerm))) {
+            score = 2;
+        }
+        // 4. No match
+        else {
+            score = 0;
+        }
+
+        return { episode, score };
+    }).filter(item => item.score > 0); // Only keep matches
+
+    // Sort by: score (desc), then rank (asc)
+    state.filtered = matchingEpisodes
+        .sort((a, b) => {
+            // First by score (higher first)
+            if (b.score !== a.score) return b.score - a.score;
+            // Then by rank
+            return (a.episode._sort.rank || 0) - (b.episode._sort.rank || 0);
+        })
+        .map(item => item.episode);
+
+    displayEpisodes(state.filtered);
 }
 
 // Utility Functions
@@ -567,84 +592,6 @@ function updateWarningsUI() {
         detailsContainer.style.display = 'none';
         listEl.innerHTML = '';
     }
-}
-
-// Handle keyboard navigation for the table
-function handleTableNavigation(e) {
-    const tbody = document.querySelector('#episodes-table tbody');
-    if (!tbody || state.loading) return;
-
-    // Only handle navigation when table is visible
-    const table = document.getElementById('episodes-table');
-    if (table.style.display === 'none') return;
-
-    const rows = Array.from(tbody.children);
-    if (rows.length === 0) return;
-
-    // When no row is focused, start from first or last based on key
-    if (state.focusedRowIndex === -1) {
-        if (e.key === 'ArrowDown' || e.key === 'Home') {
-            state.focusedRowIndex = 0;
-            updateRowFocus();
-            return;
-        } else if (e.key === 'ArrowUp' || e.key === 'End') {
-            state.focusedRowIndex = rows.length - 1;
-            updateRowFocus();
-            return;
-        }
-    }
-
-    switch (e.key) {
-        case 'ArrowDown':
-            e.preventDefault();
-            if (state.focusedRowIndex < rows.length - 1) {
-                state.focusedRowIndex++;
-                updateRowFocus();
-            }
-            break;
-        case 'ArrowUp':
-            e.preventDefault();
-            if (state.focusedRowIndex > 0) {
-                state.focusedRowIndex--;
-                updateRowFocus();
-            }
-            break;
-        case 'Home':
-            e.preventDefault();
-            state.focusedRowIndex = 0;
-            updateRowFocus();
-            break;
-        case 'End':
-            e.preventDefault();
-            state.focusedRowIndex = rows.length - 1;
-            updateRowFocus();
-            break;
-        case 'Tab':
-            // Clear row focus when tabbing away
-            if (state.focusedRowIndex !== -1) {
-                state.focusedRowIndex = -1;
-                updateRowFocus();
-            }
-            break;
-    }
-}
-
-// Helper to update row focus state and ensure keyboard focus
-function updateRowFocus() {
-    const tbody = document.querySelector('#episodes-table tbody');
-    if (!tbody) return;
-
-    Array.from(tbody.children).forEach((row, index) => {
-        // Make rows focusable but not in tab order
-        row.tabIndex = index === state.focusedRowIndex ? 0 : -1;
-        row.setAttribute('data-focused', index === state.focusedRowIndex ? 'true' : 'false');
-        
-        if (index === state.focusedRowIndex) {
-            row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            // Set actual keyboard focus
-            row.focus();
-        }
-    });
 }
 
 document.addEventListener('DOMContentLoaded', init);
