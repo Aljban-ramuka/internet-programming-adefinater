@@ -39,24 +39,48 @@ header h1 {
     padding: 15px;
     background: #f8f9fa;
     border-radius: 6px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: flex-end;
 }
 
 .filter-group {
+    flex: 1;
+    min-width: 200px;
     margin-bottom: 10px;
 }
 
 .filter-group label {
-    display: inline-block;
-    margin-right: 10px;
+    display: block;
+    margin-bottom: 5px;
     font-weight: 500;
+    color: #333;
 }
 
 .filter-group input,
 .filter-group select {
+    width: 100%;
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 14px;
+    background-color: white;
+}
+
+.filter-group select {
+    cursor: pointer;
+}
+
+.filter-group input:focus,
+.filter-group select:focus {
+    border-color: #2a5298;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(42, 82, 152, 0.2);
+}
+
+.filter-group input::placeholder {
+    color: #aaa;
 }
 
 /* Table Styles */
@@ -93,6 +117,93 @@ th.sort-asc::after {
 th.sort-desc::after {
     content: ' ↓';
     font-size: 0.8em;
+}
+
+/* Warning Badge */
+.warning-badge {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    margin: 1rem 0;
+    display: inline-block;
+    font-size: 0.9em;
+    transition: all 0.3s ease;
+}
+
+.warning-badge:hover {
+    background: #ffecb5;
+}
+
+.warning-badge span {
+    font-weight: bold;
+    margin: 0 0.3rem;
+}
+
+/* Loading and Error States */
+.loading {
+    text-align: center;
+    padding: 2rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin: 1rem 0;
+}
+
+.error-message {
+    background: #fff5f5;
+    border: 1px solid #feb2b2;
+    color: #c53030;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.error-title {
+    font-size: 1.1em;
+    margin-bottom: 0.5rem;
+}
+
+.error-details {
+    color: #666;
+    font-size: 0.9em;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    background: rgba(0,0,0,0.05);
+    border-radius: 4px;
+}
+
+.error-actions {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+/* No Results Message */
+.no-results {
+    text-align: center;
+    padding: 2rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin: 1rem 0;
+    color: #666;
+    font-style: italic;
+}
+
+.retry-button {
+    background: #2a5298;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    margin-left: 1rem;
+    cursor: pointer;
+}
+
+.retry-button:hover {
+    background: #1e3c72;
 }
 
 /* Loading State */

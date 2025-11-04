@@ -1,0 +1,81 @@
+{
+  "episodes": [
+    {
+      "rank": 1,
+      "title": "An Unearthly Child",
+      "series": 1,
+      "era": "Classic",
+      "broadcast_date": "1963-11-23",
+      "director": "Waris Hussein",
+      "writer": "Anthony Coburn",
+      "doctor": {
+        "actor": "William Hartnell",
+        "incarnation": "First Doctor"
+      },
+      "companion": {
+        "actor": "Carole Ann Ford",
+        "character": "Susan Foreman"
+      },
+      "cast": [
+        {"actor": "William Russell", "character": "Ian Chesterton"},
+        {"actor": "Jacqueline Hill", "character": "Barbara Wright"}
+      ]
+    },
+    {
+      "rank": 2,
+      "title": "The \"Genesis\" of Time",
+      "series": 1,
+      "era": "Classic",
+      "broadcast_date": "23/12/1963",
+      "director": "Richard Martin",
+      "writer": "Terry Nation & David Whitaker",
+      "doctor": {
+        "actor": "William Hartnell",
+        "incarnation": "First Doctor"
+      },
+      "companion": null,
+      "cast": []
+    },
+    {
+      "rank": -1,
+      "title": "The Doctor's Wife",
+      "series": 6,
+      "era": "Modern",
+      "broadcast_date": "May 14, 2011",
+      "director": "Richard Clark",
+      "writer": "Neil Gaiman",
+      "doctor": {
+        "actor": "Matt Smith",
+        "incarnation": "Eleventh Doctor"
+      },
+      "companion": {
+        "actor": "Karen Gillan",
+        "character": "Amy Pond"
+      },
+      "cast": [
+        {"actor": "Suranne Jones", "character": "Idris"},
+        {"actor": "Arthur Darvill", "character": "Rory Williams"}
+      ]
+    },
+    {
+      "rank": 4,
+      "title": "The End / The Beginning",
+      "series": 13,
+      "era": "Recent",
+      "broadcast_date": "2026",
+      "director": "José González",
+      "writer": "María Rodríguez and Chris Chibnall",
+      "doctor": {
+        "actor": "Ncuti Gatwa",
+        "incarnation": "Fifteenth Doctor"
+      },
+      "companion": {
+        "actor": "Millie Gibson",
+        "character": "Ruby Sunday"
+      },
+      "cast": [
+        {"actor": "Sophie Aldred", "character": "Ace"}
+      ]
+    }
+  ]
+}
