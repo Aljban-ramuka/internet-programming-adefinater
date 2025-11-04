@@ -21,7 +21,6 @@
         #episodes-table th.sort-asc::after { content: ' ▲'; }
         #episodes-table th.sort-desc::after { content: ' ▼'; }
 
-        /* Style for the new validation warnings container */
         .warnings {
             padding: 10px 15px;
             margin-bottom: 15px;
@@ -30,6 +29,18 @@
             border-radius: 4px;
             color: #d46b08;
             font-weight: bold;
+        }
+        /* Style for the export button */
+        .export-button {
+            margin-left: 10px;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #f7f7f7;
+            cursor: pointer;
+        }
+        .export-button:hover {
+            background-color: #e0e0e0;
         }
     </style>
 </head>
@@ -44,10 +55,11 @@
             <div class="filter-group">
                 <label for="name-filter">Search:</label>
                 <input type="text" id="name-filter" placeholder="Filter by Title, Doctor, Writer...">
+                <!-- Export to CSV button -->
+                <button id="export-csv" class="export-button">Export as CSV</button>
             </div>
         </section>
 
-        <!-- Container for validation warnings count -->
         <div id="validation-warnings" class="warnings" style="display: none;"></div>
 
         <main>

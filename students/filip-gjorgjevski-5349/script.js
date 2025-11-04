@@ -31,15 +31,15 @@ function setupEventListeners() {
         state.filters.name = e.target.value;
         applyFiltersAndSort();
     });
+    
+    // Event listener for the new export button
+    document.getElementById('export-csv').addEventListener('click', exportToCSV);
 
     document.querySelectorAll('#episodes-table thead th[data-sort]').forEach(header => {
         header.addEventListener('click', () => {
             const field = header.dataset.sort;
             if (state.sort.field === field) state.sort.ascending = !state.sort.ascending;
-            else {
-                state.sort.field = field;
-                state.sort.ascending = true;
-            }
+            else { state.sort.field = field; state.sort.ascending = true; }
             applyFiltersAndSort();
         });
     });
@@ -60,8 +60,7 @@ async function loadEpisodes() {
 
         const jsonDataArray = await Promise.all(responses.map(res => res.json()));
         const allEpisodes = jsonDataArray.flatMap(data => data.episodes);
-
-        // Perform data validation
+        
         const warnings = validateData(allEpisodes);
         if (warnings.length > 0) {
             warnings.forEach(w => console.warn(w));
@@ -72,7 +71,6 @@ async function loadEpisodes() {
 
         state.episodes = allEpisodes;
         applyFiltersAndSort();
-
     } catch (error) {
         showError(error.message);
     } finally {
@@ -80,7 +78,7 @@ async function loadEpisodes() {
     }
 }
 
-// NEW: Data Validation Function
+// Data Validation Function
 function validateData(episodes) {
     const warnings = [];
     const seenRanks = new Set();
@@ -88,46 +86,24 @@ function validateData(episodes) {
     const requiredFields = ['rank', 'title', 'era', 'broadcast_date'];
 
     episodes.forEach((episode, index) => {
-        const episodeId = `Episode "${episode.title || `(Untitled at index ${index}`})"`;
-
-        // Check for missing required fields
+        const id = `Episode "${episode.title || `(Untitled at index ${index}`})"`;
         requiredFields.forEach(field => {
-            if (episode[field] === null || episode[field] === undefined || episode[field] === '') {
-                warnings.push(`Validation Error: ${episodeId} is missing required field '${field}'.`);
-            }
+            if (episode[field] == null || episode[field] === '') warnings.push(`Validation Error: ${id} is missing required field '${field}'.`);
         });
-
-        // Check for future broadcast dates
-        const broadcastDate = normalizeDate(episode.broadcast_date);
-        if (broadcastDate && broadcastDate > now) {
-            warnings.push(`Validation Error: ${episodeId} has a future broadcast date: ${episode.broadcast_date}.`);
-        }
-
-        // Check for duplicate/invalid ranks
-        if (typeof episode.rank !== 'number' || !isFinite(episode.rank)) {
-            warnings.push(`Validation Error: ${episodeId} has an invalid rank: ${episode.rank}.`);
-        } else {
-            if (seenRanks.has(episode.rank)) {
-                warnings.push(`Validation Error: Duplicate rank found. Rank '${episode.rank}' is used by ${episodeId} and another episode.`);
-            }
-            seenRanks.add(episode.rank);
-        }
-
-        // Check for negative series numbers
-        if (typeof episode.series === 'number' && episode.series < 0) {
-            warnings.push(`Validation Error: ${episodeId} has a negative series number: ${episode.series}.`);
-        }
+        const date = normalizeDate(episode.broadcast_date);
+        if (date && date > now) warnings.push(`Validation Error: ${id} has a future broadcast date.`);
+        if (typeof episode.rank !== 'number') warnings.push(`Validation Error: ${id} has an invalid rank.`);
+        else if (seenRanks.has(episode.rank)) warnings.push(`Validation Error: Duplicate rank '${episode.rank}' found on ${id}.`);
+        else seenRanks.add(episode.rank);
+        if (typeof episode.series === 'number' && episode.series < 0) warnings.push(`Validation Error: ${id} has a negative series number.`);
     });
-
     return warnings;
 }
-
 
 // Main function to apply filters and sorting
 function applyFiltersAndSort() {
     state.focusedRowIndex = -1;
     const filterText = state.filters.name.toLowerCase();
-    
     let processedData = state.episodes.filter(ep => {
         const title = ep.title?.toLowerCase() || '';
         const doctor = formatDoctor(ep.doctor, false).toLowerCase();
@@ -136,7 +112,6 @@ function applyFiltersAndSort() {
         const director = ep.director?.toLowerCase() || '';
         return title.includes(filterText) || doctor.includes(filterText) || companion.includes(filterText) || writer.includes(filterText) || director.includes(filterText);
     });
-
     const { field, ascending } = state.sort;
     const direction = ascending ? 1 : -1;
     processedData.sort((a, b) => {
@@ -144,7 +119,6 @@ function applyFiltersAndSort() {
         const valB = getSortValue(b, field);
         return (valA < valB ? -1 : valA > valB ? 1 : 0) * direction;
     });
-
     state.filtered = processedData;
     displayEpisodes(state.filtered);
 }
@@ -161,9 +135,7 @@ function displayEpisodes(episodes) {
         const createCell = text => {
             const cell = row.insertCell();
             cell.textContent = text ?? 'N/A';
-            return cell;
         };
-
         createCell(episode.rank);
         createCell(episode.title);
         createCell(episode.series);
@@ -174,7 +146,6 @@ function displayEpisodes(episodes) {
         createCell(formatDoctor(episode.doctor));
         createCell(formatCompanion(episode.companion));
         createCell(episode.cast?.length || 0);
-
         row.addEventListener('click', () => {
             state.focusedRowIndex = index;
             updateRowFocus();
@@ -183,7 +154,7 @@ function displayEpisodes(episodes) {
     updateRowFocus();
 }
 
-// Keyboard Navigation Handler
+// Keyboard Navigation
 function handleKeyboardNavigation(e) {
     if (e.key === 'Enter' && document.activeElement.tagName === 'TH') {
         e.preventDefault();
@@ -199,7 +170,52 @@ function handleKeyboardNavigation(e) {
     }
 }
 
-// Utility Functions
+// NEW: EXPORT TO CSV FUNCTIONALITY
+function exportToCSV() {
+    const headers = ["Rank", "Title", "Series", "Era", "Year", "Director", "Writer", "Doctor", "Companion", "Cast Count"];
+    const dataRows = state.filtered.map(ep => [
+        ep.rank,
+        ep.title,
+        ep.series,
+        ep.era,
+        getYear(ep.broadcast_date),
+        ep.director,
+        ep.writer,
+        formatDoctor(ep.doctor),
+        formatCompanion(ep.companion),
+        ep.cast?.length || 0
+    ]);
+
+    const csvContent = [
+        headers.map(escapeCSV).join(','),
+        ...dataRows.map(row => row.map(escapeCSV).join(','))
+    ].join('\n');
+
+    // Create a Blob and trigger download
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'doctor_who_episodes.csv');
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// Helper for proper string escaping in CSV
+function escapeCSV(value) {
+    const stringValue = String(value ?? '');
+    // If the value contains a comma, a double quote, or a newline, wrap it in double quotes.
+    if (/[",\n]/.test(stringValue)) {
+        // Within a quoted field, any double quote must be escaped by another double quote.
+        return `"${stringValue.replace(/"/g, '""')}"`;
+    }
+    return stringValue;
+}
+
+
+// UTILITY FUNCTIONS
 function getSortValue(ep, field) {
     switch (field) {
         case 'doctor': return formatDoctor(ep.doctor, false).toLowerCase();
@@ -213,47 +229,41 @@ function getSortValue(ep, field) {
 function updateRowFocus() {
     const rows = document.getElementById('episodes-body').rows;
     for (let i = 0; i < rows.length; i++) {
-        if (i === state.focusedRowIndex) {
-            rows[i].classList.add('focused');
-            rows[i].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-        } else {
-            rows[i].classList.remove('focused');
-        }
+        rows[i].classList.toggle('focused', i === state.focusedRowIndex);
+        if (i === state.focusedRowIndex) rows[i].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
     }
 }
 
 function updateSortHeaders() {
     document.querySelectorAll('#episodes-table thead th').forEach(th => {
         th.classList.remove('sort-asc', 'sort-desc');
-        if (th.dataset.sort === state.sort.field) {
-            th.classList.add(state.sort.ascending ? 'sort-asc' : 'sort-desc');
-        }
+        if (th.dataset.sort === state.sort.field) th.classList.add(state.sort.ascending ? 'sort-asc' : 'sort-desc');
     });
 }
 
-function normalizeDate(dateString) {
-    if (!dateString) return null;
-    if (/^\d{4}$/.test(dateString)) return new Date(dateString, 0, 1);
-    if (dateString.includes('/')) {
-        const [day, month, year] = dateString.split('/');
-        return new Date(year, month - 1, day);
+function normalizeDate(dateStr) {
+    if (!dateStr) return null;
+    if (/^\d{4}$/.test(dateStr)) return new Date(dateStr, 0, 1);
+    if (dateStr.includes('/')) {
+        const [d, m, y] = dateStr.split('/');
+        return new Date(y, m - 1, d);
     }
-    const date = new Date(dateString);
+    const date = new Date(dateStr);
     return isNaN(date.getTime()) ? null : date;
 }
 
-function formatDoctor(doctor, includeIncarnation = true) {
-    if (!doctor?.actor) return 'N/A';
-    return includeIncarnation ? `${doctor.actor} (${doctor.incarnation || 'N/A'})` : doctor.actor;
+function formatDoctor(d, includeInc = true) {
+    if (!d?.actor) return 'N/A';
+    return includeInc ? `${d.actor} (${d.incarnation || 'N/A'})` : d.actor;
 }
 
-function formatCompanion(companion, includeCharacter = true) {
-    if (!companion?.actor) return 'N/A';
-    return includeCharacter ? `${companion.actor} (${companion.character || 'N/A'})` : companion.actor;
+function formatCompanion(c, includeChar = true) {
+    if (!c?.actor) return 'N/A';
+    return includeChar ? `${c.actor} (${c.character || 'N/A'})` : c.actor;
 }
 
-function getYear(dateString) {
-    const date = normalizeDate(dateString);
+function getYear(dateStr) {
+    const date = normalizeDate(dateStr);
     return date ? date.getFullYear() : 'N/A';
 }
 
@@ -265,8 +275,7 @@ function showLoading(isLoading) {
 
 function showError(details) {
     const errorElement = document.getElementById('error');
-    const userMessage = "Error: Could not load Doctor Who episodes. Please check your network connection and try again.";
-    errorElement.textContent = `${userMessage}\nDetails: ${details}`;
+    errorElement.textContent = `Error: Could not load episodes. Please check your network connection.\nDetails: ${details}`;
     errorElement.style.display = 'block';
     document.getElementById('episodes-table').style.display = 'none';
     document.getElementById('loading').style.display = 'none';
