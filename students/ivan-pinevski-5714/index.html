@@ -24,30 +24,31 @@
 
         <!-- Main Content -->
         <main>
-            <!-- Loading State -->
-            <div id="loading" class="loading">
-                Loading episodes...
-            </div>
+                <!-- Loading State -->
+                <div id="loading" class="loading" role="status" aria-live="polite">
+                    Loading episodes...
+                </div>
 
             <!-- Error Display -->
-            <div id="error" class="error" style="display: none;">
+            <div id="error" class="error" style="display: none;" role="alert" aria-live="assertive">
                 <!-- Error messages will be inserted here -->
             </div>
 
             <!-- Episodes Table -->
-            <table id="episodes-table" style="display: none;">
+            <table id="episodes-table" style="display: none;" aria-describedby="table-desc">
+                <caption id="table-desc" style="text-align:left; font-weight:600; padding-bottom:8px;">Episodes list</caption>
                 <thead>
                     <tr>
-                        <th data-sort="rank">Rank</th>
-                        <th data-sort="title">Title</th>
-                        <th data-sort="series">Series</th>
-                        <th data-sort="era">Era</th>
-                        <th data-sort="broadcast_date">Year</th>
-                        <th data-sort="director">Director</th>
-                        <th data-sort="writer">Writer</th>
-                        <th data-sort="doctor">Doctor</th>
-                        <th data-sort="companion">Companion</th>
-                        <th data-sort="cast">Cast</th>
+                        <th scope="col" data-sort="rank">Rank</th>
+                        <th scope="col" data-sort="title">Title</th>
+                        <th scope="col" data-sort="series">Series</th>
+                        <th scope="col" data-sort="era">Era</th>
+                        <th scope="col" data-sort="broadcast_date">Year</th>
+                        <th scope="col" data-sort="director">Director</th>
+                        <th scope="col" data-sort="writer">Writer</th>
+                        <th scope="col" data-sort="doctor">Doctor</th>
+                        <th scope="col" data-sort="companion">Companion</th>
+                        <th scope="col" data-sort="cast">Cast</th>
                     </tr>
                 </thead>
                 <tbody id="episodes-body">
@@ -60,6 +61,32 @@
                 No episodes match your search criteria.
             </div>
         </main>
+    </div>
+    <!-- Modals -->
+    <div id="modal-root">
+        <!-- Episode Detail Modal -->
+        <div id="episode-modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="episode-modal-title">
+            <div class="modal-overlay" data-close="true"></div>
+            <div class="modal-content" role="document">
+                <button class="modal-close" aria-label="Close" data-close="true">×</button>
+                <h2 id="episode-modal-title">Episode Details</h2>
+                <div id="episode-modal-body">
+                    <!-- Filled dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Validation Warnings Modal -->
+        <div id="validation-modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="validation-modal-title">
+            <div class="modal-overlay" data-close="true"></div>
+            <div class="modal-content" role="document">
+                <button class="modal-close" aria-label="Close" data-close="true">×</button>
+                <h2 id="validation-modal-title">Data Validation Warnings</h2>
+                <div id="validation-modal-body">
+                    <!-- Filled dynamically -->
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>
