@@ -13,55 +13,45 @@
             <p>Explore episodes through time and space</p>
         </header>
 
-        <!-- Filter Section -->
-        <section class="filters">
-            <div class="filter-group">
-                <label for="name-filter">Episode Name:</label>
-                <input type="text" id="name-filter" placeholder="Search episodes...">
-            </div>
-            <!-- Add more filters as needed -->
-        </section>
-
-        <!-- Main Content -->
-        <main>
-            <!-- Loading State -->
-            <div id="loading" class="loading">
-                Loading episodes...
-            </div>
-
-            <!-- Error Display -->
-            <div id="error" class="error" style="display: none;">
-                <!-- Error messages will be inserted here -->
-            </div>
-
-            <!-- Episodes Table -->
-            <table id="episodes-table" style="display: none;">
-                <thead>
-                    <tr>
-                        <th data-sort="rank">Rank</th>
-                        <th data-sort="title">Title</th>
-                        <th data-sort="series">Series</th>
-                        <th data-sort="era">Era</th>
-                        <th data-sort="broadcast_date">Year</th>
-                        <th data-sort="director">Director</th>
-                        <th data-sort="writer">Writer</th>
-                        <th data-sort="doctor">Doctor</th>
-                        <th data-sort="companion">Companion</th>
-                        <th data-sort="cast">Cast</th>
-                    </tr>
-                </thead>
-                <tbody id="episodes-body">
-                    <!-- Episodes will be inserted here -->
-                </tbody>
-            </table>
-
-            <!-- No Results Message -->
-            <div id="no-results" class="no-results" style="display: none;">
-                No episodes match your search criteria.
-            </div>
-        </main>
+<div class="filters">
+    <div class="filter-group">
+        <label for="name-filter">Filter by Name:</label>
+        <input type="text" id="name-filter" placeholder="Search episodes, doctors, companions...">
     </div>
+</div>
 
-    <script src="script.js"></script>
+<div id="loading" class="loading">
+    Loading episodes...
+</div>
+
+<div id="error" class="error" style="display: none;"></div>
+
+<div id="episodes-table" style="display: none;">
+    <table>
+        <thead>
+            <tr>
+                <th data-field="rank">Rank</th>
+                <th data-field="title">Title</th>
+                <th data-field="series">Series</th>
+                <th data-field="era">Era</th>
+                <th data-field="broadcast_year">Broadcast Year</th>
+                <th data-field="director">Director</th>
+                <th data-field="writer">Writer</th>
+                <th data-field="doctor">Doctor</th>
+                <th data-field="companion">Companion</th>
+                <th data-field="cast_count">Cast Count</th>
+            </tr>
+        </thead>
+        <tbody id="episodes-tbody">
+
+        </tbody>
+    </table>
+    <div id="no-results" class="no-results" style="display: none;">
+        No episodes match your search.
+    </div>
+</div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
