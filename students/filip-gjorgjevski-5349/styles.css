@@ -5,6 +5,7 @@
     box-sizing: border-box;
 }
 
+
 body {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     line-height: 1.6;
@@ -170,4 +171,34 @@ td:first-child {
 
 .loading {
     animation: pulse 1.5s infinite;
+}
+
+.export-button {
+    /* Vertical Alignment Fix:
+       This tells the button to align itself in the vertical center of the container,
+       matching the other filter elements. We also use margin-left to push it right. */
+    align-self: center;
+    margin-left: auto; /* Pushes the button to the far right */
+
+    /* Thematic Styling from before */
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    background-color: #982a84;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s ease-in-out;
+}
+
+/* Add a hover effect for better user feedback */
+.export-button:hover {
+    background-color: #7a2169;
+}
+
+/* Add a focus state for accessibility */
+.export-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(152, 42, 132, 0.4);
 }
