@@ -5,49 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor Who Episodes Explorer</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Doctor Who Episodes Explorer</h1>
+            <h1><i class="fas fa-tardis"></i> Doctor Who Episodes Explorer</h1>
             <p>Explore episodes through time and space</p>
         </header>
 
-        <!-- Filter Section -->
+        <!-- Stats Section -->
+        <section class="stats-container">
+            <div class="stat-card">
+                <span class="stat-number" id="total-episodes">0</span>
+                <span class="stat-label">Total Episodes</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="filtered-episodes">0</span>
+                <span class="stat-label">Showing</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="warning-count">0</span>
+                <span class="stat-label">Data Warnings</span>
+            </div>
+        </section>
+
+        <!-- Enhanced Filter Section -->
         <section class="filters">
             <div class="filter-group">
-                <label for="name-filter">Episode Name:</label>
-                <input type="text" id="name-filter" placeholder="Search episodes...">
+                <label for="title-filter">Episode Search:</label>
+                <input type="text" id="title-filter" placeholder="Search titles, doctors, companions...">
             </div>
-            <!-- Add more filters as needed -->
+            <div class="filter-group">
+                <label for="era-filter">Era:</label>
+                <select id="era-filter">
+                    <option value="">All Eras</option>
+                    <option value="Classic">Classic</option>
+                    <option value="Modern">Modern</option>
+                    <option value="Recent">Recent</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="doctor-filter">Doctor:</label>
+                <select id="doctor-filter">
+                    <option value="">All Doctors</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="companion-filter">Companion:</label>
+                <select id="companion-filter">
+                    <option value="">All Companions</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="series-filter">Series:</label>
+                <select id="series-filter">
+                    <option value="">All Series</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="year-filter">Year:</label>
+                <input type="number" id="year-filter" placeholder="Filter by year" min="1963" max="2024">
+            </div>
+        </section>
+
+        <!-- Controls Section -->
+        <section class="controls-section">
+            <div class="table-info" id="table-info">Loading episodes...</div>
+            <div class="controls-actions">
+                <button id="reset-filters" class="btn btn-secondary">
+                    <i class="fas fa-redo"></i> Reset
+                </button>
+                <button id="export-csv" class="btn btn-export">
+                    <i class="fas fa-download"></i> Export CSV
+                </button>
+            </div>
         </section>
 
         <!-- Main Content -->
         <main>
             <!-- Loading State -->
             <div id="loading" class="loading">
-                Loading episodes...
+                <i class="fas fa-spinner fa-spin"></i> Loading episodes...
             </div>
 
             <!-- Error Display -->
-            <div id="error" class="error" style="display: none;">
+            <div id="error" class="error hidden">
                 <!-- Error messages will be inserted here -->
             </div>
 
             <!-- Episodes Table -->
-            <table id="episodes-table" style="display: none;">
+            <table id="episodes-table" class="hidden">
                 <thead>
                     <tr>
-                        <th data-sort="rank">Rank</th>
-                        <th data-sort="title">Title</th>
-                        <th data-sort="series">Series</th>
-                        <th data-sort="era">Era</th>
-                        <th data-sort="broadcast_date">Year</th>
-                        <th data-sort="director">Director</th>
-                        <th data-sort="writer">Writer</th>
-                        <th data-sort="doctor">Doctor</th>
-                        <th data-sort="companion">Companion</th>
-                        <th data-sort="cast">Cast</th>
+                        <th data-sort="rank" data-sort-type="number">Rank</th>
+                        <th data-sort="title" data-sort-type="string">Title</th>
+                        <th data-sort="series" data-sort-type="number">Series</th>
+                        <th data-sort="era" data-sort-type="string">Era</th>
+                        <th data-sort="broadcast_year" data-sort-type="number">Year</th>
+                        <th data-sort="director" data-sort-type="string">Director</th>
+                        <th data-sort="writer" data-sort-type="string">Writer</th>
+                        <th data-sort="doctor" data-sort-type="string">Doctor</th>
+                        <th data-sort="companion" data-sort-type="string">Companion</th>
+                        <th data-sort="cast_count" data-sort-type="number">Cast Count</th>
                     </tr>
                 </thead>
                 <tbody id="episodes-body">
@@ -55,8 +115,15 @@
                 </tbody>
             </table>
 
+            <!-- Multi-sort Info -->
+            <div id="multi-sort-info" class="multi-sort-info hidden">
+                <span>Multi-sort: </span>
+                <span id="multi-sort-list"></span>
+                <button id="clear-sort" class="btn btn-small btn-secondary">Clear All</button>
+            </div>
+
             <!-- No Results Message -->
-            <div id="no-results" class="no-results" style="display: none;">
+            <div id="no-results" class="no-results hidden">
                 No episodes match your search criteria.
             </div>
         </main>
