@@ -4,62 +4,131 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor Who Episodes Explorer</title>
+    <meta name="description" content="Explore Doctor Who episodes with advanced sorting, filtering, and data visualization">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <header>
+        <!-- Header -->
+        <header class="header">
             <h1>Doctor Who Episodes Explorer</h1>
-            <p>Explore episodes through time and space</p>
+            <p class="subtitle">Explore episodes from across time and space</p>
         </header>
 
-        <!-- Filter Section -->
-        <section class="filters">
-            <div class="filter-group">
-                <label for="name-filter">Episode Name:</label>
-                <input type="text" id="name-filter" placeholder="Search episodes...">
+        <!-- Loading State -->
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Loading Doctor Who episodes...</p>
+        </div>
+
+        <!-- Error State -->
+        <div id="error" class="error hidden">
+            <div class="error-content">
+                <h2>Error Loading Episodes</h2>
+                <p id="error-message"></p>
+                <button onclick="fetchData()" class="btn btn-primary">Try Again</button>
             </div>
-            <!-- Add more filters as needed -->
-        </section>
+        </div>
+
+        <!-- Validation Warnings -->
+        <div id="warnings" class="warnings hidden">
+            <div class="warning-header">
+                <strong>⚠️ Data Validation Warnings (<span id="warning-count">0</span>)</strong>
+                <button onclick="toggleWarnings()" class="btn-link" id="toggle-warnings">Show details</button>
+            </div>
+            <div id="warning-details" class="warning-details hidden"></div>
+        </div>
 
         <!-- Main Content -->
-        <main>
-            <!-- Loading State -->
-            <div id="loading" class="loading">
-                Loading episodes...
+        <div id="content" class="hidden">
+            <!-- Filters -->
+            <div class="filters">
+                <div class="filter-header">
+                    <h2>Filters</h2>
+                    <div class="filter-actions">
+                        <button onclick="clearFilters()" class="btn btn-outline" id="clear-btn">Clear</button>
+                        <button onclick="exportCSV()" class="btn btn-primary">📥 Export CSV</button>
+                    </div>
+                </div>
+                <div class="filter-grid">
+                    <div class="filter-item">
+                        <label for="search">Search</label>
+                        <input type="text" id="search" placeholder="Search by title, director, etc." oninput="applyFilters()">
+                    </div>
+                    <div class="filter-item">
+                        <label for="era-filter">Era</label>
+                        <select id="era-filter" onchange="applyFilters()">
+                            <option value="all">All Eras</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <label for="doctor-filter">Doctor</label>
+                        <select id="doctor-filter" onchange="applyFilters()">
+                            <option value="all">All Doctors</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <label for="companion-filter">Companion</label>
+                        <select id="companion-filter" onchange="applyFilters()">
+                            <option value="all">All Companions</option>
+                        </select>
+                    </div>
+                </div>
             </div>
 
-            <!-- Error Display -->
-            <div id="error" class="error" style="display: none;">
-                <!-- Error messages will be inserted here -->
+            <!-- Results Info -->
+            <div class="results-info">
+                <div id="results-count"></div>
+                <div id="sort-info"></div>
             </div>
 
-            <!-- Episodes Table -->
-            <table id="episodes-table" style="display: none;">
-                <thead>
-                    <tr>
-                        <th data-sort="rank">Rank</th>
-                        <th data-sort="title">Title</th>
-                        <th data-sort="series">Series</th>
-                        <th data-sort="era">Era</th>
-                        <th data-sort="broadcast_date">Year</th>
-                        <th data-sort="director">Director</th>
-                        <th data-sort="writer">Writer</th>
-                        <th data-sort="doctor">Doctor</th>
-                        <th data-sort="companion">Companion</th>
-                        <th data-sort="cast">Cast</th>
-                    </tr>
-                </thead>
-                <tbody id="episodes-body">
-                    <!-- Episodes will be inserted here -->
-                </tbody>
-            </table>
-
-            <!-- No Results Message -->
-            <div id="no-results" class="no-results" style="display: none;">
-                No episodes match your search criteria.
+            <!-- Table Container -->
+            <div class="table-container">
+                <table id="episodes-table">
+                    <thead>
+                        <tr>
+                            <th data-column="rank" onclick="handleSort(event, 'rank')">
+                                Rank <span class="sort-icon">↕</span>
+                            </th>
+                            <th data-column="title" onclick="handleSort(event, 'title')">
+                                Title <span class="sort-icon">↕</span>
+                            </th>
+                            <th data-column="series" onclick="handleSort(event, 'series')">
+                                Series <span class="sort-icon">↕</span>
+                            </th>
+                            <th data-column="era" onclick="handleSort(event, 'era')">
+                                Era <span class="sort-icon">↕</span>
+                            </th>
+                            <th data-column="broadcast_year" onclick="handleSort(event, 'broadcast_year')">
+                                Year <span class="sort-icon">↕</span>
+                            </th>
+                            <th data-column="director" onclick="handleSort(event, 'director')">
+                                Director <span class="sort-icon">↕</span>
+                            </th>
+                            <th data-column="writer" onclick="handleSort(event, 'writer')">
+                                Writer <span class="sort-icon">↕</span>
+                            </th>
+                            <th data-column="doctor" onclick="handleSort(event, 'doctor')">
+                                Doctor <span class="sort-icon">↕</span>
+                            </th>
+                            <th data-column="companion" onclick="handleSort(event, 'companion')">
+                                Companion <span class="sort-icon">↕</span>
+                            </th>
+                            <th data-column="cast_count" onclick="handleSort(event, 'cast_count')">
+                                Cast <span class="sort-icon">↕</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="episodes-tbody"></tbody>
+                </table>
             </div>
-        </main>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <p><strong>Tip:</strong> Click column headers to sort. Hold Shift and click for multi-column sorting.</p>
+                <p class="small">Data source: Doctor Who Episodes Database</p>
+            </footer>
+        </div>
     </div>
 
     <script src="script.js"></script>
