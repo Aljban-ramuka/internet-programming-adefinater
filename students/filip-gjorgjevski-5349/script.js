@@ -1,11 +1,3 @@
-/**
- * @file script.js
- * @description Main script for the Doctor Who Episodes Explorer application.
- * This vanilla JavaScript application fetches, displays, validates, and allows interaction
- * with a list of Doctor Who episodes. It features sorting, filtering, keyboard navigation,
- * data validation, and CSV export, all without external frameworks.
- * @version 2.0.0
- */
 
 // --- CONFIGURATION ---
 
@@ -59,6 +51,31 @@ let state = {
 document.addEventListener('DOMContentLoaded', async () => {
     setupEventListeners();
     await loadEpisodes();
+});
+
+// --- INITIALIZATION ---
+/**
+ * Main application entry point. Fired when the DOM is fully loaded.
+ * Handles the initial 2-second site loader.
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    // --- Global Site Loader Logic ---
+    const siteLoader = document.getElementById('site-loader');
+    const appContainer = document.getElementById('app-container');
+
+    // After 2 seconds, hide the site loader and show the main app content.
+    setTimeout(() => {
+        siteLoader.style.opacity = '0'; // Fade out
+        // Wait for fade-out transition to finish before hiding it completely
+        setTimeout(() => {
+            siteLoader.classList.add('hidden');
+            appContainer.classList.remove('hidden');
+        }, 500); // This should match the transition duration in CSS
+    }, 2000); // 2-second delay
+
+    // Initialize the rest of the application immediately.
+    // The UI will only appear after the timeout completes.
+    initializeApp();
 });
 
 /**
