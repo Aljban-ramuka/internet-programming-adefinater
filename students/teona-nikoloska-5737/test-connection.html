@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Connection</title>
+</head>
+<body>
+    <h1>Testing Hugo Books Data Connection</h1>
+    <p id="status">Loading...</p>
+    <div id="results"></div>
+    
+    <script src="data.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const status = document.getElementById('status');
+            const results = document.getElementById('results');
+            
+            if (typeof HUGO_BOOKS_DATA !== 'undefined') {
+                status.textContent = `✅ Success! Loaded ${HUGO_BOOKS_DATA.books.length} books from data.js`;
+                status.style.color = 'green';
+                
+                // Show first few books as examples
+                results.innerHTML = '<h3>Sample Books:</h3>' + 
+                    HUGO_BOOKS_DATA.books.slice(0, 3).map(book => 
+                        `<li><strong>${book.title}</strong> by ${book.author} (${book.award.year})</li>`
+                    ).join('');
+            } else {
+                status.textContent = '❌ Error: Could not load HUGO_BOOKS_DATA from data.js';
+                status.style.color = 'red';
+            }
+        });
+    </script>
+</body>
+</html>

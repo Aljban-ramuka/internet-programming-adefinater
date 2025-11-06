@@ -1,192 +1,335 @@
 // Configuration and constants
-const DATA_URL = '../hugo-books-exam.json'; // Path to the exam data file
 let books = [];
 let filteredBooks = [];
-let currentSort = { column: 'year', ascending: false }; // Default sort by year, newest first
+let currentSort = { column: 'award', ascending: false }; // Default sort by award year, newest first
+let validationWarnings = 0; // Track data validation warnings
 
-// DOM elements (will be populated when DOM loads)
-let loadingElement, errorElement, tableBody, resultsCount, noResults;
-let nameFilter, winnerFilter, clearFiltersBtn;
+// Filter options
+const GENRES = ['Science Fiction', 'Fantasy', 'Horror', 'Alternate History', 'Dystopian', 'Space Opera', 'Post-Apocalyptic'];
+const AUTHORS = [];
+const AWARDS = ['Hugo Award', 'Nebula Award', 'Philip K. Dick Award', 'World Fantasy Award'];
 
-// Initialize the application when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    initializeElements();
-    loadData();
-    setupEventListeners();
-});
-
-/**
- * Initialize DOM element references
- */
-function initializeElements() {
-    // TODO: Get references to all necessary DOM elements
-    loadingElement = document.getElementById('loading');
-    errorElement = document.getElementById('error');
-    tableBody = document.getElementById('booksTableBody');
-    resultsCount = document.getElementById('resultsCount');
-    noResults = document.getElementById('noResults');
+// Utility functions
+function showLoading() {
+    const tableBody = document.getElementById('booksTableBody');
+    const loading = document.getElementById('loading');
+    const error = document.getElementById('error');
     
-    nameFilter = document.getElementById('nameFilter');
-    winnerFilter = document.getElementById('winnerFilter');
-    clearFiltersBtn = document.getElementById('clearFilters');
+    if (loading) loading.style.display = 'block';
+    if (error) error.style.display = 'none';
+    if (tableBody) tableBody.innerHTML = '<tr><td colspan="7">Loading...</td></tr>';
 }
 
-/**
- * Set up event listeners for user interactions
- */
-function setupEventListeners() {
-    // TODO: Add event listeners for:
-    // - Filter inputs (text input, dropdowns)
-    // - Sort buttons (table headers)
-    // - Clear filters button
-
-    // TODO: Add sort listeners to table headers
+function showError(message) {
+    const tableBody = document.getElementById('booksTableBody');
+    const loading = document.getElementById('loading');
+    const error = document.getElementById('error');
+    
+    if (loading) loading.style.display = 'none';
+    if (error) {
+        error.style.display = 'block';
+        error.querySelector('p').textContent = `Error: ${message}`;
+    }
+    if (tableBody) tableBody.innerHTML = `<tr><td colspan="7">Error: ${message}</td></tr>`;
+    console.error(message);
 }
 
-/**
- * Load book data from JSON file
- */
+function validateBookData(book, index) {
+    const warnings = [];
+    
+    // Check required fields
+    if (!book.title || book.title.trim() === '') {
+        warnings.push(`Book ${index}: Missing title`);
+    }
+    if (!book.author || book.author.trim() === '') {
+        warnings.push(`Book ${index}: Missing author`);
+    }
+    if (!book.award || !book.award.year) {
+        warnings.push(`Book ${index}: Missing award year`);
+    }
+    
+    // Check data types
+    if (book.award && typeof book.award.year !== 'number') {
+        warnings.push(`Book ${index}: Award year should be a number`);
+    }
+    
+    // Check reasonable values
+    if (book.award && book.award.year && (book.award.year < 1900 || book.award.year > 2030)) {
+        warnings.push(`Book ${index}: Award year ${book.award.year} seems unrealistic`);
+    }
+    
+    return warnings;
+}
+
+// Data loading function
 async function loadData() {
     try {
-        showLoading(true);
-
-        // TODO: Fetch data from DATA_URL
-        // TODO: Handle successful response and errors
-        // TODO: Call displayBooks() when data is loaded
-
+        showLoading();
+        
+        // Use the local data from data.js
+        if (typeof HUGO_BOOKS_DATA !== 'undefined' && HUGO_BOOKS_DATA.books) {
+            console.log(`Loading ${HUGO_BOOKS_DATA.books.length} books from local data...`);
+            
+            // Validate data
+            let allWarnings = [];
+            HUGO_BOOKS_DATA.books.forEach((book, index) => {
+                const warnings = validateBookData(book, index + 1);
+                allWarnings = allWarnings.concat(warnings);
+            });
+            
+            if (allWarnings.length > 0) {
+                console.warn('Data validation warnings:', allWarnings);
+                validationWarnings = allWarnings.length;
+            }
+            
+            books = HUGO_BOOKS_DATA.books;
+            filteredBooks = [...books];
+            
+            // Extract unique authors for filter
+            const uniqueAuthors = [...new Set(books.map(book => book.author))].sort();
+            AUTHORS.length = 0; // Clear array
+            AUTHORS.push(...uniqueAuthors);
+            
+            console.log(`Loaded ${books.length} books successfully`);
+            renderTable();
+            updateResultsCount();
+            hideLoading();
+            
+        } else {
+            throw new Error('HUGO_BOOKS_DATA not found. Make sure data.js is loaded properly.');
+        }
+        
     } catch (error) {
         console.error('Error loading data:', error);
-        showError(true);
-    } finally {
-        showLoading(false);
+        showError(error.message);
     }
 }
 
-/**
- * Display books in the table
- */
-function displayBooks() {
-    // TODO: Render the filtered and sorted books in the table
-    // TODO: Update results count
-    // TODO: Show/hide no results message
+// Summary functions
+function hideLoading() {
+    const loading = document.getElementById('loading');
+    const error = document.getElementById('error');
     
-    // Clear existing table content
+    if (loading) loading.style.display = 'none';
+    if (error) error.style.display = 'none';
+}
+
+function updateResultsCount() {
+    const resultsCount = document.getElementById('resultsCount');
+    const noResults = document.getElementById('noResults');
+    
+    if (resultsCount) {
+        resultsCount.textContent = `Showing ${filteredBooks.length} of ${books.length} books`;
+    }
+    
+    if (noResults) {
+        noResults.style.display = filteredBooks.length === 0 ? 'block' : 'none';
+    }
+}
+
+// Sorting functions
+function sortBooks(column) {
+    if (currentSort.column === column) {
+        currentSort.ascending = !currentSort.ascending;
+    } else {
+        currentSort.column = column;
+        currentSort.ascending = column === 'title' || column === 'author'; // Default ascending for text
+    }
+    
+    filteredBooks.sort((a, b) => {
+        let aVal, bVal;
+        
+        switch (column) {
+            case 'title':
+                aVal = a.title.toLowerCase();
+                bVal = b.title.toLowerCase();
+                break;
+            case 'author':
+                aVal = a.author.toLowerCase();
+                bVal = b.author.toLowerCase();
+                break;
+            case 'award':
+                aVal = a.award.year;
+                bVal = b.award.year;
+                break;
+            case 'type':
+                aVal = a.award.is_winner ? 'winner' : 'nominee';
+                bVal = b.award.is_winner ? 'winner' : 'nominee';
+                break;
+            case 'series':
+                aVal = (a.series ? (typeof a.series === 'string' ? a.series : a.series.name || '') : '').toLowerCase();
+                bVal = (b.series ? (typeof b.series === 'string' ? b.series : b.series.name || '') : '').toLowerCase();
+                break;
+            case 'publisher':
+                aVal = (a.publisher || '').toLowerCase();
+                bVal = (b.publisher || '').toLowerCase();
+                break;
+            case 'genres':
+                aVal = (a.genres || []).join(', ').toLowerCase();
+                bVal = (b.genres || []).join(', ').toLowerCase();
+                break;
+            default:
+                return 0;
+        }
+        
+        if (aVal < bVal) return currentSort.ascending ? -1 : 1;
+        if (aVal > bVal) return currentSort.ascending ? 1 : -1;
+        return 0;
+    });
+    
+    renderTable();
+    updateSortIndicators();
+}
+
+function updateSortIndicators() {
+    // Remove all existing sort indicators
+    document.querySelectorAll('.sort-indicator').forEach(indicator => {
+        indicator.textContent = '';
+    });
+    
+    // Add indicator to current sort column
+    const headers = document.querySelectorAll(`th[data-column="${currentSort.column}"] .sort-indicator`);
+    headers.forEach(indicator => {
+        indicator.textContent = currentSort.ascending ? ' ↑' : ' ↓';
+    });
+}
+
+// Filtering functions
+function applyFilters() {
+    const nameFilter = document.getElementById('nameFilter');
+    const winnerFilter = document.getElementById('winnerFilter');
+    
+    const searchTerm = nameFilter ? nameFilter.value.toLowerCase() : '';
+    const winnerStatus = winnerFilter ? winnerFilter.value : 'all';
+    
+    filteredBooks = books.filter(book => {
+        // Search filter (title or author)
+        const matchesSearch = !searchTerm || 
+            book.title.toLowerCase().includes(searchTerm) ||
+            book.author.toLowerCase().includes(searchTerm);
+        
+        // Winner filter
+        const matchesWinner = winnerStatus === 'all' || 
+            (winnerStatus === 'winner' && book.award.is_winner) ||
+            (winnerStatus === 'nominee' && !book.award.is_winner);
+        
+        return matchesSearch && matchesWinner;
+    });
+    
+    renderTable();
+    updateResultsCount();
+}
+
+function clearFilters() {
+    const nameFilter = document.getElementById('nameFilter');
+    const winnerFilter = document.getElementById('winnerFilter');
+    
+    if (nameFilter) nameFilter.value = '';
+    if (winnerFilter) winnerFilter.value = 'all';
+    
+    filteredBooks = [...books];
+    renderTable();
+    updateResultsCount();
+}
+
+// Table rendering
+function renderTable() {
+    const tableBody = document.getElementById('booksTableBody');
+    if (!tableBody) return;
+    
     tableBody.innerHTML = '';
     
-    // TODO: Update results count
-
-    // Show/hide no results message
     if (filteredBooks.length === 0) {
-        noResults.classList.remove('hidden');
+        tableBody.innerHTML = '<tr><td colspan="7">No books found matching current filters.</td></tr>';
         return;
-    } else {
-        noResults.classList.add('hidden');
     }
     
-    // TODO: Create table rows for each book
-    // For each book in filteredBooks:
-    // - Create a table row
-    // - Add cells for each column (title, author, type, award, publisher, series, genres)
-    // - Handle edge cases (series: false/string/object, empty genres, special characters)
-    // - Append row to tableBody
+    filteredBooks.forEach(book => {
+        const row = document.createElement('tr');
+        
+        // Title column
+        const titleCell = document.createElement('td');
+        if (book.url) {
+            titleCell.innerHTML = `<a href="${book.url}" target="_blank">${book.title}</a>`;
+        } else {
+            titleCell.textContent = book.title;
+        }
+        row.appendChild(titleCell);
+        
+        // Author column
+        const authorCell = document.createElement('td');
+        authorCell.textContent = book.author;
+        row.appendChild(authorCell);
+        
+        // Type column (Winner/Nominee)
+        const typeCell = document.createElement('td');
+        const isWinner = book.award.is_winner;
+        typeCell.innerHTML = `<span class="winner-badge ${isWinner ? 'winner' : 'nominee'}">${isWinner ? 'Winner' : 'Nominee'}</span>`;
+        row.appendChild(typeCell);
+        
+        // Award column (Year)
+        const awardCell = document.createElement('td');
+        awardCell.textContent = book.award.year;
+        row.appendChild(awardCell);
+        
+        // Publisher column
+        const publisherCell = document.createElement('td');
+        publisherCell.textContent = book.publisher || 'Unknown';
+        row.appendChild(publisherCell);
+        
+        // Series column
+        const seriesCell = document.createElement('td');
+        if (book.series) {
+            if (typeof book.series === 'string') {
+                seriesCell.innerHTML = `<span class="series-name">${book.series}</span>`;
+            } else if (book.series.name) {
+                seriesCell.innerHTML = `<span class="series-name">${book.series.name}</span>`;
+            }
+        } else {
+            seriesCell.innerHTML = '<span class="no-series">Standalone</span>';
+        }
+        row.appendChild(seriesCell);
+        
+        // Genres column
+        const genresCell = document.createElement('td');
+        if (book.genres && book.genres.length > 0) {
+            genresCell.innerHTML = `<div class="genres-list">${book.genres.map(genre => `<span class="genre-tag">${genre}</span>`).join('')}</div>`;
+        } else {
+            genresCell.innerHTML = '<span class="no-genres">No genres listed</span>';
+        }
+        row.appendChild(genresCell);
+        
+        tableBody.appendChild(row);
+    });
 }
 
-/**
- * Handle sorting by column
- */
-function handleSort(column) {
-    // TODO: Implement sorting logic
-    // - If clicking same column, toggle direction
-    // - If clicking different column, sort ascending
-    // - Update currentSort object
-    // - Sort filteredBooks array
-    // - Update sort indicators in table headers
-    // - Re-display books
+// Event listeners
+document.addEventListener('DOMContentLoaded', function() {
+    // Load data
+    loadData();
     
-    console.log('Sort by:', column);
-}
-
-/**
- * Handle filter changes
- */
-function handleFilterChange() {
-    // TODO: Implement filtering logic
-    // - Get current filter values
-    // - Filter books array based on criteria
-    // - Update filteredBooks array
-    // - Re-display books
+    // Setup filter event listeners
+    const nameFilter = document.getElementById('nameFilter');
+    const winnerFilter = document.getElementById('winnerFilter');
+    const clearFiltersBtn = document.getElementById('clearFilters');
     
-    console.log('Filters changed');
-}
-
-/**
- * Clear all filters
- */
-function clearAllFilters() {
-    // TODO: Reset all filter inputs to default values
-    // TODO: Reset filteredBooks to show all books
-    // TODO: Re-display books
-    
-    console.log('Clear filters');
-}
-
-/**
- * Show/hide loading state
- */
-function showLoading(show) {
-    if (show) {
-        loadingElement.classList.remove('hidden');
-        errorElement.classList.add('hidden');
-    } else {
-        loadingElement.classList.add('hidden');
+    if (nameFilter) {
+        nameFilter.addEventListener('input', applyFilters);
     }
-}
-
-/**
- * Show/hide error state
- */
-function showError(show) {
-    if (show) {
-        errorElement.classList.remove('hidden');
-        loadingElement.classList.add('hidden');
-    } else {
-        errorElement.classList.add('hidden');
+    
+    if (winnerFilter) {
+        winnerFilter.addEventListener('change', applyFilters);
     }
-}
-
-
-// Additional helper functions can be added here as needed
-
-/* 
- * IMPLEMENTATION NOTES:
- * 
- * 1. Data Loading:
- *    - Use fetch() to load the JSON data
- *    - Handle loading states and errors gracefully
- *    - Store data in global variables for filtering/sorting
- * 
- * 2. Table Rendering:
- *    - Create table rows dynamically with JavaScript
- *    - Use textContent or innerHTML appropriately for security
- *    - Handle edge cases (null values, empty arrays, special characters)
- * 
- * 3. Sorting:
- *    - Implement ascending/descending toggle
- *    - Handle different data types (strings, numbers, booleans)
- *    - Update visual indicators (arrows) in table headers
- * 
- * 4. Filtering:
- *    - Text filter should be case-insensitive and search title + author
- *    - Winner filter should handle "all", "winners", "nominees"
- *    - Debounce text input for better performance (optional)
- * 
- * 5. Edge Cases to Handle:
- *    - Nested award object: extract award.year, award.category, award.is_winner
- *    - Format award display as "YYYY Winner" or "YYYY Nominee"
- *    - series: false vs string vs object {name, order}
- *    - Empty genres arrays
- *    - Special characters in titles (quotes, apostrophes, etc.)
- *    - Long titles that might overflow table cells
- *    - Mixed ID types (some string, some number)
- * 
- */
+    
+    if (clearFiltersBtn) {
+        clearFiltersBtn.addEventListener('click', clearFilters);
+    }
+    
+    // Setup sort event listeners
+    document.querySelectorAll('.sortable').forEach(header => {
+        header.addEventListener('click', function() {
+            const column = this.dataset.column;
+            sortBooks(column);
+        });
+    });
+});
