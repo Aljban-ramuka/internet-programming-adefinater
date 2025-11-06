@@ -447,13 +447,13 @@ Bonus points reward exceptional work beyond requirements. Students can earn bonu
 
 ## Grade Boundaries
 
-| Points Earned | Grade | Description |
-|---------------|-------|-------------|
-| 90-100+ | A (90-100) | Excellent - All requirements met plus advanced features |
-| 75-89 | B (75-89) | Good - All basics working, most edge cases handled |
-| 60-74 | C (60-74) | Passing - Core functionality works, some edge cases |
-| 40-59 | D (40-59) | Needs Improvement - Partial functionality, bugs present |
-| 0-39 | F (0-39) | Failing - Non-functional or minimal effort |
+| Points Earned | Letter Grade | Description |
+|---------------|--------------|-------------|
+| 90-100 | A | Excellent - All requirements met plus advanced features |
+| 80-89 | B | Good - All basics working, most edge cases handled |
+| 70-79 | C | Passing - Core functionality works, some edge cases |
+| 60-69 | D | Needs Improvement - Partial functionality, bugs present |
+| 0-59 | F | Failing - Non-functional or minimal effort |
 
 **Remember:** Your final grade is calculated as `(earned_points - deductions) / 100 × 100`, capped at 100, with a floor of 0.
 
@@ -526,11 +526,12 @@ Notice that Scenario 1 got 100% despite deductions, while Scenario 2 ended up wi
 ### Key Takeaway
 
 The 125-point system means:
-- **With 100+ points earned:** Most deductions won't affect your final grade (still 100%)
-- **With 90-99 points earned:** Minor deductions (-5 to -10) keep you in A/B range
-- **With 75-89 points earned:** Deductions (-5 to -15) may drop you one letter grade
-- **With 60-74 points earned:** Deductions can push you toward or into failing
-- **Below 60 points earned:** You're already struggling; deductions make it worse
+- **With 100+ points earned:** Most deductions won't affect your final grade (still 100% = A)
+- **With 90-99 points earned:** Minor deductions (-5 to -9) keep you at A; larger deductions drop you to B
+- **With 80-89 points earned:** Deductions (-5 to -9) keep you at B; larger deductions drop you to C
+- **With 70-79 points earned:** Deductions (-5 to -9) keep you at C; larger deductions drop you to D
+- **With 60-69 points earned:** Deductions (-10+) push you to failing
+- **Below 60 points earned:** You're already failing; deductions make it worse
 
 **Pro Tip:** Focus on earning more points rather than avoiding all deductions. The buffer is your friend!
 
@@ -581,13 +582,13 @@ If you have multiple critical issues (e.g., doesn't run + crashes + missing file
 **Light Deductions (−5 to −10):**
 - Minor console error on load: -8
 - Missing comments: -2
-- **Impact:** Usually one letter grade drop
+- **Impact:** May drop one letter grade depending on base score
 
 **Moderate Deductions (−15 to −25):**
 - Crashes on interaction: -10
 - Uses local file: -10
 - Poor organization: -2
-- **Impact:** Can drop 1-2 letter grades
+- **Impact:** Will drop 1-2 letter grades
 
 **Heavy Deductions (−30+):**
 - Doesn't run: -20
