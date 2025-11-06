@@ -20,9 +20,16 @@
             </div>
 
             <!-- Error State -->
-            <div id="error" class="error hidden">
+            <!--<div id="error" class="error hidden">
                 <p>Error loading data. Please try again.</p>
-            </div>
+            </div>-->
+            <div id="error" class="error hidden" role="alert" aria-live="assertive">
+                <p id="errorMessage"></p>
+                <pre id="errorDetails" class="error-details hidden" aria-hidden="true"></pre>
+                <div class="error-actions">
+                  <button id="retryLoad">Retry</button>
+                </div>
+              </div>
 
             <!-- Filters Section -->
             <section class="filters">
