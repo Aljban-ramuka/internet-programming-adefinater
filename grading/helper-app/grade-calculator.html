@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Grade Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .controls {
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .student-selector {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .student-selector label {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .student-selector select {
+            flex: 1;
+            min-width: 300px;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .student-selector select:hover {
+            border-color: #667eea;
+        }
+
+        .student-selector select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        .tests-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .tier-group {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .tier-group.tier-1 {
+            border-left-color: #28a745;
+        }
+
+        .tier-group.tier-2 {
+            border-left-color: #ffc107;
+        }
+
+        .tier-group.tier-3 {
+            border-left-color: #dc3545;
+        }
+
+        .tier-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .tier-header h3 {
+            font-size: 18px;
+            color: #212529;
+        }
+
+        .tier-score {
+            font-size: 16px;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .test-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            transition: background 0.2s;
+        }
+
+        .test-item:hover {
+            background: #e9ecef;
+        }
+
+        .test-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .test-item label {
+            flex: 1;
+            cursor: pointer;
+            color: #495057;
+            font-size: 14px;
+        }
+
+        .test-points {
+            font-weight: 600;
+            color: #667eea;
+            min-width: 60px;
+            text-align: right;
+        }
+
+        .test-item.bonus {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+        }
+
+        .test-item.bonus .test-points {
+            color: #ff6b00;
+        }
+
+        .summary-section {
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .summary-card h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .score-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .score-item:last-child {
+            border-bottom: none;
+        }
+
+        .score-label {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .score-value {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .final-grade {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .final-grade .label {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+
+        .final-grade .value {
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .student-info {
+            background: white;
+            color: #212529;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .student-info-item {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .student-info-item strong {
+            color: #667eea;
+            min-width: 80px;
+        }
+
+        .actions {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #667eea;
+        }
+
+        .btn-primary:hover {
+            background: #f8f9fa;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 30px;
+            color: #6c757d;
+        }
+
+        .empty-state h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #495057;
+        }
+
+        @media (max-width: 968px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-section {
+                position: static;
+            }
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .status-badge.pass {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.fail {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-badge.bonus {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .adjustments-section {
+            background: white;
+            color: #212529;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .adjustments-section h3 {
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: #667eea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .add-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .add-btn {
+            padding: 4px 10px;
+            border: none;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .add-btn.bonus {
+            background: #ffc107;
+            color: #856404;
+        }
+
+        .add-btn.bonus:hover {
+            background: #ffb300;
+        }
+
+        .add-btn.deduction {
+            background: #dc3545;
+            color: white;
+        }
+
+        .add-btn.deduction:hover {
+            background: #c82333;
+        }
+
+        .adjustment-item {
+            background: #f8f9fa;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-left: 3px solid #667eea;
+        }
+
+        .adjustment-item.bonus {
+            border-left-color: #ffc107;
+            background: #fff9e6;
+        }
+
+        .adjustment-item.deduction {
+            border-left-color: #dc3545;
+            background: #ffe6e6;
+        }
+
+        .adjustment-item-header {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .adjustment-item input[type="text"] {
+            flex: 1;
+            padding: 6px 10px;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        .adjustment-item input[type="number"] {
+            width: 70px;
+            padding: 6px 10px;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .adjustment-item input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .remove-btn {
+            padding: 6px 10px;
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .remove-btn:hover {
+            background: #5a6268;
+        }
+
+        .adjustments-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .adjustments-summary {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 2px solid #dee2e6;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .adjustments-summary .bonus-total {
+            color: #ffc107;
+        }
+
+        .adjustments-summary .deduction-total {
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 Student Grade Calculator</h1>
+            <p>Interactive grading tool for Internet Programming Midterm Exam</p>
+        </header>
+
+        <div class="controls">
+            <div class="student-selector">
+                <label for="studentSelect">Select Student:</label>
+                <select id="studentSelect">
+                    <option value="">-- Choose a student --</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="mainContent" class="loading">
+            <p>Loading student data...</p>
+        </div>
+    </div>
+
+    <script>
+        let studentsData = [];
+        let currentStudent = null;
+        let adjustments = []; // Array of {type: 'bonus'|'deduction', description: string, amount: number}
+
+        // Load student data
+        async function loadStudentData() {
+            try {
+                const response = await fetch('student-points.json');
+                studentsData = await response.json();
+                populateStudentDropdown();
+                document.getElementById('mainContent').innerHTML = `
+                    <div class="empty-state">
+                        <h3>👆 Select a student to begin</h3>
+                        <p>Choose a student from the dropdown above to view and modify their grades</p>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error loading student data:', error);
+                document.getElementById('mainContent').innerHTML = `
+                    <div class="empty-state">
+                        <h3>⚠️ Error Loading Data</h3>
+                        <p>Could not load student-points.json. Make sure the file exists in the same folder.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Populate dropdown
+        function populateStudentDropdown() {
+            const select = document.getElementById('studentSelect');
+            studentsData.forEach(student => {
+                const option = document.createElement('option');
+                option.value = student.pr;
+                option.textContent = `PR #${student.pr} - ${student.name} (${student.studentId})`;
+                select.appendChild(option);
+            });
+
+            select.addEventListener('change', (e) => {
+                if (e.target.value) {
+                    loadStudent(parseInt(e.target.value));
+                } else {
+                    document.getElementById('mainContent').innerHTML = `
+                        <div class="empty-state">
+                            <h3>👆 Select a student to begin</h3>
+                            <p>Choose a student from the dropdown above to view and modify their grades</p>
+                        </div>
+                    `;
+                }
+            });
+        }
+
+        // Load student
+        function loadStudent(prNumber) {
+            currentStudent = JSON.parse(JSON.stringify(studentsData.find(s => s.pr === prNumber)));
+            adjustments = []; // Reset adjustments for new student
+            renderStudentGrades();
+        }
+
+        // Group tests by tier
+        function groupTestsByTier() {
+            const tiers = { 1: [], 2: [], 3: [], bonus: [] };
+            
+            Object.entries(currentStudent.tests).forEach(([name, test]) => {
+                if (test.status === 'bonus') {
+                    tiers.bonus.push({ name, ...test });
+                } else if (test.tier) {
+                    tiers[test.tier].push({ name, ...test });
+                }
+            });
+
+            return tiers;
+        }
+
+        // Calculate scores
+        function calculateScores() {
+            let tier1 = 0, tier2 = 0, tier3 = 0, bonus = 0;
+
+            Object.entries(currentStudent.tests).forEach(([name, test]) => {
+                const checkbox = document.getElementById(`test-${name.replace(/\s+/g, '-')}`);
+                const isChecked = checkbox ? checkbox.checked : (test.earned > 0);
+
+                if (isChecked) {
+                    if (test.status === 'bonus') {
+                        bonus += test.earned;
+                    } else if (test.tier === 1) {
+                        tier1 += test.maxPoints;
+                    } else if (test.tier === 2) {
+                        tier2 += test.maxPoints;
+                    } else if (test.tier === 3) {
+                        tier3 += test.maxPoints;
+                    }
+                }
+            });
+
+            // Calculate manual adjustments
+            let manualBonus = 0;
+            let manualDeduction = 0;
+            
+            adjustments.forEach(adj => {
+                if (adj.type === 'bonus') {
+                    manualBonus += adj.amount;
+                } else if (adj.type === 'deduction') {
+                    manualDeduction += adj.amount;
+                }
+            });
+
+            bonus += manualBonus;
+            const totalDeductions = currentStudent.scores.deductions + manualDeduction;
+
+            const total = tier1 + tier2 + tier3 + bonus - totalDeductions;
+            const finalGrade = Math.min(100, Math.max(0, total));
+
+            return {
+                tier1,
+                tier2,
+                tier3,
+                bonus,
+                deductions: totalDeductions,
+                manualBonus,
+                manualDeduction,
+                total,
+                finalGrade,
+                tier1Percentage: Math.round((tier1 / 60) * 100),
+                tier2Percentage: Math.round((tier2 / 25) * 100),
+                tier3Percentage: Math.round((tier3 / 15) * 100)
+            };
+        }
+
+        // Add adjustment
+        function addAdjustment(type) {
+            adjustments.push({
+                type: type,
+                description: '',
+                amount: 0,
+                id: Date.now()
+            });
+            renderAdjustments();
+            updateSummary();
+        }
+
+        // Remove adjustment
+        function removeAdjustment(id) {
+            adjustments = adjustments.filter(adj => adj.id !== id);
+            renderAdjustments();
+            updateSummary();
+        }
+
+        // Update adjustment
+        function updateAdjustment(id, field, value) {
+            const adj = adjustments.find(a => a.id === id);
+            if (adj) {
+                if (field === 'amount') {
+                    adj[field] = parseInt(value) || 0;
+                } else {
+                    adj[field] = value;
+                }
+                updateSummary();
+            }
+        }
+
+        // Render adjustments
+        function renderAdjustments() {
+            const container = document.getElementById('adjustmentsList');
+            if (!container) return;
+
+            if (adjustments.length === 0) {
+                container.innerHTML = '<p style="color: #6c757d; font-size: 13px; text-align: center; padding: 10px;">No adjustments added</p>';
+                return;
+            }
+
+            const html = adjustments.map(adj => `
+                <div class="adjustment-item ${adj.type}">
+                    <div class="adjustment-item-header">
+                        <input type="text" 
+                               placeholder="${adj.type === 'bonus' ? 'Bonus reason (e.g., Exceptional UI)' : 'Deduction reason (e.g., Console errors)'}" 
+                               value="${adj.description}"
+                               oninput="updateAdjustment(${adj.id}, 'description', this.value)">
+                        <input type="number" 
+                               min="0" 
+                               max="50" 
+                               value="${adj.amount}"
+                               oninput="updateAdjustment(${adj.id}, 'amount', this.value)"
+                               placeholder="0">
+                        <button class="remove-btn" onclick="removeAdjustment(${adj.id})">✕</button>
+                    </div>
+                </div>
+            `).join('');
+
+            container.innerHTML = html;
+
+            // Update summary
+            const bonusTotal = adjustments.filter(a => a.type === 'bonus').reduce((sum, a) => sum + a.amount, 0);
+            const deductionTotal = adjustments.filter(a => a.type === 'deduction').reduce((sum, a) => sum + a.amount, 0);
+            
+            const summaryHtml = `
+                <div class="adjustments-summary">
+                    <span class="bonus-total">Bonus: +${bonusTotal}</span>
+                    <span class="deduction-total">Deduction: -${deductionTotal}</span>
+                </div>
+            `;
+            
+            const summaryContainer = document.getElementById('adjustmentsSummary');
+            if (summaryContainer) {
+                summaryContainer.innerHTML = summaryHtml;
+            }
+        }
+
+        // Update summary
+        function updateSummary() {
+            const scores = calculateScores();
+            
+            document.getElementById('tier1Score').textContent = `${scores.tier1} / 60 (${scores.tier1Percentage}%)`;
+            document.getElementById('tier2Score').textContent = `${scores.tier2} / 25 (${scores.tier2Percentage}%)`;
+            document.getElementById('tier3Score').textContent = `${scores.tier3} / 15 (${scores.tier3Percentage}%)`;
+            document.getElementById('bonusScore').textContent = `+${scores.bonus}`;
+            document.getElementById('deductionsScore').textContent = `-${scores.deductions}`;
+            document.getElementById('totalScore').textContent = `${scores.total} / 100`;
+            document.getElementById('finalGrade').textContent = `${scores.finalGrade}%`;
+        }
+
+        // Render tests for a tier
+        function renderTierTests(tier, tests, tierName) {
+            const testItems = tests.map(test => {
+                const testId = `test-${test.name.replace(/\s+/g, '-')}`;
+                const isChecked = test.earned > 0;
+                const statusBadge = test.status !== 'bonus' ? `<span class="status-badge ${test.status}">${test.status}</span>` : '';
+                
+                return `
+                    <div class="test-item ${test.status === 'bonus' ? 'bonus' : ''}">
+                        <input type="checkbox" id="${testId}" ${isChecked ? 'checked' : ''} onchange="updateSummary()">
+                        <label for="${testId}">${test.name}${statusBadge}</label>
+                        <span class="test-points">${test.status === 'bonus' ? '+' : ''}${test.maxPoints} pts</span>
+                    </div>
+                `;
+            }).join('');
+
+            const tierScores = calculateScores();
+            let scoreDisplay;
+            if (tier === 1) {
+                scoreDisplay = `${tierScores.tier1} / 60`;
+            } else if (tier === 2) {
+                scoreDisplay = `${tierScores.tier2} / 25`;
+            } else if (tier === 3) {
+                scoreDisplay = `${tierScores.tier3} / 15`;
+            } else {
+                scoreDisplay = `+${tierScores.bonus}`;
+            }
+
+            return `
+                <div class="tier-group tier-${tier}">
+                    <div class="tier-header">
+                        <h3>${tierName}</h3>
+                        <span class="tier-score" id="tier${tier}Score">${scoreDisplay}</span>
+                    </div>
+                    ${testItems}
+                </div>
+            `;
+        }
+
+        // Render student grades
+        function renderStudentGrades() {
+            const tiers = groupTestsByTier();
+            const scores = calculateScores();
+
+            const content = `
+                <div class="content">
+                    <div class="tests-section">
+                        ${renderTierTests(1, tiers[1], '🟢 Tier 1: Basic Functionality')}
+                        ${renderTierTests(2, tiers[2], '🟡 Tier 2: Edge Case Handling')}
+                        ${renderTierTests(3, tiers[3], '🔴 Tier 3: Advanced Features')}
+                        ${tiers.bonus.length > 0 ? renderTierTests('bonus', tiers.bonus, '✨ Bonus Points') : ''}
+                    </div>
+
+                    <div class="summary-section">
+                        <div class="summary-card">
+                            <div class="student-info">
+                                <div class="student-info-item">
+                                    <strong>PR #:</strong>
+                                    <span>${currentStudent.pr}</span>
+                                </div>
+                                <div class="student-info-item">
+                                    <strong>Name:</strong>
+                                    <span>${currentStudent.name}</span>
+                                </div>
+                                <div class="student-info-item">
+                                    <strong>ID:</strong>
+                                    <span>${currentStudent.studentId}</span>
+                                </div>
+                                <div class="student-info-item">
+                                    <strong>GitHub:</strong>
+                                    <span>@${currentStudent.github}</span>
+                                </div>
+                            </div>
+
+                            <div class="adjustments-section">
+                                <h3>
+                                    ✨ Manual Adjustments
+                                    <div class="add-buttons">
+                                        <button class="add-btn bonus" onclick="addAdjustment('bonus')">+ Bonus</button>
+                                        <button class="add-btn deduction" onclick="addAdjustment('deduction')">+ Deduct</button>
+                                    </div>
+                                </h3>
+                                <div class="adjustments-list" id="adjustmentsList">
+                                    <p style="color: #6c757d; font-size: 13px; text-align: center; padding: 10px;">No adjustments added</p>
+                                </div>
+                                <div id="adjustmentsSummary"></div>
+                            </div>
+
+                            <h2>Grade Summary</h2>
+                            
+                            <div class="score-item">
+                                <span class="score-label">Tier 1 (Basic)</span>
+                                <span class="score-value" id="tier1Score">${scores.tier1} / 60 (${scores.tier1Percentage}%)</span>
+                            </div>
+                            <div class="score-item">
+                                <span class="score-label">Tier 2 (Edge Cases)</span>
+                                <span class="score-value" id="tier2Score">${scores.tier2} / 25 (${scores.tier2Percentage}%)</span>
+                            </div>
+                            <div class="score-item">
+                                <span class="score-label">Tier 3 (Advanced)</span>
+                                <span class="score-value" id="tier3Score">${scores.tier3} / 15 (${scores.tier3Percentage}%)</span>
+                            </div>
+                            <div class="score-item">
+                                <span class="score-label">Bonus Points</span>
+                                <span class="score-value" id="bonusScore">+${scores.bonus}</span>
+                            </div>
+                            <div class="score-item">
+                                <span class="score-label">Deductions</span>
+                                <span class="score-value" id="deductionsScore">-${scores.deductions}</span>
+                            </div>
+                            <div class="score-item">
+                                <span class="score-label">Total Points</span>
+                                <span class="score-value" id="totalScore">${scores.total} / 100</span>
+                            </div>
+
+                            <div class="final-grade">
+                                <div class="label">FINAL GRADE</div>
+                                <div class="value" id="finalGrade">${scores.finalGrade}%</div>
+                            </div>
+
+                            <div class="actions">
+                                <button class="btn btn-primary" onclick="exportGrade()">📋 Copy Grade Data</button>
+                                <button class="btn btn-secondary" onclick="resetGrade()">🔄 Reset to Original</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('mainContent').innerHTML = content;
+            
+            // Initialize adjustments rendering
+            renderAdjustments();
+        }
+
+        // Reset to original
+        function resetGrade() {
+            if (confirm('Reset to original grades and clear all adjustments?')) {
+                adjustments = [];
+                loadStudent(currentStudent.pr);
+            }
+        }
+
+        // Export grade
+        function exportGrade() {
+            const scores = calculateScores();
+            const data = {
+                pr: currentStudent.pr,
+                name: currentStudent.name,
+                studentId: currentStudent.studentId,
+                github: currentStudent.github,
+                scores: scores,
+                adjustments: adjustments,
+                modifiedTests: {}
+            };
+
+            // Get modified tests
+            Object.entries(currentStudent.tests).forEach(([name, test]) => {
+                const checkbox = document.getElementById(`test-${name.replace(/\s+/g, '-')}`);
+                if (checkbox) {
+                    const isChecked = checkbox.checked;
+                    const wasChecked = test.earned > 0;
+                    if (isChecked !== wasChecked) {
+                        data.modifiedTests[name] = isChecked;
+                    }
+                }
+            });
+
+            const bonusAdjustments = adjustments.filter(a => a.type === 'bonus');
+            const deductionAdjustments = adjustments.filter(a => a.type === 'deduction');
+
+            let adjustmentsText = '';
+            if (bonusAdjustments.length > 0 || deductionAdjustments.length > 0) {
+                adjustmentsText = '\nMANUAL ADJUSTMENTS:\n';
+                if (bonusAdjustments.length > 0) {
+                    adjustmentsText += 'Bonuses:\n';
+                    bonusAdjustments.forEach(adj => {
+                        adjustmentsText += `  + ${adj.amount} pts: ${adj.description || '(no description)'}\n`;
+                    });
+                }
+                if (deductionAdjustments.length > 0) {
+                    adjustmentsText += 'Deductions:\n';
+                    deductionAdjustments.forEach(adj => {
+                        adjustmentsText += `  - ${adj.amount} pts: ${adj.description || '(no description)'}\n`;
+                    });
+                }
+            }
+
+            const output = `PR #${data.pr} - ${data.name}
+Student ID: ${data.studentId}
+GitHub: @${data.github}
+
+GRADE BREAKDOWN:
+- Tier 1: ${scores.tier1}/60 (${scores.tier1Percentage}%)
+- Tier 2: ${scores.tier2}/25 (${scores.tier2Percentage}%)
+- Tier 3: ${scores.tier3}/15 (${scores.tier3Percentage}%)
+- Bonus: +${scores.bonus}${scores.manualBonus > 0 ? ` (includes +${scores.manualBonus} manual)` : ''}
+- Deductions: -${scores.deductions}${scores.manualDeduction > 0 ? ` (includes -${scores.manualDeduction} manual)` : ''}
+- Total: ${scores.total}/100
+- FINAL GRADE: ${scores.finalGrade}%
+${adjustmentsText}
+${Object.keys(data.modifiedTests).length > 0 ? `MODIFIED TESTS:\n${Object.entries(data.modifiedTests).map(([name, checked]) => `- ${name}: ${checked ? 'CHECKED' : 'UNCHECKED'}`).join('\n')}\n` : ''}`;
+
+            navigator.clipboard.writeText(output).then(() => {
+                alert('✅ Grade data copied to clipboard!');
+            }).catch(err => {
+                console.error('Copy failed:', err);
+                alert('❌ Copy failed. Check console for data.');
+                console.log(output);
+            });
+        }
+
+        // Initialize
+        loadStudentData();
+    </script>
+</body>
+</html>

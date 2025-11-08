@@ -66,3 +66,30 @@
 
 AutoTest: 100% | T1=63/60 (105%) | T2=25/25 (100%) | T3=10/40 (25%) | Bonus: +5 | Multiple HTTP sources (6 sources) - BONUS!
 
+
+## Manual Adjustments
+
+PR #3 - Filip Gjorgjevski
+Student ID: 5349
+GitHub: @FilipGjorgjevski
+
+GRADE BREAKDOWN:
+- Tier 1: 54/60 (90%)
+- Tier 2: 25/25 (100%)
+- Tier 3: 20/15 (133%)
+- Bonus: +6
+- Deductions: -10 (includes -10 manual)
+- Total: 95/100
+- FINAL GRADE: 95%
+
+MANUAL ADJUSTMENTS:
+Deductions:
+  - 5 pts: Season sorting mixes string and numbers
+  - 5 pts: Console Errors on load
+
+MODIFIED TESTS:
+- Loading Indicator Shown: UNCHECKED
+- Keyboard Navigation: CHECKED
+- Smart Relevance Sorting: UNCHECKED
+- Data Validation & Warnings: CHECKED
+- Export to CSV: CHECKED

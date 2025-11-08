@@ -9,6 +9,27 @@
       "pr": 61,
       "points": -5,
       "reason": "Manual deduction"
+    },
+    {
+        "pr": 1,
+        "points": 5,
+        "reason": "Export CSV works correctly"
+    },
+    {
+      "pr": 2,
+      "points": 5,
+      "reason": "Data Valudation and warnings implemented"
+    },
+    {
+      "pr": 2,
+      "points": 5,
+      "reason": "Multi column sorting implemented"
+    },
+    {
+      "pr": 2,
+      "points": 5,
+      "reason": "Export CSV works correctly"
     }
+
   ]
 }
