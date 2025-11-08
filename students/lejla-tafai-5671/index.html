@@ -10,58 +10,49 @@
     <div class="container">
         <header>
             <h1>Doctor Who Episodes Explorer</h1>
-            <p>Explore episodes through time and space</p>
+            <div class="filters">
+                <div class="search-container">
+                    <input type="text" id="nameFilter" placeholder="Search episodes...">
+                    <div id="filterStats" class="filter-stats"></div>
+                </div>
+                <div id="loadingIndicator" class="loading-indicator hidden">Loading episodes...</div>
+                <div id="errorMessage" class="error-message hidden">
+                    <span class="error-text"></span>
+                    <button onclick="retryLoad()">Retry</button>
+                </div>
+            </div>
         </header>
 
-        <!-- Filter Section -->
-        <section class="filters">
-            <div class="filter-group">
-                <label for="name-filter">Episode Name:</label>
-                <input type="text" id="name-filter" placeholder="Search episodes...">
-            </div>
-            <!-- Add more filters as needed -->
-        </section>
-
-        <!-- Main Content -->
         <main>
-            <!-- Loading State -->
-            <div id="loading" class="loading">
-                Loading episodes...
-            </div>
-
-            <!-- Error Display -->
-            <div id="error" class="error" style="display: none;">
-                <!-- Error messages will be inserted here -->
-            </div>
-
-            <!-- Episodes Table -->
-            <table id="episodes-table" style="display: none;">
+            <table id="episodesTable">
                 <thead>
                     <tr>
                         <th data-sort="rank">Rank</th>
                         <th data-sort="title">Title</th>
                         <th data-sort="series">Series</th>
                         <th data-sort="era">Era</th>
-                        <th data-sort="broadcast_date">Year</th>
+                        <th data-sort="broadcast_date">Broadcast Year</th>
                         <th data-sort="director">Director</th>
                         <th data-sort="writer">Writer</th>
                         <th data-sort="doctor">Doctor</th>
                         <th data-sort="companion">Companion</th>
-                        <th data-sort="cast">Cast</th>
+                        <th data-sort="cast">Cast Count</th>
                     </tr>
                 </thead>
-                <tbody id="episodes-body">
+                <tbody id="episodesTableBody">
                     <!-- Episodes will be inserted here -->
                 </tbody>
             </table>
-
-            <!-- No Results Message -->
-            <div id="no-results" class="no-results" style="display: none;">
-                No episodes match your search criteria.
-            </div>
         </main>
-    </div>
 
+        <footer>
+            <div id="validationWarnings" class="validation-warnings hidden">
+                <span class="warning-count"></span>
+                <button onclick="toggleWarningDetails()">Show Details</button>
+                <div class="warning-details hidden"></div>
+            </div>
+        </footer>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
