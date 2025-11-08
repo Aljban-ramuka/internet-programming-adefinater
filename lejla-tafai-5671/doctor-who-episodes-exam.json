@@ -1,0 +1,489 @@
+[
+    {
+        "rank": 1,
+        "title": "An Unearthly Child",
+        "series": 1,
+        "era": "Classic",
+        "broadcast_date": "1963-11-23",
+        "director": "Waris Hussein",
+        "writer": "Anthony Coburn",
+        "doctor": {
+            "actor": "William Hartnell",
+            "incarnation": "First Doctor"
+        },
+        "companion": {
+            "actor": "Carole Ann Ford",
+            "character": "Susan Foreman"
+        },
+        "cast": [
+            {"actor": "William Russell", "character": "Ian Chesterton"},
+            {"actor": "Jacqueline Hill", "character": "Barbara Wright"}
+        ]
+    },
+    {
+        "rank": 2,
+        "title": "The \"Genesis\" of Time",
+        "series": 1,
+        "era": "Classic",
+        "broadcast_date": "1963-12-14",
+        "director": "Christopher Barry",
+        "writer": "Terry Nation",
+        "doctor": {
+            "actor": "William Hartnell",
+            "incarnation": "First Doctor"
+        },
+        "companion": null,
+        "cast": []
+    },
+    {
+        "rank": 3,
+        "title": "The Doctor's Wife",
+        "series": 6,
+        "era": "Modern",
+        "broadcast_date": "14/05/2011",
+        "director": "Richard Clark",
+        "writer": "Neil Gaiman",
+        "doctor": {
+            "actor": "Matt Smith",
+            "incarnation": "Eleventh Doctor"
+        },
+        "companion": {
+            "actor": "Karen Gillan",
+            "character": "Amy Pond"
+        },
+        "cast": [
+            {"actor": "Suranne Jones", "character": "Idris"},
+            {"actor": "Michael Sheen", "character": "House"}
+        ]
+    },
+    {
+        "rank": 4,
+        "title": "Bad Wolf / The Parting of the Ways",
+        "series": 1,
+        "era": "Modern",
+        "broadcast_date": "June 18, 2005",
+        "director": "Joe Ahearne",
+        "writer": "Russell T Davies & Phil Collinson",
+        "doctor": {
+            "actor": "Christopher Eccleston",
+            "incarnation": "Ninth Doctor"
+        },
+        "companion": {
+            "actor": "Billie Piper",
+            "character": "Rose Tyler"
+        },
+        "cast": [
+            {"actor": "John Barrowman", "character": "Captain Jack Harkness"},
+            {"actor": "Jo Joyner", "character": "Lynda Moss"}
+        ]
+    },
+    {
+        "rank": 5,
+        "title": "El Señor del Tiempo",
+        "series": 14,
+        "era": "Recent",
+        "broadcast_date": "2023-12-25",
+        "director": "Rachel Talalay",
+        "writer": "Russell T Davies",
+        "doctor": {
+            "actor": "Ncuti Gatwa",
+            "incarnation": "Fifteenth Doctor"
+        },
+        "companion": {
+            "actor": "Millie Gibson",
+            "character": "Ruby Sunday"
+        },
+        "cast": [
+            {"actor": "Jinkx Monsoon", "character": "The Maestro"}
+        ]
+    },
+    {
+        "rank": 6,
+        "title": "The Girl in the Fireplace",
+        "series": 2,
+        "era": "Modern",
+        "broadcast_date": "06/05/2006",
+        "director": "Euros Lyn",
+        "writer": "Steven Moffat",
+        "doctor": {
+            "actor": "David Tennant",
+            "incarnation": "Tenth Doctor"
+        },
+        "companion": {
+            "actor": "Billie Piper",
+            "character": "Rose Tyler"
+        },
+        "cast": [
+            {"actor": "Sophia Myles", "character": "Madame de Pompadour"},
+            {"actor": "Ben Turner", "character": "King Louis XV"}
+        ]
+    },
+    {
+        "rank": 7,
+        "title": "Blink",
+        "series": 3,
+        "era": "Modern",
+        "broadcast_date": "09/06/2007",
+        "director": "Hettie MacDonald",
+        "writer": "Steven Moffat",
+        "doctor": {
+            "actor": "David Tennant",
+            "incarnation": "Tenth Doctor"
+        },
+        "companion": null,
+        "cast": [
+            {"actor": "Carey Mulligan", "character": "Sally Sparrow"},
+            {"actor": "Lucy Gaskell", "character": "Kathy Nightingale"}
+        ]
+    },
+    {
+        "rank": 8,
+        "title": "The Day of the Doctor - 50th Anniversary",
+        "series": 7,
+        "era": "Modern",
+        "broadcast_date": "November 23, 2013",
+        "director": "Nick Hurran",
+        "writer": "Steven Moffat & Russell T Davies",
+        "doctor": {
+            "actor": "Matt Smith & David Tennant",
+            "incarnation": "Eleventh & Tenth Doctors"
+        },
+        "companion": {
+            "actor": "Jenna Coleman",
+            "character": "Clara Oswald"
+        },
+        "cast": [
+            {"actor": "John Hurt", "character": "War Doctor"},
+            {"actor": "Billie Piper", "character": "The Moment"}
+        ]
+    },
+    {
+        "rank": 9,
+        "title": "Rosa (Part 1)",
+        "series": 11,
+        "era": "Recent",
+        "broadcast_date": "2018",
+        "director": "Mark Tonderai",
+        "writer": "Malorie Blackman & Chris Chibnall",
+        "doctor": {
+            "actor": "Jodie Whittaker",
+            "incarnation": "Thirteenth Doctor"
+        },
+        "companion": {
+            "actor": "Mandip Gill",
+            "character": "Yasmin Khan"
+        },
+        "cast": [
+            {"actor": "Vinette Robinson", "character": "Rosa Parks"}
+        ]
+    },
+    {
+        "rank": 0,
+        "title": "Time - Part 1",
+        "series": -1,
+        "era": "Recent",
+        "broadcast_date": "2026-01-01",
+        "director": "Invalid Director",
+        "writer": "Test Writer",
+        "doctor": {
+            "actor": "Test Doctor",
+            "incarnation": "Test Doctor"
+        },
+        "companion": null,
+        "cast": null
+    },
+    {
+        "rank": 10,
+        "title": "Genesis of the Daleks",
+        "series": 12,
+        "era": "Classic",
+        "broadcast_date": "1975-03-08",
+        "director": "David Maloney",
+        "writer": "Terry Nation",
+        "doctor": {
+            "actor": "Tom Baker",
+            "incarnation": "Fourth Doctor"
+        },
+        "companion": {
+            "actor": "Elisabeth Sladen",
+            "character": "Sarah Jane Smith"
+        },
+        "cast": [
+            {"actor": "Michael Wisher", "character": "Davros"},
+            {"actor": "Peter Miles", "character": "Nyder"}
+        ]
+    },
+    {
+        "rank": 11,
+        "title": "The Caves of Androzani",
+        "series": 21,
+        "era": "Classic",
+        "broadcast_date": "1984",
+        "director": "Graeme Harper",
+        "writer": "Robert Holmes",
+        "doctor": {
+            "actor": "Peter Davison",
+            "incarnation": "Fifth Doctor"
+        },
+        "companion": {
+            "actor": "Nicola Bryant",
+            "character": "Peri Brown"
+        },
+        "cast": []
+    },
+    {
+        "rank": 12,
+        "title": "Heaven Sent",
+        "series": 9,
+        "era": "Modern",
+        "broadcast_date": "28/11/2015",
+        "director": "Rachel Talalay",
+        "writer": "Steven Moffat",
+        "doctor": {
+            "actor": "Peter Capaldi",
+            "incarnation": "Twelfth Doctor"
+        },
+        "companion": null,
+        "cast": [
+            {"actor": "Jami Reid-Quarrell", "character": "The Veil"}
+        ]
+    },
+    {
+        "rank": 12,
+        "title": "The Power of the Doctor",
+        "series": 13,
+        "era": "Recent",
+        "broadcast_date": "October 23, 2022",
+        "director": "Jamie Magnus Stone",
+        "writer": "Chris Chibnall",
+        "doctor": {
+            "actor": "Jodie Whittaker",
+            "incarnation": "Thirteenth Doctor"
+        },
+        "companion": {
+            "actor": "Mandip Gill & John Bishop",
+            "character": "Yaz & Dan"
+        },
+        "cast": [
+            {"actor": "David Bradley", "character": "The First Doctor"},
+            {"actor": "Peter Davison", "character": "The Fifth Doctor"}
+        ]
+    },
+    {
+        "rank": 13,
+        "title": "The Timeless Children",
+        "series": 12,
+        "era": "Recent",
+        "broadcast_date": "2020-03-01",
+        "director": "Jamie Magnus Stone",
+        "writer": "Chris Chibnall",
+        "doctor": {
+            "actor": "Jodie Whittaker",
+            "incarnation": "Thirteenth Doctor"
+        },
+        "companion": {
+            "actor": "Mandip Gill",
+            "character": "Yasmin Khan"
+        },
+        "cast": [
+            {"actor": "Sacha Dhawan", "character": "The Master"}
+        ]
+    },
+    {
+        "rank": 14,
+        "title": "Terror of the Zygons",
+        "series": 13,
+        "era": "Classic",
+        "broadcast_date": "1975",
+        "director": "Douglas Camfield",
+        "writer": "Robert Banks Stewart",
+        "doctor": {
+            "actor": "Tom Baker",
+            "incarnation": "Fourth Doctor"
+        },
+        "companion": {
+            "actor": "Elisabeth Sladen",
+            "character": "Sarah Jane Smith"
+        },
+        "cast": [
+            {"actor": "John Woodnutt", "character": "Duke of Forgill"}
+        ]
+    },
+    {
+        "rank": 15,
+        "title": "City of Death",
+        "series": 17,
+        "era": "Classic",
+        "broadcast_date": "29/09/1979",
+        "director": "Michael Hayes",
+        "writer": "Douglas Adams & Graham Williams",
+        "doctor": {
+            "actor": "Tom Baker",
+            "incarnation": "Fourth Doctor"
+        },
+        "companion": {
+            "actor": "Lalla Ward",
+            "character": "Romana II"
+        },
+        "cast": [
+            {"actor": "Julian Glover", "character": "Count Scarlioni"},
+            {"actor": "Catherine Schell", "character": "Countess Scarlioni"}
+        ]
+    },
+    {
+        "rank": 16,
+        "title": "The Curse of Fenric",
+        "series": 26,
+        "era": "Classic",
+        "broadcast_date": "1989-10-25",
+        "director": "Nicholas Mallett",
+        "writer": "Ian Briggs",
+        "doctor": {
+            "actor": "Sylvester McCoy",
+            "incarnation": "Seventh Doctor"
+        },
+        "companion": {
+            "actor": "Sophie Aldred",
+            "character": "Ace"
+        },
+        "cast": [
+            {"actor": "Dinsdale Landen", "character": "Dr. Judson"},
+            {"actor": "Anne Reid", "character": "Nurse Crane"}
+        ]
+    },
+    {
+        "rank": 17,
+        "title": "The Empty Child / The Doctor Dances",
+        "series": 1,
+        "era": "Modern",
+        "broadcast_date": "21/05/2005",
+        "director": "James Hawes",
+        "writer": "Steven Moffat",
+        "doctor": {
+            "actor": "Christopher Eccleston",
+            "incarnation": "Ninth Doctor"
+        },
+        "companion": {
+            "actor": "Billie Piper",
+            "character": "Rose Tyler"
+        },
+        "cast": [
+            {"actor": "Richard Wilson", "character": "Dr. Constantine"},
+            {"actor": "Florence Hoath", "character": "Nancy"}
+        ]
+    },
+    {
+        "rank": 18,
+        "title": "Midnight",
+        "series": 4,
+        "era": "Modern",
+        "broadcast_date": "June 14, 2008",
+        "director": "Alice Troughton",
+        "writer": "Russell T Davies",
+        "doctor": {
+            "actor": "David Tennant",
+            "incarnation": "Tenth Doctor"
+        },
+        "companion": null,
+        "cast": [
+            {"actor": "Lesley Sharp", "character": "Sky Silvestry"},
+            {"actor": "David Troughton", "character": "Professor Hobbes"}
+        ]
+    },
+    {
+        "rank": 19,
+        "title": "The Dæmons",
+        "series": 8,
+        "era": "Classic",
+        "broadcast_date": "22/05/1971",
+        "director": "Christopher Barry",
+        "writer": "Guy Leopold",
+        "doctor": {
+            "actor": "Jon Pertwee",
+            "incarnation": "Third Doctor"
+        },
+        "companion": {
+            "actor": "Katy Manning",
+            "character": "Jo Grant"
+        },
+        "cast": [
+            {"actor": "Roger Delgado", "character": "The Master"},
+            {"actor": "Damaris Hayman", "character": "Miss Hawthorne"}
+        ]
+    },
+    {
+        "rank": 20,
+        "title": "The Face of Evil (Part 1/4)",
+        "series": 14,
+        "era": "Classic",
+        "broadcast_date": "1977",
+        "director": "Pennant Roberts",
+        "writer": "Chris Boucher",
+        "doctor": {
+            "actor": "Tom Baker",
+            "incarnation": "Fourth Doctor"
+        },
+        "companion": {
+            "actor": "Louise Jameson",
+            "character": "Leela"
+        },
+        "cast": []
+    },
+    {
+        "rank": 21,
+        "title": "The Green Death",
+        "series": 10,
+        "era": "Classic",
+        "broadcast_date": "19/05/1973",
+        "director": "Michael E. Briant",
+        "writer": "Robert Sloman & Barry Letts",
+        "doctor": {
+            "actor": "Jon Pertwee",
+            "incarnation": "Third Doctor"
+        },
+        "companion": {
+            "actor": "Katy Manning",
+            "character": "Jo Grant"
+        },
+        "cast": [
+            {"actor": "Stewart Bevan", "character": "Professor Clifford Jones"}
+        ]
+    },
+    {
+        "rank": 31,
+        "title": "The Waters of Mars",
+        "series": 4,
+        "era": "Modern",
+        "broadcast_date": "November 15, 2009",
+        "director": "Graeme Harper",
+        "writer": "Russell T Davies & Phil Ford",
+        "doctor": {
+            "actor": "David Tennant",
+            "incarnation": "Tenth Doctor"
+        },
+        "companion": null,
+        "cast": [
+            {"actor": "Lindsay Duncan", "character": "Adelaide Brooke"}
+        ]
+    },
+    {
+        "rank": 41,
+        "title": "Revolution of the Daleks",
+        "series": 13,
+        "era": "Recent",
+        "broadcast_date": "01/01/2021",
+        "director": "Lee Haven Jones",
+        "writer": "Chris Chibnall",
+        "doctor": {
+            "actor": "Jodie Whittaker",
+            "incarnation": "Thirteenth Doctor"
+        },
+        "companion": {
+            "actor": "Mandip Gill",
+            "character": "Yasmin Khan"
+        },
+        "cast": [
+            {"actor": "John Barrowman", "character": "Captain Jack Harkness"}
+        ]
+    }
+]
