@@ -1,67 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctor Who Episodes Explorer</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🛸 Doctor Who Episodes Explorer</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Doctor Who Episodes Explorer</h1>
-            <p>Explore episodes through time and space</p>
-        </header>
-
-        <!-- Filter Section -->
-        <section class="filters">
-            <div class="filter-group">
-                <label for="name-filter">Episode Name:</label>
-                <input type="text" id="name-filter" placeholder="Search episodes...">
-            </div>
-            <!-- Add more filters as needed -->
-        </section>
-
-        <!-- Main Content -->
-        <main>
-            <!-- Loading State -->
-            <div id="loading" class="loading">
-                Loading episodes...
-            </div>
-
-            <!-- Error Display -->
-            <div id="error" class="error" style="display: none;">
-                <!-- Error messages will be inserted here -->
-            </div>
-
-            <!-- Episodes Table -->
-            <table id="episodes-table" style="display: none;">
-                <thead>
-                    <tr>
-                        <th data-sort="rank">Rank</th>
-                        <th data-sort="title">Title</th>
-                        <th data-sort="series">Series</th>
-                        <th data-sort="era">Era</th>
-                        <th data-sort="broadcast_date">Year</th>
-                        <th data-sort="director">Director</th>
-                        <th data-sort="writer">Writer</th>
-                        <th data-sort="doctor">Doctor</th>
-                        <th data-sort="companion">Companion</th>
-                        <th data-sort="cast">Cast</th>
-                    </tr>
-                </thead>
-                <tbody id="episodes-body">
-                    <!-- Episodes will be inserted here -->
-                </tbody>
-            </table>
-
-            <!-- No Results Message -->
-            <div id="no-results" class="no-results" style="display: none;">
-                No episodes match your search criteria.
-            </div>
-        </main>
+  <header class="app-header">
+    <div class="brand">
+      <!-- Simple SVG "TARDIS-ish" icon -->
+      <svg class="brand-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="7" y="2" width="10" height="20" rx="1.5"></rect>
+        <rect x="9" y="4" width="6" height="2" rx="0.5"></rect>
+        <rect x="10" y="8" width="2.5" height="3" rx="0.3"></rect>
+        <rect x="13.5" y="8" width="2.5" height="3" rx="0.3"></rect>
+        <rect x="10" y="12.5" width="2.5" height="3" rx="0.3"></rect>
+        <rect x="13.5" y="12.5" width="2.5" height="3" rx="0.3"></rect>
+        <rect x="10" y="17" width="6" height="3" rx="0.5"></rect>
+      </svg>
+      <h1 class="title">Doctor Who Episodes Explorer</h1>
     </div>
 
-    <script src="script.js"></script>
+    <div class="toolbar">
+      <button id="exportCsvBtn" class="btn primary" title="Export current view to CSV">Export CSV</button>
+
+      <div class="filters">
+        <input id="titleFilter" class="input" type="text" placeholder="Filter by title…" aria-label="Filter by title (case-insensitive)" />
+        <select id="eraFilter" class="input" aria-label="Filter by era">
+          <option value="">All Eras</option>
+        </select>
+        <select id="doctorFilter" class="input" aria-label="Filter by doctor">
+          <option value="">All Doctors</option>
+        </select>
+        <select id="companionFilter" class="input" aria-label="Filter by companion">
+          <option value="">All Companions</option>
+        </select>
+      </div>
+
+      <div class="right-side">
+        <label class="toggle">
+          <input type="checkbox" id="useChunked">
+          <span>Use 6-part data (+5 pts)</span>
+        </label>
+
+        <button id="warningsToggle" class="chip" title="Show/hide validation warnings">
+          Warnings: <span id="warningsCount">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="status-bar" aria-live="polite">
+    <div id="loader" class="loader hidden">
+      <div class="bar"></div>
+    </div>
+    <div id="statusMsg" class="status-msg"></div>
+  </section>
+
+  <main class="container">
+    <div class="table-wrap" tabindex="0">
+      <table id="episodesTable" class="data-table" aria-label="Doctor Who episodes">
+        <thead>
+          <tr>
+            <!-- data-sort-key attributes wire up sorting; Shift+Click = multi-sort -->
+            <th data-sort-key="rank">Rank</th>
+            <th data-sort-key="title">Title</th>
+            <th data-sort-key="series">Series</th>
+            <th data-sort-key="era">Era</th>
+            <th data-sort-key="year">Broadcast&nbsp;Year</th>
+            <th data-sort-key="director">Director</th>
+            <th data-sort-key="writer">Writer(s)</th>
+            <th data-sort-key="doctorFmt">Doctor</th>
+            <th data-sort-key="companionFmt">Companion</th>
+            <th data-sort-key="castCount">Cast&nbsp;Count</th>
+          </tr>
+        </thead>
+        <tbody id="episodesBody">
+          <!-- rows injected by script -->
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination">
+      <button id="prevPage" class="btn" disabled>Prev</button>
+      <span id="pageInfo" class="page-info">Page 1 / 1</span>
+      <button id="nextPage" class="btn" disabled>Next</button>
+      <label class="page-size">
+        Page size:
+        <select id="pageSize">
+          <option>25</option>
+          <option selected>50</option>
+          <option>100</option>
+          <option>250</option>
+        </select>
+      </label>
+    </div>
+  </main>
+
+  <dialog id="warningsDialog">
+    <h3>Data validation warnings</h3>
+    <div id="warningsList" class="warnings-list"></div>
+    <div class="dialog-actions">
+      <button id="closeWarnings" class="btn primary">Close</button>
+    </div>
+  </dialog>
+
+  <template id="rowTemplate">
+    <tr tabindex="-1">
+      <td class="cell-right"></td>
+      <td></td>
+      <td class="cell-right"></td>
+      <td></td>
+      <td class="cell-right"></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="cell-right"></td>
+    </tr>
+  </template>
+
+  <script src="script.js" defer></script>
 </body>
 </html>
