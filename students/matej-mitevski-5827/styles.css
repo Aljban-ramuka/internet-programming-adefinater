@@ -6,57 +6,139 @@
 }
 
 body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     line-height: 1.6;
-    color: #333;
-    background: #f5f5f5;
-    padding: 20px;
+    color: #1a1a1a;
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    min-height: 100vh;
+    padding: 30px 20px;
 }
 
 .container {
     max-width: 1400px;
     margin: 0 auto;
     background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    padding: 30px;
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Header Styles */
 header {
     text-align: center;
     margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 3px solid #11998e;
 }
 
 header h1 {
-    color: #2a5298;
+    color: #11998e;
     margin-bottom: 10px;
+    font-size: 2.5em;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+header p {
+    color: #666;
+    font-size: 1.1em;
 }
 
 /* Filter Section */
 .filters {
-    margin-bottom: 20px;
-    padding: 15px;
-    background: #f8f9fa;
-    border-radius: 6px;
+    margin-bottom: 30px;
+    padding: 25px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
 }
 
 .filter-group {
-    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .filter-group label {
-    display: inline-block;
-    margin-right: 10px;
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 13px;
+    color: #444;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .filter-group input,
 .filter-group select {
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    padding: 10px 14px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
     font-size: 14px;
+    background: white;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.filter-group input:hover,
+.filter-group select:hover {
+    border-color: #11998e;
+    box-shadow: 0 2px 8px rgba(17, 153, 142, 0.2);
+}
+
+.filter-group input:focus,
+.filter-group select:focus {
+    border-color: #11998e;
+    box-shadow: 0 0 0 3px rgba(17, 153, 142, 0.1);
+}
+
+.filter-group select {
+    cursor: pointer;
+}
+
+/* Clear Filters Button */
+.clear-btn {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(17, 153, 142, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.clear-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(17, 153, 142, 0.4);
+}
+
+.clear-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(17, 153, 142, 0.3);
+}
+
+.filter-actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 }
 
 /* Table Styles */
@@ -73,15 +155,22 @@ th, td {
 }
 
 th {
-    background: #2a5298;
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
     color: white;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
     user-select: none;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    position: relative;
 }
 
 th:hover {
-    background: #1e3c72;
+    background: linear-gradient(135deg, #0d7a70 0%, #2dd465 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 /* Sort Indicators */
@@ -98,37 +187,46 @@ th.sort-desc::after {
 /* Loading State */
 .loading {
     text-align: center;
-    padding: 40px;
-    font-size: 1.2em;
-    color: #666;
+    padding: 60px;
+    font-size: 1.3em;
+    color: #11998e;
+    font-weight: 600;
 }
 
 /* Error Display */
 .error {
-    padding: 15px;
+    padding: 20px;
     margin: 20px 0;
-    background: #f8d7da;
-    border: 1px solid #f5c6cb;
-    border-radius: 4px;
+    background: linear-gradient(135deg, #f8d7da 0%, #f5c2c7 100%);
+    border: 2px solid #dc3545;
+    border-radius: 12px;
     color: #721c24;
+    font-weight: 500;
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.2);
 }
 
 /* Empty State */
 .no-results {
     text-align: center;
-    padding: 40px;
-    color: #666;
+    padding: 60px;
+    color: #888;
     font-style: italic;
+    font-size: 1.2em;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 12px;
+    margin: 20px 0;
 }
 
 /* Cast Count Badge */
 .cast-count {
     display: inline-block;
-    padding: 2px 8px;
-    background: #2a5298;
+    padding: 4px 12px;
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
     color: white;
-    border-radius: 12px;
+    border-radius: 20px;
     font-size: 0.85em;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(17, 153, 142, 0.3);
 }
 
 /* Responsive Design */
@@ -145,20 +243,44 @@ th.sort-desc::after {
 
 /* Focus States for Accessibility */
 input:focus,
-select:focus {
+select:focus,
+button:focus {
     outline: none;
-    border-color: #2a5298;
-    box-shadow: 0 0 0 2px rgba(42,82,152,0.2);
 }
 
 /* Table Row Hover */
+tbody tr {
+    transition: all 0.2s ease;
+}
+
 tbody tr:hover {
-    background: #f8f9fa;
+    background: linear-gradient(90deg, #f8f9fa 0%, #e9ecef 100%);
+    transform: scale(1.01);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Keyboard Navigation - Tier 3 Feature */
+tbody tr.keyboard-focus {
+    background: linear-gradient(90deg, #d4f4dd 0%, #b8f2c4 100%) !important;
+    border-left: 4px solid #11998e;
+    box-shadow: 0 4px 12px rgba(17, 153, 142, 0.3);
+    transform: scale(1.02);
+}
+
+th.keyboard-col-focus {
+    background: linear-gradient(135deg, #0d7a70 0%, #2dd465 100%) !important;
+    box-shadow: 0 0 15px rgba(17, 153, 142, 0.6);
+    transform: translateY(-3px);
 }
 
 /* Cell Formatting */
 td:first-child {
     font-weight: 500;
+}
+
+/* Center align date column */
+td:nth-child(5) {
+    text-align: center;
 }
 
 /* Loading Animation */

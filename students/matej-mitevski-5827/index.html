@@ -11,15 +11,48 @@
         <header>
             <h1>Doctor Who Episodes Explorer</h1>
             <p>Explore episodes through time and space</p>
+            <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
+                <strong>Keyboard shortcuts:</strong> ↑↓ Navigate rows | ←→ Navigate columns | Enter Sort | Tab Move between filters
+            </p>
         </header>
 
         <!-- Filter Section -->
         <section class="filters">
             <div class="filter-group">
-                <label for="name-filter">Episode Name:</label>
+                <label for="name-filter">Search:</label>
                 <input type="text" id="name-filter" placeholder="Search episodes...">
             </div>
-            <!-- Add more filters as needed -->
+            
+            <div class="filter-group">
+                <label for="era-filter">Era:</label>
+                <select id="era-filter">
+                    <option value="">All Eras</option>
+                    <option value="Classic">Classic</option>
+                    <option value="Modern">Modern</option>
+                    <option value="Recent">Recent</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="doctor-filter">Doctor:</label>
+                <select id="doctor-filter">
+                    <option value="">All Doctors</option>
+                    <!-- Populated dynamically -->
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="companion-filter">Companion:</label>
+                <select id="companion-filter">
+                    <option value="">All Companions</option>
+                    <!-- Populated dynamically -->
+                </select>
+            </div>
+            
+            <div class="filter-group filter-actions">
+                <label>&nbsp;</label>
+                <button id="clear-filters" class="clear-btn">Clear All Filters</button>
+            </div>
         </section>
 
         <!-- Main Content -->
@@ -42,7 +75,7 @@
                         <th data-sort="title">Title</th>
                         <th data-sort="series">Series</th>
                         <th data-sort="era">Era</th>
-                        <th data-sort="broadcast_date">Year</th>
+                        <th data-sort="broadcast_date">Broadcast Date</th>
                         <th data-sort="director">Director</th>
                         <th data-sort="writer">Writer</th>
                         <th data-sort="doctor">Doctor</th>
