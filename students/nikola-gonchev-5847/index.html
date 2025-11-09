@@ -1,67 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctor Who Episodes Explorer</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor Who Episodes Explorer</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Doctor Who Episodes Explorer</h1>
-            <p>Explore episodes through time and space</p>
-        </header>
+  <div class="container">
+    <h1>Doctor Who Episodes Explorer</h1>
+    <p class="subtitle">Explore episodes through time and space</p>
 
-        <!-- Filter Section -->
-        <section class="filters">
-            <div class="filter-group">
-                <label for="name-filter">Episode Name:</label>
-                <input type="text" id="name-filter" placeholder="Search episodes...">
-            </div>
-            <!-- Add more filters as needed -->
-        </section>
+    <div class="controls">
+      <label for="search">Episode Name:</label>
+      <input type="text" id="search" placeholder="Search episodes...">
 
-        <!-- Main Content -->
-        <main>
-            <!-- Loading State -->
-            <div id="loading" class="loading">
-                Loading episodes...
-            </div>
-
-            <!-- Error Display -->
-            <div id="error" class="error" style="display: none;">
-                <!-- Error messages will be inserted here -->
-            </div>
-
-            <!-- Episodes Table -->
-            <table id="episodes-table" style="display: none;">
-                <thead>
-                    <tr>
-                        <th data-sort="rank">Rank</th>
-                        <th data-sort="title">Title</th>
-                        <th data-sort="series">Series</th>
-                        <th data-sort="era">Era</th>
-                        <th data-sort="broadcast_date">Year</th>
-                        <th data-sort="director">Director</th>
-                        <th data-sort="writer">Writer</th>
-                        <th data-sort="doctor">Doctor</th>
-                        <th data-sort="companion">Companion</th>
-                        <th data-sort="cast">Cast</th>
-                    </tr>
-                </thead>
-                <tbody id="episodes-body">
-                    <!-- Episodes will be inserted here -->
-                </tbody>
-            </table>
-
-            <!-- No Results Message -->
-            <div id="no-results" class="no-results" style="display: none;">
-                No episodes match your search criteria.
-            </div>
-        </main>
+      <label for="era" class="era-label">Era:</label>
+      <select id="era">
+        <option value="All">All</option>
+        <option value="Classic">Classic</option>
+        <option value="Modern">Modern</option>
+        <option value="Recent">Recent</option>
+      </select>
     </div>
 
-    <script src="script.js"></script>
+    <div id="loading" class="loading">Loading data...</div>
+    <div id="no-results" class="no-results" style="display:none;">No episodes found.</div>
+    <div id="error" class="error" style="display:none;"></div>
+
+    <table id="episodes-table">
+      <thead>
+        <tr>
+          <th data-field="rank">Rank</th>
+          <th data-field="title">Title</th>
+          <th data-field="series">Series</th>
+          <th data-field="era">Era</th>
+          <th data-field="broadcast_year">Year</th>
+          <th data-field="director">Director</th>
+          <th data-field="writer">Writer</th>
+          <th data-field="doctor">Doctor</th>
+          <th data-field="companion">Companion</th>
+          <th data-field="cast">Cast</th>
+        </tr>
+      </thead>
+      <tbody id="episodes-body"></tbody>
+    </table>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
