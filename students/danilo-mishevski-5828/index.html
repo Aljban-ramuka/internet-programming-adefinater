@@ -4,13 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor Who Episodes Explorer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>Doctor Who Episodes Explorer</h1>
-            <p>Explore episodes through time and space</p>
+        <header class="hero-header">
+            <div class="tardis-background"></div>
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="doctor-text">DOCTOR</span>
+                    <span class="who-text">WHO</span>
+                    <span class="episodes-text">EPISODES EXPLORER</span>
+                </h1>
+                <p class="hero-subtitle">Journey through time and space • Explore 60 years of adventures</p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" id="total-episodes">0</span>
+                        <span class="stat-label">Episodes</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="total-doctors">0</span>
+                        <span class="stat-label">Doctors</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="total-years">0</span>
+                        <span class="stat-label">Years</span>
+                    </div>
+                </div>
+            </div>
         </header>
 
         <!-- Filter Section -->
@@ -19,7 +43,48 @@
                 <label for="name-filter">Episode Name:</label>
                 <input type="text" id="name-filter" placeholder="Search episodes...">
             </div>
-            <!-- Add more filters as needed -->
+            
+            <!-- Enhanced Filters (Bonus Feature) -->
+            <div class="filter-group">
+                <label for="era-filter">Era:</label>
+                <select id="era-filter">
+                    <option value="">All Eras</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="doctor-filter">Doctor:</label>
+                <select id="doctor-filter">
+                    <option value="">All Doctors</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="companion-filter">Companion:</label>
+                <select id="companion-filter">
+                    <option value="">All Companions</option>
+                </select>
+            </div>
+            
+            <!-- Data Validation Display (Tier 3 Feature) -->
+            <div class="validation-info" id="validation-info" style="display: none;">
+                <div class="validation-left">
+                    <span class="warning-icon">⚠️</span>
+                    <span class="warning-text">Data validation warnings:</span>
+                    <span id="warning-count" class="warning-count">0</span>
+                </div>
+                <div class="validation-center">
+                    <div class="warning-types" id="warning-types">
+                        <span class="warning-type-badge" id="missing-fields" style="display: none;">Missing Fields</span>
+                        <span class="warning-type-badge" id="invalid-dates" style="display: none;">Invalid Dates</span>
+                        <span class="warning-type-badge" id="duplicate-ranks" style="display: none;">Duplicate Ranks</span>
+                        <span class="warning-type-badge" id="negative-series" style="display: none;">Negative Series</span>
+                    </div>
+                </div>
+                <div class="validation-right">
+                    <button id="show-warnings" class="show-warnings-btn">Show Details</button>
+                </div>
+            </div>
         </section>
 
         <!-- Main Content -->
@@ -42,7 +107,7 @@
                         <th data-sort="title">Title</th>
                         <th data-sort="series">Series</th>
                         <th data-sort="era">Era</th>
-                        <th data-sort="broadcast_date">Year</th>
+                        <th data-sort="broadcast_date">Broadcast Date</th>
                         <th data-sort="director">Director</th>
                         <th data-sort="writer">Writer</th>
                         <th data-sort="doctor">Doctor</th>
@@ -60,6 +125,39 @@
                 No episodes match your search criteria.
             </div>
         </main>
+    </div>
+
+    <!-- Validation Details Modal -->
+    <div id="validation-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2 class="modal-title">📊 Data Validation Report</h2>
+                <button class="modal-close" id="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="validation-summary">
+                    <div class="summary-card">
+                        <span class="summary-icon">⚠️</span>
+                        <div class="summary-info">
+                            <div class="summary-count" id="modal-warning-count">0</div>
+                            <div class="summary-label">Total Warnings</div>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <span class="summary-icon">📋</span>
+                        <div class="summary-info">
+                            <div class="summary-count" id="modal-episode-count">0</div>
+                            <div class="summary-label">Episodes Checked</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="validation-details" id="validation-details-content"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn secondary" id="copy-report">📋 Copy Report</button>
+                <button class="modal-btn primary" id="close-modal-btn">Close</button>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>
