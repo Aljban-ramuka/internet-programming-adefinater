@@ -1,67 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctor Who Episodes Explorer</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Doctor Who Episodes Explorer</title>
+
+  <!-- Playful fonts (safe over CDN) -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+
+
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Doctor Who Episodes Explorer</h1>
-            <p>Explore episodes through time and space</p>
-        </header>
+  <div class="container">
+    <header class="site-header">
+      <h1 class="title">
+        <span class="tardis" aria-hidden="true">🚀</span>
+        Doctor Who Episodes Explorer
+      </h1>
+      <p class="subtitle">Sort • Filter • Explore — built for curious kids &amp; time-travel fans</p>
 
-        <!-- Filter Section -->
-        <section class="filters">
-            <div class="filter-group">
-                <label for="name-filter">Episode Name:</label>
-                <input type="text" id="name-filter" placeholder="Search episodes...">
-            </div>
-            <!-- Add more filters as needed -->
-        </section>
+      <div class="stickers" aria-hidden="true">
+        <span class="star s1"></span>
+        <span class="star s2"></span>
+        <span class="star s3"></span>
+        <span class="star s4"></span>
+      </div>
+    </header>
 
-        <!-- Main Content -->
-        <main>
-            <!-- Loading State -->
-            <div id="loading" class="loading">
-                Loading episodes...
-            </div>
+    <!-- Controls Panel -->
+    <section class="panel" aria-labelledby="controls-title">
+      <h2 id="controls-title" class="sr-only">Controls</h2>
 
-            <!-- Error Display -->
-            <div id="error" class="error" style="display: none;">
-                <!-- Error messages will be inserted here -->
-            </div>
+      <div class="controls" role="group" aria-label="Filtering and utilities">
+        <div class="search" role="search">
+          <label for="filter-text" class="sr-only">Search by title</label>
+          <span aria-hidden="true">🔎</span>
+          <input id="filter-text" type="search" placeholder="Search by title…" autocomplete="off" />
+        </div>
 
-            <!-- Episodes Table -->
-            <table id="episodes-table" style="display: none;">
-                <thead>
-                    <tr>
-                        <th data-sort="rank">Rank</th>
-                        <th data-sort="title">Title</th>
-                        <th data-sort="series">Series</th>
-                        <th data-sort="era">Era</th>
-                        <th data-sort="broadcast_date">Year</th>
-                        <th data-sort="director">Director</th>
-                        <th data-sort="writer">Writer</th>
-                        <th data-sort="doctor">Doctor</th>
-                        <th data-sort="companion">Companion</th>
-                        <th data-sort="cast">Cast</th>
-                    </tr>
-                </thead>
-                <tbody id="episodes-body">
-                    <!-- Episodes will be inserted here -->
-                </tbody>
-            </table>
+        <span id="warning-badge" class="badge" aria-live="polite" hidden>
+          ⚠️ Warnings: <strong id="warning-count">0</strong>
+        </span>
+        
+        <button id="warnings-view-btn" class="btn btn-ghost" type="button" hidden>
+        See warnings
+        </button>
 
-            <!-- No Results Message -->
-            <div id="no-results" class="no-results" style="display: none;">
-                No episodes match your search criteria.
-            </div>
-        </main>
-    </div>
+        <button id="retry-btn" class="btn" type="button" aria-describedby="retry-help">Retry</button>
+        <span id="retry-help" class="sr-only">Retry data loading if it failed</span>
+      </div>
 
-    <script src="script.js"></script>
+      <div class="status" aria-live="polite">
+        <div id="loading" class="loading" role="status" hidden>
+          <span class="dot" aria-hidden="true"></span>
+          Loading episodes…
+        </div>
+        <div id="error" class="error" role="alert" hidden>
+          <span class="dot" aria-hidden="true"></span>
+          Couldn’t load episodes. Please check your connection and try again.
+        </div>
+      </div>
+    </section>
+
+    <!-- Episodes Table -->
+    <section class="table-wrap" aria-labelledby="table-title">
+      <h2 id="table-title" class="sr-only">Episodes Table</h2>
+
+      <table id="episodes-table">
+         <colgroup>
+            <col style="width:6%">   <!-- Rank -->
+            <col style="width:20%">  <!-- Title -->
+            <col style="width:6%">   <!-- Series -->
+            <col style="width:8%">   <!-- Era -->
+            <col style="width:9%">   <!-- Broadcast Year -->
+            <col style="width:10%">  <!-- Director -->
+            <col style="width:12%">  <!-- Writer -->
+            <col style="width:12%">  <!-- Doctor -->
+            <col style="width:13%">  <!-- Companion -->
+            <col style="width:4%">   <!-- Cast Count -->
+        </colgroup>
+        <thead>
+          <tr>
+            <th scope="col" data-col="rank" aria-sort="none" tabindex="0">Rank</th>
+            <th scope="col" data-col="title" aria-sort="none" tabindex="0">Title</th>
+            <th scope="col" data-col="series" aria-sort="none" tabindex="0" class="col-r">Series</th>
+            <th scope="col" data-col="era" aria-sort="none" tabindex="0">Era</th>
+            <th scope="col" data-col="broadcastYear" aria-sort="none" tabindex="0" class="col-r">Broadcast&nbsp;Year</th>
+            <th scope="col" data-col="director" aria-sort="none" tabindex="0">Director</th>
+            <th scope="col" data-col="writer" aria-sort="none" tabindex="0">Writer</th>
+            <th scope="col" data-col="doctor" aria-sort="none" tabindex="0">Doctor</th>
+            <th scope="col" data-col="companion" aria-sort="none" tabindex="0">Companion</th>
+            <th scope="col" data-col="castCount" aria-sort="none" tabindex="0" class="col-r">Cast&nbsp;Count</th>
+          </tr>
+        </thead>
+        <tbody id="table-body">
+          <!-- Rows will be inserted by script.js -->
+          <!-- Example placeholder row (you can delete later) -->
+          <tr>
+            <td class="col-r">—</td>
+            <td>Ready to travel? Press Retry ↑</td>
+            <td class="col-r">—</td>
+            <td><span class="pill">Classic</span></td>
+            <td class="col-r">—</td>
+            <td>—</td>
+            <td>—</td>
+            <td>—</td>
+            <td>—</td>
+            <td class="col-r">0</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Optional pagination placeholder (can be shown by JS if implemented) -->
+    <nav id="pagination" class="panel" aria-label="Table pagination" hidden>
+      <div class="controls" style="justify-content:space-between">
+        <button id="prev-page" class="btn" type="button" disabled>◀ Prev</button>
+        <strong id="page-info">Page 1</strong>
+        <button id="next-page" class="btn" type="button" disabled>Next ▶</button>
+      </div>
+    </nav>
+
+    <footer class="site-footer">
+      <small>Data will load from the provided JSON sources⭐</small>
+    </footer>
+  </div>
+
+  <dialog id="warnings-dialog" aria-labelledby="warnings-title">
+  <form method="dialog" style="margin:0;padding:0">
+    <header style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+      <h3 id="warnings-title" style="margin:.5rem 0">Data Warnings</h3>
+      <button id="warnings-close" class="btn" value="close" type="submit">Close</button>
+    </header>
+  </form>
+  <div id="warnings-body" style="max-height:50vh;overflow:auto;margin-top:.5rem">
+    <ul id="warnings-list" style="padding-left:1rem; margin:0;"></ul>
+  </div>
+</dialog>
+
 </body>
 </html>
