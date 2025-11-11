@@ -1,173 +1,250 @@
-/* Reset and Base Styles */
+/* =======================
+Reset & Base Styles
+======================= */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-
-body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background: #f5f5f5;
-    padding: 20px;
-}
-
-.container {
-    max-width: 1400px;
-    margin: 0 auto;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    padding: 20px;
-}
-
-/* Header Styles */
-header {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-header h1 {
-    color: #2a5298;
-    margin-bottom: 10px;
-}
-
-/* Filter Section */
-.filters {
-    margin-bottom: 20px;
-    padding: 15px;
-    background: #f8f9fa;
-    border-radius: 6px;
-}
-
-.filter-group {
-    margin-bottom: 10px;
-}
-
-.filter-group label {
-    display: inline-block;
-    margin-right: 10px;
-    font-weight: 500;
-}
-
-.filter-group input,
-.filter-group select {
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-/* Table Styles */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-th, td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-th {
-    background: #2a5298;
-    color: white;
-    font-weight: 500;
-    cursor: pointer;
-    user-select: none;
-}
-
-th:hover {
-    background: #1e3c72;
-}
-
-/* Sort Indicators */
-th.sort-asc::after {
-    content: ' ↑';
-    font-size: 0.8em;
-}
-
-th.sort-desc::after {
-    content: ' ↓';
-    font-size: 0.8em;
-}
-
-/* Loading State */
-.loading {
-    text-align: center;
-    padding: 40px;
-    font-size: 1.2em;
-    color: #666;
-}
-
-/* Error Display */
-.error {
-    padding: 15px;
-    margin: 20px 0;
-    background: #f8d7da;
-    border: 1px solid #f5c6cb;
-    border-radius: 4px;
-    color: #721c24;
-}
-
-/* Empty State */
-.no-results {
-    text-align: center;
-    padding: 40px;
-    color: #666;
-    font-style: italic;
-}
-
-/* Cast Count Badge */
-.cast-count {
-    display: inline-block;
-    padding: 2px 8px;
-    background: #2a5298;
-    color: white;
-    border-radius: 12px;
-    font-size: 0.85em;
-}
-
-/* Responsive Design */
-@media (max-width: 1200px) {
-    .container {
-        padding: 15px;
     }
-
-    table {
-        display: block;
-        overflow-x: auto;
-    }
-}
-
-/* Focus States for Accessibility */
-input:focus,
-select:focus {
-    outline: none;
-    border-color: #2a5298;
-    box-shadow: 0 0 0 2px rgba(42,82,152,0.2);
-}
-
-/* Table Row Hover */
-tbody tr:hover {
-    background: #f8f9fa;
-}
-
-/* Cell Formatting */
-td:first-child {
-    font-weight: 500;
-}
-
-/* Loading Animation */
-@keyframes pulse {
-    0% { opacity: 1; }
-    50% { opacity: 0.5; }
-    100% { opacity: 1; }
-}
-
-.loading {
-    animation: pulse 1.5s infinite;
-}
+  
+  body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background: #f5f5f5;
+  padding: 20px;
+  }
+  
+  .container {
+  max-width: 1400px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  }
+  
+  /* =======================
+  Header
+  ======================= */
+  header {
+  text-align: center;
+  margin-bottom: 30px;
+  }
+  
+  header h1 {
+  color: #2a5298;
+  margin-bottom: 10px;
+  }
+  
+  header p {
+  color: #666;
+  }
+  
+  /* =======================
+  Filter Section
+  ======================= */
+  .filters {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  }
+  
+  .filter-group {
+  margin-bottom: 10px;
+  }
+  
+  .filter-group label {
+  display: inline-block;
+  margin-right: 10px;
+  font-weight: 500;
+  }
+  
+  .filter-group input,
+  .filter-group select {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  min-width: 200px;
+  }
+  
+  /* Export Button */
+  .btn-export {
+  background: #2a5298;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.2s ease;
+  }
+  
+  .btn-export:hover {
+  background: #1e3c72;
+  }
+  
+  /* =======================
+  Table
+  ======================= */
+  table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  }
+  
+  th,
+  td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  }
+  
+  th {
+  background: #2a5298;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s ease, color 0.2s ease;
+  }
+  
+  th:hover {
+  background: #1e3c72;
+  }
+  
+  /* =======================
+  Sort Indicators
+  ======================= */
+  th.sort-asc::after {
+  content: " ▲";
+  font-size: 0.8em;
+  }
+  
+  th.sort-desc::after {
+  content: " ▼";
+  font-size: 0.8em;
+  }
+  
+  /* =======================
+  Table Body Styles
+  ======================= */
+  tbody tr:hover {
+  background: #f8f9fa;
+  transition: background 0.2s ease;
+  }
+  
+  /* Focus Outline for Keyboard Navigation */
+  tr:focus {
+  outline: 2px solid #0078d7;
+  outline-offset: -2px;
+  }
+  
+  /* First Column Bold */
+  td:first-child {
+  font-weight: 500;
+  }
+  
+  /* Cast Count Badge */
+  .cast-count {
+  display: inline-block;
+  padding: 2px 8px;
+  background: #2a5298;
+  color: white;
+  border-radius: 12px;
+  font-size: 0.85em;
+  }
+  
+  /* =======================
+  Status Bar
+  ======================= */
+  #status-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 10px 15px;
+  margin-top: 15px;
+  white-space: pre-line;
+  font-size: 0.95em;
+  color: #444;
+  }
+  
+  /* =======================
+  Decade Grouping (optional visual bonus)
+  ======================= */
+  .decade-row td {
+  background: #e9ecef;
+  font-weight: bold;
+  text-align: center;
+  color: #2a5298;
+  }
+  
+  /* =======================
+  Loading / Error / Empty
+  ======================= */
+  .loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2em;
+  color: #666;
+  animation: pulse 1.5s infinite;
+  }
+  
+  @keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+  }
+  
+  .error {
+  padding: 15px;
+  margin: 20px 0;
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  color: #721c24;
+  }
+  
+  .no-results {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-style: italic;
+  }
+  
+  /* =======================
+  Accessibility & Responsive
+  ======================= */
+  input:focus,
+  select:focus,
+  th:focus {
+  outline: none;
+  border-color: #2a5298;
+  box-shadow: 0 0 0 2px rgba(42, 82, 152, 0.2);
+  }
+  
+  @media (max-width: 1200px) {
+  .container {
+  padding: 15px;
+  }
+  
+  table {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+  }
+  
+  .filter-group {
+  display: block;
+  }
+  
+  .btn-export {
+  width: 100%;
+  }
+  }
+  

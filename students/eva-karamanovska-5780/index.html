@@ -1,67 +1,116 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctor Who Episodes Explorer</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Doctor Who Episodes Explorer</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Doctor Who Episodes Explorer</h1>
-            <p>Explore episodes through time and space</p>
-        </header>
+  <div class="container">
+    <header>
+      <h1>Doctor Who Episodes Explorer</h1>
+      <p>Explore episodes through time and space</p>
+    </header>
 
-        <!-- Filter Section -->
-        <section class="filters">
-            <div class="filter-group">
-                <label for="name-filter">Episode Name:</label>
-                <input type="text" id="name-filter" placeholder="Search episodes...">
-            </div>
-            <!-- Add more filters as needed -->
-        </section>
+```
+<!-- =======================
+     Filters Section
+======================= -->
+<section class="filters" aria-label="Filters">
+  <div class="filter-group">
+    <label for="name-filter">Episode Name:</label>
+    <input
+      type="text"
+      id="name-filter"
+      placeholder="Search by episode title…"
+      autocomplete="off"
+    />
+  </div>
 
-        <!-- Main Content -->
-        <main>
-            <!-- Loading State -->
-            <div id="loading" class="loading">
-                Loading episodes...
-            </div>
+  <div class="filter-group">
+    <label for="era-filter">Era:</label>
+    <select id="era-filter">
+      <option value="">All</option>
+      <option value="Classic">Classic</option>
+      <option value="Modern">Modern</option>
+      <option value="Recent">Recent</option>
+    </select>
+  </div>
 
-            <!-- Error Display -->
-            <div id="error" class="error" style="display: none;">
-                <!-- Error messages will be inserted here -->
-            </div>
+  <div class="filter-group">
+    <label for="doctor-filter">Doctor:</label>
+    <select id="doctor-filter">
+      <option value="">All</option>
+      <!-- dynamically filled by JS -->
+    </select>
+  </div>
 
-            <!-- Episodes Table -->
-            <table id="episodes-table" style="display: none;">
-                <thead>
-                    <tr>
-                        <th data-sort="rank">Rank</th>
-                        <th data-sort="title">Title</th>
-                        <th data-sort="series">Series</th>
-                        <th data-sort="era">Era</th>
-                        <th data-sort="broadcast_date">Year</th>
-                        <th data-sort="director">Director</th>
-                        <th data-sort="writer">Writer</th>
-                        <th data-sort="doctor">Doctor</th>
-                        <th data-sort="companion">Companion</th>
-                        <th data-sort="cast">Cast</th>
-                    </tr>
-                </thead>
-                <tbody id="episodes-body">
-                    <!-- Episodes will be inserted here -->
-                </tbody>
-            </table>
+  <div class="filter-group">
+    <label for="companion-filter">Companion:</label>
+    <select id="companion-filter">
+      <option value="">All</option>
+      <!-- dynamically filled by JS -->
+    </select>
+  </div>
 
-            <!-- No Results Message -->
-            <div id="no-results" class="no-results" style="display: none;">
-                No episodes match your search criteria.
-            </div>
-        </main>
-    </div>
+  <!-- 🆕 Export CSV button -->
+  <button id="export-btn" class="btn-export">Export Visible Episodes as CSV</button>
+</section>
 
-    <script src="script.js"></script>
+<!-- =======================
+     Status Row
+======================= -->
+<section class="filters" aria-label="Status" style="display: none;" id="status-bar">
+  <span id="results-count"></span>
+  <span id="warning-count"></span>
+</section>
+
+<!-- =======================
+     Main Content
+======================= -->
+<main>
+  <!-- Loading indicator -->
+  <div id="loading" class="loading" aria-live="polite">
+    Loading episodes…
+  </div>
+
+  <!-- Error container -->
+  <div id="error" class="error" style="display: none;" role="alert" aria-live="assertive"></div>
+
+  <!-- Results table -->
+  <table id="episodes-table" style="display: none;">
+    <thead>
+      <tr>
+        <th scope="col" data-sort="rank" tabindex="0">Rank</th>
+        <th scope="col" data-sort="title" tabindex="0">Title</th>
+        <th scope="col" data-sort="series" tabindex="0">Series</th>
+        <th scope="col" data-sort="era" tabindex="0">Era</th>
+        <th scope="col" data-sort="year" tabindex="0">Broadcast Year</th>
+        <th scope="col" data-sort="director" tabindex="0">Director</th>
+        <th scope="col" data-sort="writer" tabindex="0">Writer</th>
+        <th scope="col" data-sort="doctor" tabindex="0">Doctor</th>
+        <th scope="col" data-sort="companion" tabindex="0">Companion</th>
+        <th scope="col" data-sort="castCount" tabindex="0">Cast Count</th>
+      </tr>
+    </thead>
+    <tbody id="episodes-body">
+      <!-- Rows injected by script.js -->
+    </tbody>
+  </table>
+
+  <!-- Empty state -->
+  <div id="no-results" class="no-results" style="display: none;">
+    No episodes match your search.
+  </div>
+</main>
+```
+
+  </div>
+
+  <script src="script.js"></script>
+
 </body>
 </html>
+
