@@ -1,67 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctor Who Episodes Explorer</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor Who Episodes Explorer</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Doctor Who Episodes Explorer</h1>
-            <p>Explore episodes through time and space</p>
-        </header>
 
-        <!-- Filter Section -->
-        <section class="filters">
-            <div class="filter-group">
-                <label for="name-filter">Episode Name:</label>
-                <input type="text" id="name-filter" placeholder="Search episodes...">
-            </div>
-            <!-- Add more filters as needed -->
-        </section>
+  <h1>Doctor Who Episodes Explorer</h1>
 
-        <!-- Main Content -->
-        <main>
-            <!-- Loading State -->
-            <div id="loading" class="loading">
-                Loading episodes...
-            </div>
+  <!-- Filters -->
+  <div class="filters">
+    <input id="searchInput" type="text" placeholder="Search title or writer">
+    
+    <select id="eraFilter">
+      <option value="">All Eras</option>
+      <option value="Classic">Classic</option>
+      <option value="Modern">Modern</option>
+      <option value="Recent">Recent</option>
+    </select>
 
-            <!-- Error Display -->
-            <div id="error" class="error" style="display: none;">
-                <!-- Error messages will be inserted here -->
-            </div>
+    <select id="doctorFilter">
+      <option value="">All Doctors</option>
+    </select>
 
-            <!-- Episodes Table -->
-            <table id="episodes-table" style="display: none;">
-                <thead>
-                    <tr>
-                        <th data-sort="rank">Rank</th>
-                        <th data-sort="title">Title</th>
-                        <th data-sort="series">Series</th>
-                        <th data-sort="era">Era</th>
-                        <th data-sort="broadcast_date">Year</th>
-                        <th data-sort="director">Director</th>
-                        <th data-sort="writer">Writer</th>
-                        <th data-sort="doctor">Doctor</th>
-                        <th data-sort="companion">Companion</th>
-                        <th data-sort="cast">Cast</th>
-                    </tr>
-                </thead>
-                <tbody id="episodes-body">
-                    <!-- Episodes will be inserted here -->
-                </tbody>
-            </table>
+    <button id="exportCSV">Export CSV</button>
+  </div>
 
-            <!-- No Results Message -->
-            <div id="no-results" class="no-results" style="display: none;">
-                No episodes match your search criteria.
-            </div>
-        </main>
-    </div>
+  <!-- Error and loading -->
+  <div id="error" style="color:red; display:none;"></div>
+  <div id="loading" style="display:none;">Loading episodes...</div>
 
-    <script src="script.js"></script>
+  <!-- Episodes Table -->
+  <table id="episodesTable">
+    <thead>
+      <tr>
+        <th data-column="rank">Rank</th>
+        <th data-column="title">Title</th>
+        <th data-column="series">Series</th>
+        <th data-column="era">Era</th>
+        <th data-column="year">Year</th>
+        <th data-column="director">Director</th>
+        <th data-column="writer">Writer</th>
+        <th data-column="doctor">Doctor</th>
+        <th data-column="companion">Companion</th>
+        <th data-column="cast">Cast</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <!-- Pagination -->
+  <div class="pagination">
+    <button id="prevPage">⟨ Prev</button>
+    <span id="pageIndicator">Page 1</span>
+    <button id="nextPage">Next ⟩</button>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
