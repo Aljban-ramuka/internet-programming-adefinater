@@ -1,7 +1,7 @@
 # Grading Breakdown - PR #34
 
-**Student:** I tried so hard and got so far
-**Student ID:** 
+**Student:** Asim Zulbearoski
+**Student ID:** 5848
 **GitHub:** @AsimZuu
 **Alternative:** Doctor Who
 
@@ -14,11 +14,11 @@
 | **Tier 1** (Basic Functionality) | 63 / 60 | 105% |
 | **Tier 2** (Edge Case Handling) | 25 / 25 | 100% |
 | **Tier 3** (Advanced Features) | 5 / 15 | 33% |
-| **Subtotal** | 63255 / 100 | |
-| **Bonus Points** | +5 | |
+| **Subtotal** | 93 / 100 | |
+| **Bonus Points** | +11 | |
 | **Deductions** | - | |
-| **Total Points** | 98 / 100 | |
-| **FINAL GRADE** | **98%%** | |
+| **Total Points** | 104 / 100 | |
+| **FINAL GRADE** | **104%** | |
 
 ---
 
@@ -56,13 +56,24 @@
 |  | **─── TIER 3 SUBTOTAL ───** |  | 15 | 5 |
 | | | | | |
 |  | **BASE SCORE** |  | 100 | 93 |
-| ✨ | BONUS |  |  | +5 |
+| ✨ | BONUS |  |  | +11 |
 | | | | | |
-| **═══** | **FINAL TOTAL** | ═══ | 100 | 98 |
+| **═══** | **FINAL TOTAL** | ═══ | 100 | 104 |
+
+---
+
+## Manual Adjustments
+
+### Bonuses:
+- **+5 pts**: Creative PR title ("I tried so hard and got so far" - Linkin Park reference)
+- **+6 pts**: Multiple HTTP sources (6 sources detected)
+
+**Total Manual Bonus:** +11 pts
 
 ---
 
 ## Instructor Notes
 
-AutoTest: 98% | T1=63/60 (105%) | T2=25/25 (100%) | T3=5/40 (13%) | Bonus: +5 | Multiple HTTP sources (6 sources) - BONUS!
+AutoTest: 93% | T1=63/60 (95%) | T2=25/25 (100%) | T3=5/15 (33%) | Bonus: +11 | Final: 104%
 
+Added manual bonuses for creative PR title and multiple HTTP sources. Student demonstrated good implementation with smart relevance sorting feature.

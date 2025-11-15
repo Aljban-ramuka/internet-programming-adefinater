@@ -501,6 +501,19 @@
                 <select id="studentSelect">
                     <option value="">-- Choose a student --</option>
                 </select>
+                <span id="filterStatus" style="font-size: 12px; color: #6c757d; margin-left: 10px;"></span>
+            </div>
+            <div style="margin-top: 10px; font-size: 12px; color: #6c757d;">
+                <details>
+                    <summary style="cursor: pointer; user-select: none;">⚙️ GitHub Settings (optional - for filtering closed PRs)</summary>
+                    <div style="margin-top: 10px; padding: 10px; background: white; border-radius: 4px;">
+                        <label for="githubToken">GitHub Token:</label>
+                        <input type="password" id="githubToken" placeholder="ghp_..." style="margin-left: 10px; padding: 4px 8px; width: 300px;">
+                        <button onclick="saveGitHubToken()" style="margin-left: 10px; padding: 4px 12px; cursor: pointer;">Save</button>
+                        <button onclick="clearGitHubToken()" style="margin-left: 5px; padding: 4px 12px; cursor: pointer;">Clear</button>
+                        <p style="margin-top: 5px; font-size: 11px; color: #868e96;">Token is stored locally in browser. Get one at: github.com/settings/tokens</p>
+                    </div>
+                </details>
             </div>
         </div>
 
@@ -513,10 +526,57 @@
         let studentsData = [];
         let currentStudent = null;
         let adjustments = []; // Array of {type: 'bonus'|'deduction', description: string, amount: number}
+        let closedPRs = new Set(); // Set of closed PR numbers
+
+        // Fetch closed PRs from GitHub
+        async function fetchClosedPRs() {
+            try {
+                const token = localStorage.getItem('github_token');
+                const headers = {
+                    'Accept': 'application/vnd.github.v3+json'
+                };
+                
+                if (token) {
+                    headers['Authorization'] = `token ${token}`;
+                }
+
+                console.log('Fetching closed PRs from GitHub...');
+                const response = await fetch('https://api.github.com/repos/sweko/internet-programming-adefinater/pulls?state=closed&per_page=100', {
+                    headers
+                });
+
+                if (!response.ok) {
+                    if (response.status === 403) {
+                        console.warn('GitHub API rate limit exceeded. Add a GitHub token to increase limit.');
+                    } else {
+                        console.warn('Failed to fetch PR status from GitHub:', response.status);
+                    }
+                    return;
+                }
+
+                const prs = await response.json();
+                prs.forEach(pr => closedPRs.add(pr.number));
+                
+                console.log(`✅ Found ${closedPRs.size} closed PRs from GitHub`);
+            } catch (error) {
+                console.warn('Could not fetch GitHub PR status:', error);
+                // Continue without filtering if GitHub API fails
+            }
+        }
 
         // Load student data
         async function loadStudentData() {
             try {
+                document.getElementById('mainContent').innerHTML = `
+                    <div class="empty-state">
+                        <h3>⏳ Loading...</h3>
+                        <p>Fetching student data and GitHub PR status...</p>
+                    </div>
+                `;
+                
+                // First, fetch closed PRs from GitHub
+                await fetchClosedPRs();
+                
                 const response = await fetch('student-points.json');
                 studentsData = await response.json();
                 populateStudentDropdown();
@@ -540,7 +600,25 @@
         // Populate dropdown
         function populateStudentDropdown() {
             const select = document.getElementById('studentSelect');
-            studentsData.forEach(student => {
+            const filterStatus = document.getElementById('filterStatus');
+            
+            // Filter: PR > 10 AND not closed
+            const filteredStudents = studentsData.filter(student => 
+                student.pr > 10 && !closedPRs.has(student.pr)
+            );
+            
+            const totalStudents = studentsData.filter(s => s.pr > 10).length;
+            const closedCount = totalStudents - filteredStudents.length;
+            
+            if (closedCount > 0) {
+                console.log(`Hiding ${closedCount} closed PRs from dropdown`);
+                filterStatus.textContent = `(${filteredStudents.length} open / ${closedCount} closed)`;
+                filterStatus.style.color = '#28a745';
+            } else {
+                filterStatus.textContent = `(${totalStudents} total - no filtering)`;
+            }
+            
+            filteredStudents.forEach(student => {
                 const option = document.createElement('option');
                 option.value = student.pr;
                 option.textContent = `PR #${student.pr} - ${student.name} (${student.studentId})`;
@@ -563,9 +641,24 @@
 
         // Load student
         function loadStudent(prNumber) {
+            // Deep copy student data to avoid mutations
             currentStudent = JSON.parse(JSON.stringify(studentsData.find(s => s.pr === prNumber)));
-            adjustments = []; // Reset adjustments for new student
+            
+            // Reset all state
+            adjustments = [];
+            
+            // Clear main content completely
+            const mainContent = document.getElementById('mainContent');
+            mainContent.innerHTML = '';
+            
+            // Regenerate everything from scratch
             renderStudentGrades();
+            
+            // Force re-render adjustments
+            renderAdjustments();
+            
+            // Force recalculate and update summary
+            updateSummary();
         }
 
         // Group tests by tier
@@ -868,7 +961,14 @@
         // Reset to original
         function resetGrade() {
             if (confirm('Reset to original grades and clear all adjustments?')) {
+                // Reset all state
                 adjustments = [];
+                
+                // Clear and reload
+                const mainContent = document.getElementById('mainContent');
+                mainContent.innerHTML = '';
+                
+                // Reload from original data
                 loadStudent(currentStudent.pr);
             }
         }
@@ -942,7 +1042,35 @@ ${Object.keys(data.modifiedTests).length > 0 ? `MODIFIED TESTS:\n${Object.entrie
             });
         }
 
+        // GitHub token management
+        function saveGitHubToken() {
+            const token = document.getElementById('githubToken').value.trim();
+            if (token) {
+                localStorage.setItem('github_token', token);
+                alert('✅ GitHub token saved! Reload the page to apply filtering.');
+            } else {
+                alert('❌ Please enter a valid token');
+            }
+        }
+
+        function clearGitHubToken() {
+            localStorage.removeItem('github_token');
+            document.getElementById('githubToken').value = '';
+            alert('✅ GitHub token cleared! Reload the page to remove filtering.');
+        }
+
+        // Load saved token on page load
+        function loadSavedToken() {
+            const token = localStorage.getItem('github_token');
+            if (token) {
+                document.getElementById('githubToken').value = token;
+            }
+        }
+
         // Initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            loadSavedToken();
+        });
         loadStudentData();
     </script>
 </body>

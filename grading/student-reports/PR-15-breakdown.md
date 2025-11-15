@@ -1,7 +1,7 @@
 # Grading Breakdown - PR #15
 
-**Student:** Mid-Term Exam: Doctor Who Episodes Explorer – full solution with all …
-**Student ID:** 
+**Student:** Anja Ivanovska
+**Student ID:** 5760
 **GitHub:** @anjaiv
 **Alternative:** Doctor Who
 
@@ -11,14 +11,14 @@
 
 | Category | Score | Percentage |
 |----------|-------|------------|
-| **Tier 1** (Basic Functionality) | 63 / 60 | 105% |
+| **Tier 1** (Basic Functionality) | 57 / 60 | 95% |
 | **Tier 2** (Edge Case Handling) | 22 / 25 | 88% |
 | **Tier 3** (Advanced Features) | 10 / 15 | 67% |
-| **Subtotal** | 632210 / 100 | |
-| **Bonus Points** | +5 | |
-| **Deductions** | - | |
-| **Total Points** | 100 / 100 | |
-| **FINAL GRADE** | **100%%** | |
+| **Subtotal** | 89 / 100 | |
+| **Bonus Points** | +9 | |
+| **Deductions** | -5 | |
+| **Total Points** | 93 / 100 | |
+| **FINAL GRADE** | **93%** | |
 
 ---
 
@@ -29,14 +29,14 @@
 | ✅ | Data Loads Successfully | 1 | 10 | 10 |
 | ✅ | Loading Indicator Shown | 1 | 3 | 3 |
 | ✅ | All Required Columns Present | 1 | 15 | 15 |
-| ✨ | Data Formatting (Extra) | 1 | 0 | 6 |
+| ❌ | Data Formatting (Extra) | 1 | 0 | 0 |
 | ✅ | Semantic HTML Structure | 1 | 4 | 4 |
 | ✅ | Clicking Headers Sorts Table | 1 | 8 | 8 |
 | ✅ | Toggle Ascending/Descending | 1 | 4 | 4 |
 | ✅ | Sort Direction Indicator | 1 | 3 | 3 |
 | ✅ | Filter Input Field Exists | 1 | 5 | 5 |
 | ✅ | Filter Actually Works | 1 | 5 | 5 |
-|  | **─── TIER 1 SUBTOTAL ───** |  | 60 | 63 |
+|  | **─── TIER 1 SUBTOTAL ───** |  | 60 | 57 |
 | ✅ | No "undefined" or "null" Text | 2 | 5 | 5 |
 | ❌ | Empty Arrays Handled Gracefully | 2 | 3 | 0 |
 | ✅ | Special Characters Render Correctly | 2 | 4 | 4 |
@@ -47,18 +47,29 @@
 |  | **─── TIER 2 SUBTOTAL ───** |  | 25 | 22 |
 | ❌ | Performance Optimization | 3 | 5 | 0 |
 | ❌ | Keyboard Navigation | 3 | 5 | 0 |
-| ✅ | Smart Relevance Sorting | 3 | 5 | 5 |
+| ❌ | Smart Relevance Sorting | 3 | 5 | 0 |
 | ❌ | Data Validation & Warnings | 3 | 5 | 0 |
 | ✅ | Additional Filters | 3 | 5 | 5 |
 | ❌ | Multi-Column Sorting | 3 | 5 | 0 |
-| ❌ | Export to CSV | 3 | 5 | 0 |
+| ✅ | Export to CSV | 3 | 5 | 5 |
 | ❌ | Grouping/Decade Display | 3 | 5 | 0 |
 |  | **─── TIER 3 SUBTOTAL ───** |  | 15 | 10 |
 | | | | | |
-|  | **BASE SCORE** |  | 100 | 95 |
-| ✨ | BONUS |  |  | +5 |
+|  | **BASE SCORE** |  | 100 | 89 |
+| ✨ | BONUS |  |  | +9 |
+| ⚠️ | DEDUCTIONS |  |  | -5 |
 | | | | | |
-| **═══** | **FINAL TOTAL** | ═══ | 100 | 100 |
+| **═══** | **FINAL TOTAL** | ═══ | 100 | 93 |
+
+---
+
+## Manual Adjustments
+
+**Bonuses:**
+- +3 pts: Partial keyboard navigation
+
+**Deductions:**
+- -5 pts: Unimplemented features
 
 ---
 

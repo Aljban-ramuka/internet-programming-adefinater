@@ -2,8 +2,8 @@
 
 **Student:** Teona Nikoloska5737
 **Student ID:** 
-**GitHub:** @TeonaNikoloska
-**Alternative:** Doctor Who
+**GitHub:** @username
+**Alternative:** Hugo Award Books
 
 ---
 
@@ -12,13 +12,13 @@
 | Category | Score | Percentage |
 |----------|-------|------------|
 | **Tier 1** (Basic Functionality) | 30 / 60 | 50% |
-| **Tier 2** (Edge Case Handling) | 22 / 25 | 88% |
+| **Tier 2** (Edge Case Handling) | 11 / 25 | 44% |
 | **Tier 3** (Advanced Features) | 0 / 15 | 0% |
-| **Subtotal** | 30220 / 100 | |
+| **Subtotal** | 41 / 100 | |
 | **Bonus Points** | +0 | |
 | **Deductions** | - | |
-| **Total Points** | 52 / 100 | |
-| **FINAL GRADE** | **52%%** | |
+| **Total Points** | 41 / 100 | |
+| **FINAL GRADE** | **41%** | |
 
 ---
 
@@ -37,39 +37,32 @@
 | ❌ | Filter Actually Works | 1 | 5 | 0 |
 |  | **─── TIER 1 SUBTOTAL ───** |  | 60 | 30 |
 | ✅ | No "undefined" or "null" Text | 2 | 5 | 5 |
-| ✅ | Empty Arrays Handled Gracefully | 2 | 3 | 3 |
-| ✅ | Special Characters Render Correctly | 2 | 4 | 4 |
+| ✅ | Empty/Multiple Genres Handled | 2 | 3 | 3 |
+| ✅ | Special Characters and Long Titles | 2 | 4 | 4 |
 | ✅ | Error Messages User-Friendly | 2 | 3 | 3 |
 | ✅ | Missing Data Fields Handled | 2 | 3 | 3 |
-| ✅ | Nested Data Properly Formatted | 2 | 4 | 4 |
-| ❌ | Multiple Date Formats Sorted | 2 | 3 | 0 |
-|  | **─── TIER 2 SUBTOTAL ───** |  | 25 | 22 |
+| ✅ | Award Extraction & Formatting | 2 | 5 | 4 |
+| ❌ | Series Format Handling | 2 | 4 | 0 |
+|  | **─── TIER 2 SUBTOTAL ───** |  | 25 | 11 |
 | ❌ | Performance Optimization | 3 | 5 | 0 |
 | ❌ | Keyboard Navigation | 3 | 5 | 0 |
 | ❌ | Smart Relevance Sorting | 3 | 5 | 0 |
 | ❌ | Data Validation & Warnings | 3 | 5 | 0 |
-| ❌ | Additional Filters | 3 | 5 | 0 |
+| ❌ | Enhanced Filters (Winner/Nominee, Decade, Author) | 3 | 5 | 0 |
 | ❌ | Multi-Column Sorting | 3 | 5 | 0 |
 | ❌ | Export to CSV | 3 | 5 | 0 |
-| ❌ | Grouping/Decade Display | 3 | 5 | 0 |
+| ❌ | Genre Grouping with Collapse | 3 | 5 | 0 |
 |  | **─── TIER 3 SUBTOTAL ───** |  | 15 | 0 |
 | | | | | |
-|  | **BASE SCORE** |  | 100 | 52 |
+|  | **BASE SCORE** |  | 100 | 41 |
 | | | | | |
-| **═══** | **FINAL TOTAL** | ═══ | 100 | 52 |
-
----
-
-## Error Log
-
-- ⚠️ Data loads successfully: page.waitForSelector: Timeout 20000ms exceeded. Call log: - waiting for locator('table tbody tr') to be visible
-- ⚠️ Clicking headers sorts table: Test timeout
-- ⚠️ Toggle ascending/descending: Test timeout
-- ⚠️ Smart relevance sorting implemented: Test timeout
+| **═══** | **FINAL TOTAL** | ═══ | 100 | 41 |
 
 ---
 
 ## Instructor Notes
 
-AutoTest: 52% | T1=30/60 (50%) | T2=22/25 (88%) | T3=0/40 (0%) | Single HTTP source (expected)
+AutoTest: 41% | T1=30/60 (50%) | T2=11/25 (44%) | T3=0/40 (0%)
+
+Hugo Award Books assignment tested with alternative-specific edge cases (award extraction, series formats, genre handling).
 

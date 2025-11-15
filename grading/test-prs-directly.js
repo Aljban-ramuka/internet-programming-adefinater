@@ -17,6 +17,7 @@
  *   node test-prs-directly.js
  *   node test-prs-directly.js --pr=64
  *   node test-prs-directly.js --parallel=5
+ *   node test-prs-directly.js --pr=16 --no-fetch    # Use existing temp files without re-fetching
  */
 
 const { chromium } = require('playwright');
@@ -35,9 +36,13 @@ const HTTP_PORT = 8765; // Local server port for testing
 const TIMEOUT = 30000;
 const PARALLEL_TESTS = parseInt(process.argv.find(arg => arg.startsWith('--parallel='))?.split('=')[1]) || 1;
 const SPECIFIC_PR = process.argv.find(arg => arg.startsWith('--pr='))?.split('=')[1];
+const NO_FETCH = process.argv.includes('--no-fetch'); // Skip re-fetching files if temp dir exists
 
 // Import test definitions from automated-browser-test.js
 const { TESTS } = require('./automated-browser-test.js');
+
+// Import Hugo Books specific tests
+const { getHugoTests } = require('./hugo-book-tests.js');
 
 // Alternative-specific configurations (duplicated for now, should be shared)
 const ALTERNATIVE_CONFIG = {
@@ -205,6 +210,12 @@ function createHTTPServer() {
 async function createTempPRFiles(prNumber, files) {
   const prDir = path.join(TEMP_DIR, `pr-${prNumber}`);
   
+  // If --no-fetch flag is set and directory exists, skip fetching
+  if (NO_FETCH && fs.existsSync(prDir)) {
+    console.log(`  Skipping fetch (--no-fetch): Using existing files in ${prDir}`);
+    return path.join(prDir, 'index.html');
+  }
+  
   // Clean up old directory if exists
   if (fs.existsSync(prDir)) {
     fs.rmSync(prDir, { recursive: true, force: true });
@@ -344,8 +355,17 @@ async function testPR(prNumber, prData, browser) {
     
     await page.goto(testUrl);
     
+    // Select appropriate tests based on alternative
+    let testsToRun = TESTS;
+    
+    if (config.name === 'Hugo Award Books') {
+      // Use Hugo-specific tests for Alternative 2
+      testsToRun = getHugoTests(TESTS);
+      console.log(`  Using Hugo Books-specific tests (replaced Doctor Who Tier 2 tests)`);
+    }
+    
     // Run all tests (same as automated-browser-test.js)
-    for (const [testKey, testConfig] of Object.entries(TESTS)) {
+    for (const [testKey, testConfig] of Object.entries(testsToRun)) {
       try {
         const passed = await Promise.race([
           testConfig.test(page, config),
@@ -417,8 +437,13 @@ async function testPR(prNumber, prData, browser) {
  * Generate CSV report
  */
 function generateCSV(allResults) {
-  const testKeys = Object.keys(TESTS);
-  const testHeaders = testKeys.map(key => key);
+  // Collect all unique test keys from all results (handles both alternatives)
+  const allTestKeys = new Set();
+  allResults.forEach(result => {
+    Object.keys(result.tests).forEach(key => allTestKeys.add(key));
+  });
+  const testKeys = Array.from(allTestKeys).sort();
+  const testHeaders = testKeys;
   
   const headers = [
     'PR_Number',

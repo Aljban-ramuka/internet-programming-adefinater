@@ -2,8 +2,8 @@
 
 **Student:** Completed Exam Vlatko Angelov 5747
 **Student ID:** 
-**GitHub:** @ItzVaci
-**Alternative:** Doctor Who
+**GitHub:** @username
+**Alternative:** Hugo Award Books
 
 ---
 
@@ -12,13 +12,13 @@
 | Category | Score | Percentage |
 |----------|-------|------------|
 | **Tier 1** (Basic Functionality) | 57 / 60 | 95% |
-| **Tier 2** (Edge Case Handling) | 22 / 25 | 88% |
+| **Tier 2** (Edge Case Handling) | 23 / 25 | 92% |
 | **Tier 3** (Advanced Features) | 15 / 15 | 100% |
-| **Subtotal** | 572215 / 100 | |
+| **Subtotal** | 95 / 100 | |
 | **Bonus Points** | +0 | |
 | **Deductions** | - | |
-| **Total Points** | 94 / 100 | |
-| **FINAL GRADE** | **94%%** | |
+| **Total Points** | 95 / 100 | |
+| **FINAL GRADE** | **95%** | |
 
 ---
 
@@ -37,30 +37,32 @@
 | ✅ | Filter Actually Works | 1 | 5 | 5 |
 |  | **─── TIER 1 SUBTOTAL ───** |  | 60 | 57 |
 | ✅ | No "undefined" or "null" Text | 2 | 5 | 5 |
-| ✅ | Empty Arrays Handled Gracefully | 2 | 3 | 3 |
-| ✅ | Special Characters Render Correctly | 2 | 4 | 4 |
+| ✅ | Empty/Multiple Genres Handled | 2 | 3 | 3 |
+| ✅ | Special Characters and Long Titles | 2 | 4 | 4 |
 | ✅ | Error Messages User-Friendly | 2 | 3 | 3 |
 | ✅ | Missing Data Fields Handled | 2 | 3 | 3 |
-| ✅ | Nested Data Properly Formatted | 2 | 4 | 4 |
-| ❌ | Multiple Date Formats Sorted | 2 | 3 | 0 |
-|  | **─── TIER 2 SUBTOTAL ───** |  | 25 | 22 |
+| ✅ | Award Extraction & Formatting | 2 | 5 | 4 |
+| ❌ | Series Format Handling | 2 | 4 | 0 |
+|  | **─── TIER 2 SUBTOTAL ───** |  | 25 | 23 |
 | ❌ | Performance Optimization | 3 | 5 | 0 |
 | ❌ | Keyboard Navigation | 3 | 5 | 0 |
 | ✅ | Smart Relevance Sorting | 3 | 5 | 5 |
 | ✅ | Data Validation & Warnings | 3 | 5 | 5 |
-| ❌ | Additional Filters | 3 | 5 | 0 |
+| ❌ | Enhanced Filters (Winner/Nominee, Decade, Author) | 3 | 5 | 0 |
 | ❌ | Multi-Column Sorting | 3 | 5 | 0 |
 | ❌ | Export to CSV | 3 | 5 | 0 |
-| ✅ | Grouping/Decade Display | 3 | 5 | 5 |
+| ❌ | Genre Grouping with Collapse | 3 | 5 | 0 |
 |  | **─── TIER 3 SUBTOTAL ───** |  | 15 | 15 |
 | | | | | |
-|  | **BASE SCORE** |  | 100 | 94 |
+|  | **BASE SCORE** |  | 100 | 95 |
 | | | | | |
-| **═══** | **FINAL TOTAL** | ═══ | 100 | 94 |
+| **═══** | **FINAL TOTAL** | ═══ | 100 | 95 |
 
 ---
 
 ## Instructor Notes
 
-AutoTest: 94% | T1=57/60 (95%) | T2=22/25 (88%) | T3=15/40 (38%) | Single HTTP source (expected)
+AutoTest: 95% | T1=57/60 (95%) | T2=23/25 (92%) | T3=15/40 (38%)
+
+Hugo Award Books assignment tested with alternative-specific edge cases (award extraction, series formats, genre handling).
 

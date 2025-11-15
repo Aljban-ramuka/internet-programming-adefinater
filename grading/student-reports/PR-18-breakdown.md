@@ -1,7 +1,7 @@
 # Grading Breakdown - PR #18
 
-**Student:** Andrej Stojkovski5935
-**Student ID:** 
+**Student:** Andrej Stojkovski
+**Student ID:** 5935
 **GitHub:** @Stojkovski12
 **Alternative:** Doctor Who
 
@@ -11,14 +11,14 @@
 
 | Category | Score | Percentage |
 |----------|-------|------------|
-| **Tier 1** (Basic Functionality) | 58 / 60 | 97% |
+| **Tier 1** (Basic Functionality) | 57 / 60 | 95% |
 | **Tier 2** (Edge Case Handling) | 25 / 25 | 100% |
 | **Tier 3** (Advanced Features) | 10 / 15 | 67% |
-| **Subtotal** | 582510 / 100 | |
+| **Subtotal** | 92 / 100 | |
 | **Bonus Points** | +0 | |
 | **Deductions** | - | |
-| **Total Points** | 93 / 100 | |
-| **FINAL GRADE** | **93%%** | |
+| **Total Points** | 92 / 100 | |
+| **FINAL GRADE** | **92%** | |
 
 ---
 
@@ -29,14 +29,14 @@
 | ✅ | Data Loads Successfully | 1 | 10 | 10 |
 | ✅ | Loading Indicator Shown | 1 | 3 | 3 |
 | ✅ | All Required Columns Present | 1 | 15 | 15 |
-| ✨ | Data Formatting (Extra) | 1 | 0 | 6 |
+| ❌ | Data Formatting (Extra) | 1 | 0 | 0 |
 | ✅ | Semantic HTML Structure | 1 | 4 | 4 |
 | ✅ | Clicking Headers Sorts Table | 1 | 8 | 8 |
 | ✅ | Toggle Ascending/Descending | 1 | 4 | 4 |
 | ✅ | Sort Direction Indicator | 1 | 3 | 3 |
 | ✅ | Filter Input Field Exists | 1 | 5 | 5 |
-| ❌ | Filter Actually Works | 1 | 5 | 0 |
-|  | **─── TIER 1 SUBTOTAL ───** |  | 60 | 58 |
+| ✅ | Filter Actually Works | 1 | 5 | 5 |
+|  | **─── TIER 1 SUBTOTAL ───** |  | 60 | 57 |
 | ✅ | No "undefined" or "null" Text | 2 | 5 | 5 |
 | ✅ | Empty Arrays Handled Gracefully | 2 | 3 | 3 |
 | ✅ | Special Characters Render Correctly | 2 | 4 | 4 |
@@ -55,13 +55,13 @@
 | ❌ | Grouping/Decade Display | 3 | 5 | 0 |
 |  | **─── TIER 3 SUBTOTAL ───** |  | 15 | 10 |
 | | | | | |
-|  | **BASE SCORE** |  | 100 | 93 |
+|  | **BASE SCORE** |  | 100 | 92 |
 | | | | | |
-| **═══** | **FINAL TOTAL** | ═══ | 100 | 93 |
+| **═══** | **FINAL TOTAL** | ═══ | 100 | 92 |
 
 ---
 
 ## Instructor Notes
 
-AutoTest: 93% | T1=58/60 (97%) | T2=25/25 (100%) | T3=10/40 (25%) | Single HTTP source (expected)
+AutoTest: 92% | T1=57/60 (95%) | T2=25/25 (100%) | T3=10/40 (25%) | Single HTTP source (expected)
 
