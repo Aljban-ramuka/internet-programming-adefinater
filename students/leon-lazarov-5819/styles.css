@@ -1,173 +1,136 @@
-/* Reset and Base Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
+/* General page styling */
 body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background: #f5f5f5;
-    padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 20px;
+  background-color: #f5f5f5;
+  color: #333;
 }
 
-.container {
-    max-width: 1400px;
-    margin: 0 auto;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    padding: 20px;
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #1a237e;
 }
 
-/* Header Styles */
-header {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-header h1 {
-    color: #2a5298;
-    margin-bottom: 10px;
-}
-
-/* Filter Section */
+/* Filters section */
 .filters {
-    margin-bottom: 20px;
-    padding: 15px;
-    background: #f8f9fa;
-    border-radius: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 15px;
 }
 
-.filter-group {
-    margin-bottom: 10px;
+.filters input, .filters select {
+  padding: 8px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  min-width: 150px;
 }
 
-.filter-group label {
-    display: inline-block;
-    margin-right: 10px;
-    font-weight: 500;
+/* Error & loading messages */
+#error {
+  text-align: center;
+  margin-bottom: 10px;
+  font-weight: bold;
 }
 
-.filter-group input,
-.filter-group select {
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
+#loading {
+  text-align: center;
+  margin-bottom: 10px;
+  font-style: italic;
 }
 
-/* Table Styles */
+/* Table container for horizontal scroll */
+.table-container {
+  overflow-x: auto;
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+}
+
+/* Table styling */
 table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 15px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
 
-th, td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+thead {
+  background-color: #1a237e;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
 
-th {
-    background: #2a5298;
-    color: white;
-    font-weight: 500;
-    cursor: pointer;
-    user-select: none;
+thead th {
+  padding: 10px;
+  text-align: left;
+  font-weight: 600;
+  cursor: pointer;
 }
 
-th:hover {
-    background: #1e3c72;
+tbody td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #eee;
 }
 
-/* Sort Indicators */
-th.sort-asc::after {
-    content: ' ↑';
-    font-size: 0.8em;
+/* Zebra stripes for tbody */
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
 }
 
-th.sort-desc::after {
-    content: ' ↓';
-    font-size: 0.8em;
+tbody tr:nth-child(odd) {
+  background-color: #fff;
 }
 
-/* Loading State */
-.loading {
-    text-align: center;
-    padding: 40px;
-    font-size: 1.2em;
-    color: #666;
-}
-
-/* Error Display */
-.error {
-    padding: 15px;
-    margin: 20px 0;
-    background: #f8d7da;
-    border: 1px solid #f5c6cb;
-    border-radius: 4px;
-    color: #721c24;
-}
-
-/* Empty State */
-.no-results {
-    text-align: center;
-    padding: 40px;
-    color: #666;
-    font-style: italic;
-}
-
-/* Cast Count Badge */
-.cast-count {
-    display: inline-block;
-    padding: 2px 8px;
-    background: #2a5298;
-    color: white;
-    border-radius: 12px;
-    font-size: 0.85em;
-}
-
-/* Responsive Design */
-@media (max-width: 1200px) {
-    .container {
-        padding: 15px;
-    }
-
-    table {
-        display: block;
-        overflow-x: auto;
-    }
-}
-
-/* Focus States for Accessibility */
-input:focus,
-select:focus {
-    outline: none;
-    border-color: #2a5298;
-    box-shadow: 0 0 0 2px rgba(42,82,152,0.2);
-}
-
-/* Table Row Hover */
+/* Hover effect */
 tbody tr:hover {
-    background: #f8f9fa;
+  background-color: #e8f0fe;
 }
 
-/* Cell Formatting */
-td:first-child {
-    font-weight: 500;
+/* Focused row for arrow navigation */
+tr.focused {
+  outline: 2px solid #ff9800;
+  background-color: #fff3e0 !important;
 }
 
-/* Loading Animation */
-@keyframes pulse {
-    0% { opacity: 1; }
-    50% { opacity: 0.5; }
-    100% { opacity: 1; }
+/* Pagination buttons */
+.pagination {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-.loading {
-    animation: pulse 1.5s infinite;
+.pagination button {
+  padding: 8px 14px;
+  margin: 0 5px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  background-color: #1a237e;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pagination button:hover {
+  background-color: #3949ab;
+}
+
+#pageIndicator {
+  margin: 0 10px;
+  font-weight: bold;
+}
+
+/* Validation highlights */
+td[style*="color:red"] {
+  font-weight: bold;
+}
+
+td[style*="color:orange"] {
+  font-style: italic;
 }

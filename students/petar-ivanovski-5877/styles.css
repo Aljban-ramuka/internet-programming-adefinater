@@ -151,7 +151,7 @@ select:focus {
     box-shadow: 0 0 0 2px rgba(42,82,152,0.2);
 }
 
-/* Table Row Hover */
+/* Table Row Hover  */
 tbody tr:hover {
     background: #f8f9fa;
 }

@@ -1,0 +1,336 @@
+[
+  {
+    "rank": 1,
+    "title": "Heaven Sent",
+    "series": 9,
+    "era": "Modern",
+    "broadcast_date": "2015-11-28",
+    "director": "Rachel Talalay",
+    "writer": "Steven Moffat",
+    "doctor": {
+      "actor": "Peter Capaldi",
+      "incarnation": "Twelfth Doctor"
+    },
+    "companion": null,
+    "cast": [
+      {
+        "actor": "Peter Capaldi",
+        "character": "The Doctor"
+      },
+      {
+        "actor": "Jenna Coleman",
+        "character": "Clara Oswald"
+      }
+    ]
+  },
+  {
+    "rank": 2,
+    "title": "Blink",
+    "series": 3,
+    "era": "Modern",
+    "broadcast_date": "09/06/2007",
+    "director": "Hettie MacDonald",
+    "writer": "Steven Moffat",
+    "doctor": {
+      "actor": "David Tennant",
+      "incarnation": "Tenth Doctor"
+    },
+    "companion": {
+      "actor": "Freema Agyeman",
+      "character": "Martha Jones"
+    },
+    "cast": [
+      {
+        "actor": "David Tennant",
+        "character": "The Doctor"
+      },
+      {
+        "actor": "Freema Agyeman",
+        "character": "Martha Jones"
+      },
+      {
+        "actor": "Carey Mulligan",
+        "character": "Sally Sparrow"
+      }
+    ]
+  },
+  {
+    "rank": 3,
+    "title": "Genesis of the Daleks",
+    "series": 12,
+    "era": "Classic",
+    "broadcast_date": "March 8, 1975",
+    "director": "David Maloney",
+    "writer": "Terry Nation",
+    "doctor": {
+      "actor": "Tom Baker",
+      "incarnation": "Fourth Doctor"
+    },
+    "companion": {
+      "actor": "Elisabeth Sladen",
+      "character": "Sarah Jane Smith"
+    },
+    "cast": [
+      {
+        "actor": "Tom Baker",
+        "character": "The Doctor"
+      },
+      {
+        "actor": "Elisabeth Sladen",
+        "character": "Sarah Jane Smith"
+      },
+      {
+        "actor": "Michael Wisher",
+        "character": "Davros"
+      }
+    ]
+  },
+  {
+    "rank": 4,
+    "title": "The Doctor's Wife",
+    "series": 6,
+    "era": "Modern",
+    "broadcast_date": "2011-05-14",
+    "director": "Richard Clark",
+    "writer": "Neil Gaiman",
+    "doctor": {
+      "actor": "Matt Smith",
+      "incarnation": "Eleventh Doctor"
+    },
+    "companion": {
+      "actor": "Karen Gillan",
+      "character": "Amy Pond"
+    },
+    "cast": [
+      {
+        "actor": "Matt Smith",
+        "character": "The Doctor"
+      },
+      {
+        "actor": "Karen Gillan",
+        "character": "Amy Pond"
+      },
+      {
+        "actor": "Arthur Darvill",
+        "character": "Rory Williams"
+      },
+      {
+        "actor": "Suranne Jones",
+        "character": "Idris/TARDIS"
+      }
+    ]
+  },
+  {
+    "rank": 5,
+    "title": "City of Death",
+    "series": 17,
+    "era": "Classic",
+    "broadcast_date": "1979",
+    "director": "Michael Hayes",
+    "writer": "David Agnew & Douglas Adams",
+    "doctor": {
+      "actor": "Tom Baker",
+      "incarnation": "Fourth Doctor"
+    },
+    "companion": {
+      "actor": "Lalla Ward",
+      "character": "Romana II"
+    },
+    "cast": []
+  },
+  {
+    "rank": 0,
+    "title": "An Unearthly Child",
+    "series": 1,
+    "era": "Classic",
+    "broadcast_date": "23/11/1963",
+    "director": "Waris Hussein",
+    "writer": "Anthony Coburn",
+    "doctor": {
+      "actor": "William Hartnell",
+      "incarnation": "First Doctor"
+    },
+    "companion": {
+      "actor": "Carole Ann Ford",
+      "character": "Susan Foreman"
+    },
+    "cast": [
+      {
+        "actor": "William Hartnell",
+        "character": "The Doctor"
+      },
+      {
+        "actor": "Carole Ann Ford",
+        "character": "Susan Foreman"
+      },
+      {
+        "actor": "Jacqueline Hill",
+        "character": "Barbara Wright"
+      },
+      {
+        "actor": "William Russell",
+        "character": "Ian Chesterton"
+      }
+    ]
+  },
+  {
+    "rank": 7,
+    "title": "Rosa",
+    "series": 11,
+    "era": "Recent",
+    "broadcast_date": "2018-10-21",
+    "director": "Mark Tonderai",
+    "writer": "Malorie Blackman and Chris Chibnall",
+    "doctor": {
+      "actor": "Jodie Whittaker",
+      "incarnation": "Thirteenth Doctor"
+    },
+    "companion": {
+      "actor": "Mandip Gill",
+      "character": "Yasmin Khan"
+    },
+    "cast": [
+      {
+        "actor": "Jodie Whittaker",
+        "character": "The Doctor"
+      },
+      {
+        "actor": "Mandip Gill",
+        "character": "Yasmin Khan"
+      },
+      {
+        "actor": "Tosin Cole",
+        "character": "Ryan Sinclair"
+      },
+      {
+        "actor": "Bradley Walsh",
+        "character": "Graham O'Brien"
+      },
+      {
+        "actor": "Vinette Robinson",
+        "character": "Rosa Parks"
+      }
+    ]
+  },
+  {
+    "rank": -1,
+    "title": "\"The Deadly Assassin\"",
+    "series": 14,
+    "era": "Classic",
+    "broadcast_date": "October 30, 1976",
+    "director": "David Maloney",
+    "writer": "Robert Holmes",
+    "doctor": {
+      "actor": "Tom Baker",
+      "incarnation": "Fourth Doctor"
+    },
+    "companion": null,
+    "cast": [
+      {
+        "actor": "Tom Baker",
+        "character": "The Doctor"
+      },
+      {
+        "actor": "Bernard Horsfall",
+        "character": "Chancellor Goth"
+      }
+    ]
+  },
+  {
+    "rank": 9,
+    "title": "Bad Wolf / The Parting of the Ways",
+    "series": 1,
+    "era": "Modern",
+    "broadcast_date": "2005-06-18",
+    "director": "Joe Ahearne",
+    "writer": "Russell T Davies",
+    "doctor": {
+      "actor": "Christopher Eccleston",
+      "incarnation": "Ninth Doctor"
+    },
+    "companion": {
+      "actor": "Billie Piper",
+      "character": "Rose Tyler"
+    },
+    "cast": [
+      {
+        "actor": "Christopher Eccleston",
+        "character": "The Doctor"
+      },
+      {
+        "actor": "Billie Piper",
+        "character": "Rose Tyler"
+      },
+      {
+        "actor": "John Barrowman",
+        "character": "Captain Jack Harkness"
+      }
+    ]
+  },
+  {
+    "rank": 10,
+    "title": "The Day of the Doctor (50th Anniversary)",
+    "series": 7,
+    "era": "Modern",
+    "broadcast_date": "2013",
+    "director": "Nick Hurran",
+    "writer": "Steven Moffat",
+    "doctor": {
+      "actor": "Matt Smith & David Tennant & John Hurt",
+      "incarnation": "Eleventh Doctor & Tenth Doctor & War Doctor"
+    },
+    "companion": {
+      "actor": "Jenna Coleman",
+      "character": "Clara Oswald"
+    },
+    "cast": [
+      {
+        "actor": "Matt Smith",
+        "character": "The Doctor"
+      },
+      {
+        "actor": "David Tennant",
+        "character": "The Doctor"
+      },
+      {
+        "actor": "John Hurt",
+        "character": "The War Doctor"
+      },
+      {
+        "actor": "Jenna Coleman",
+        "character": "Clara Oswald"
+      },
+      {
+        "actor": "Billie Piper",
+        "character": "The Moment"
+      }
+    ]
+  },
+  {
+    "rank": 11,
+    "title": "The Power of the Doctor (Centenary Special)",
+    "series": 13,
+    "era": "Recent",
+    "broadcast_date": "2026-10-23",
+    "director": "Jamie Magnus Stone",
+    "writer": "Chris Chibnall",
+    "doctor": {
+      "actor": "Jodie Whittaker",
+      "incarnation": "Thirteenth Doctor"
+    },
+    "companion": {
+      "actor": "Mandip Gill",
+      "character": "Yasmin Khan"
+    },
+    "cast": [
+      {
+        "actor": "Jodie Whittaker",
+        "character": "The Doctor"
+      },
+      {
+        "actor": "Mandip Gill",
+        "character": "Yasmin Khan"
+      }
+    ]
+  }
+]

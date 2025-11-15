@@ -1,67 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctor Who Episodes Explorer</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Doctor Who Episodes Explorer</title>
+  <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Doctor Who Episodes Explorer</h1>
-            <p>Explore episodes through time and space</p>
-        </header>
+  <div class="container">
+    <header class="page-header">
+      <div class="title-block">
+        <h1>Doctor Who Episodes Explorer</h1>
+        <p>Explore episodes through time and space</p>
+      </div>
+      <div class="header-actions">
+        <button id="export-csv" type="button" class="btn">Export CSV</button>
+        <button id="warnings-btn" class="btn warning">⚠️ <span id="warnings">0</span></button>
+      </div>
+    </header>
 
-        <!-- Filter Section -->
-        <section class="filters">
-            <div class="filter-group">
-                <label for="name-filter">Episode Name:</label>
-                <input type="text" id="name-filter" placeholder="Search episodes...">
-            </div>
-            <!-- Add more filters as needed -->
-        </section>
+    
+    <section class="filters" role="region" aria-label="Filters">
+      <div class="filter-group">
+        <label for="name-filter">Episode Name</label>
+        <input id="name-filter" type="text" placeholder="Search episodes..." autocomplete="off"/>
+      </div>
 
-        <!-- Main Content -->
-        <main>
-            <!-- Loading State -->
-            <div id="loading" class="loading">
-                Loading episodes...
-            </div>
+      <div class="filter-group">
+        <label for="era-filter">Era</label>
+        <select id="era-filter"><option value="">All</option></select>
+      </div>
 
-            <!-- Error Display -->
-            <div id="error" class="error" style="display: none;">
-                <!-- Error messages will be inserted here -->
-            </div>
+      <div class="filter-group">
+        <label for="doctor-filter">Doctor</label>
+        <select id="doctor-filter"><option value="">All</option></select>
+      </div>
 
-            <!-- Episodes Table -->
-            <table id="episodes-table" style="display: none;">
-                <thead>
-                    <tr>
-                        <th data-sort="rank">Rank</th>
-                        <th data-sort="title">Title</th>
-                        <th data-sort="series">Series</th>
-                        <th data-sort="era">Era</th>
-                        <th data-sort="broadcast_date">Year</th>
-                        <th data-sort="director">Director</th>
-                        <th data-sort="writer">Writer</th>
-                        <th data-sort="doctor">Doctor</th>
-                        <th data-sort="companion">Companion</th>
-                        <th data-sort="cast">Cast</th>
-                    </tr>
-                </thead>
-                <tbody id="episodes-body">
-                    <!-- Episodes will be inserted here -->
-                </tbody>
-            </table>
+      <div class="filter-group">
+        <label for="companion-filter">Companion</label>
+        <select id="companion-filter"><option value="">All</option></select>
+      </div>
 
-            <!-- No Results Message -->
-            <div id="no-results" class="no-results" style="display: none;">
-                No episodes match your search criteria.
-            </div>
-        </main>
+      <div class="filter-group">
+        <label for="writer-filter">Writer</label>
+        <select id="writer-filter"><option value="">All</option></select>
+      </div>
+
+      <div class="filter-group">
+        <label for="year-filter">Year</label>
+        <select id="year-filter"><option value="">All</option></select>
+      </div>
+
+      <div class="filter-actions">
+        <button id="reset-filters" type="button" class="btn secondary">Reset filters</button>
+      </div>
+    </section>
+
+    <main>
+      <div id="loading" class="loading">Loading episodes…</div>
+      <div id="error" class="error" style="display:none"></div>
+
+      <div id="table-wrap" class="table-wrap" style="display:none">
+        <table id="episodes-table" aria-label="Episodes table">
+          <thead>
+            <tr>
+              <th data-sort="rank">Rank</th>
+              <th data-sort="title">Title</th>
+              <th data-sort="series">Series</th>
+              <th data-sort="era">Era</th>
+              <th data-sort="broadcast_year">Year</th>
+              <th data-sort="director">Director</th>
+              <th data-sort="writer">Writer</th>
+              <th data-sort="doctor">Doctor</th>
+              <th data-sort="companion">Companion</th>
+              <th data-sort="cast_count">Cast</th>
+            </tr>
+          </thead>
+          <tbody id="episodes-body"></tbody>
+        </table>
+      </div>
+
+      <div id="no-results" class="no-results" style="display:none">
+        No episodes match your search criteria.
+      </div>
+    </main>
+  </div>
+
+
+  <div id="cast-modal" class="modal-overlay" style="display:none">
+    <div class="modal">
+      <h2 id="modal-title">Episode Title</h2>
+      <p id="modal-year">Year</p>
+      <div id="modal-cast"></div>
+      <button class="btn secondary close-btn" id="close-cast">Close</button>
     </div>
+  </div>
 
-    <script src="script.js"></script>
+  
+  <div id="warnings-modal" class="modal-overlay" style="display:none">
+    <div class="modal">
+      <h2>Data Validation Warnings</h2>
+      <ul id="warnings-list"></ul>
+      <button class="btn secondary close-btn" id="close-warnings">Close</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>

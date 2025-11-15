@@ -171,3 +171,62 @@ td:first-child {
 .loading {
     animation: pulse 1.5s infinite;
 }
+
+/* Warnings UI */
+.warnings {
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: #fff3cd; /* pale yellow */
+    border: 1px solid #ffeeba;
+    color: #856404; /* dark yellow/brown */
+    font-weight: 600;
+    cursor: pointer;
+    margin: 10px 0;
+    transition: background 150ms ease, transform 120ms ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.warnings:hover {
+    background: #ffe8a1;
+    transform: translateY(-1px);
+}
+
+.warnings:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.15);
+}
+
+.warnings::before {
+    content: "⚠";
+    display: inline-block;
+    margin-right: 8px;
+    font-size: 1.05em;
+    vertical-align: middle;
+}
+
+.warnings-details {
+    margin-top: 8px;
+}
+
+.warnings-details ul {
+    list-style: disc inside;
+    padding-left: 8px;
+    max-height: 220px;
+    overflow: auto;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+.warnings-details li {
+    padding: 6px 4px;
+    border-bottom: 1px dashed #f0f0f0;
+    color: #333;
+    font-size: 0.95em;
+}
+
+.warnings-details li:last-child {
+    border-bottom: none;
+}

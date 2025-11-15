@@ -1,67 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Doctor Who Episodes Explorer</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
     <div class="container">
-        <header>
-            <h1>Doctor Who Episodes Explorer</h1>
-            <p>Explore episodes through time and space</p>
-        </header>
-
-        <!-- Filter Section -->
-        <section class="filters">
-            <div class="filter-group">
-                <label for="name-filter">Episode Name:</label>
-                <input type="text" id="name-filter" placeholder="Search episodes...">
+      <header class="hero-header">
+        <div class="hero-background">
+          <div class="tardis-animation">🚀</div>
+          <div class="stars"></div>
+        </div>
+        <div class="hero-content">
+          <h1 class="hero-title">
+            <span class="title-main">Doctor Who</span>
+            <span class="title-sub">Episodes Explorer</span>
+          </h1>
+          <p class="hero-subtitle">
+            🌌 Journey through 60 years of time and space 🌌
+          </p>
+          <div class="hero-stats">
+            <div class="stat-card">
+              <div class="stat-number" id="total-episodes">Loading...</div>
+              <div class="stat-label">Episodes</div>
             </div>
-            <!-- Add more filters as needed -->
-        </section>
-
-        <!-- Main Content -->
-        <main>
-            <!-- Loading State -->
-            <div id="loading" class="loading">
-                Loading episodes...
+            <div class="stat-card">
+              <div class="stat-number" id="total-doctors">Loading...</div>
+              <div class="stat-label">Doctors</div>
             </div>
-
-            <!-- Error Display -->
-            <div id="error" class="error" style="display: none;">
-                <!-- Error messages will be inserted here -->
+            <div class="stat-card">
+              <div class="stat-number" id="total-eras">3</div>
+              <div class="stat-label">Eras</div>
             </div>
+          </div>
+        </div>
+      </header>
 
-            <!-- Episodes Table -->
-            <table id="episodes-table" style="display: none;">
-                <thead>
-                    <tr>
-                        <th data-sort="rank">Rank</th>
-                        <th data-sort="title">Title</th>
-                        <th data-sort="series">Series</th>
-                        <th data-sort="era">Era</th>
-                        <th data-sort="broadcast_date">Year</th>
-                        <th data-sort="director">Director</th>
-                        <th data-sort="writer">Writer</th>
-                        <th data-sort="doctor">Doctor</th>
-                        <th data-sort="companion">Companion</th>
-                        <th data-sort="cast">Cast</th>
-                    </tr>
-                </thead>
-                <tbody id="episodes-body">
-                    <!-- Episodes will be inserted here -->
-                </tbody>
-            </table>
+      <!-- Enhanced Filter Section -->
+      <section class="filters">
+        <div class="filter-row">
+          <div class="filter-group">
+            <label for="name-filter">🔍 Search Episodes:</label>
+            <input
+              type="text"
+              id="name-filter"
+              placeholder="Search by title, doctor, companion, director, writer..."
+            />
+          </div>
+        </div>
 
-            <!-- No Results Message -->
-            <div id="no-results" class="no-results" style="display: none;">
-                No episodes match your search criteria.
-            </div>
-        </main>
+        <div class="filter-row">
+          <div class="filter-group">
+            <label for="era-filter">🎭 Era:</label>
+            <select id="era-filter">
+              <option value="">All Eras</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="doctor-filter">👨‍⚕️ Doctor:</label>
+            <select id="doctor-filter">
+              <option value="">All Doctors</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="companion-filter">👥 Companion:</label>
+            <select id="companion-filter">
+              <option value="">All Companions</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="stats-row">
+          <div class="stats" id="episode-stats">
+            <!-- Episode count will be displayed here -->
+          </div>
+          <div class="filter-actions">
+            <button id="clear-filters" class="btn-secondary">
+              🗑️ Clear Filters
+            </button>
+            <button id="export-csv" class="btn-primary">📊 Export CSV</button>
+          </div>
+        </div>
+
+        <div class="usage-hint">
+          💡 <strong>Pro Tips:</strong> Click headers to sort • Arrow keys
+          navigate • Enter sorts by rank • Shift+click for multi-sort
+        </div>
+      </section>
+
+      <!-- Main Content -->
+      <main>
+        <!-- Loading State -->
+        <div id="loading" class="loading">Loading episodes...</div>
+
+        <!-- Error Display -->
+        <div id="error" class="error" style="display: none">
+          <!-- Error messages will be inserted here -->
+        </div>
+
+        <!-- Episodes Table -->
+        <table id="episodes-table" style="display: none">
+          <thead>
+            <tr>
+              <th data-sort="rank" title="Click to sort by rank">
+                Rank <span class="sort-icon"></span>
+              </th>
+              <th data-sort="title" title="Click to sort by title">
+                Title <span class="sort-icon"></span>
+              </th>
+              <th data-sort="series" title="Click to sort by series">
+                Series <span class="sort-icon"></span>
+              </th>
+              <th data-sort="era" title="Click to sort by era">
+                Era <span class="sort-icon"></span>
+              </th>
+              <th data-sort="broadcast_date" title="Click to sort by year">
+                Year <span class="sort-icon"></span>
+              </th>
+              <th data-sort="director" title="Click to sort by director">
+                Director <span class="sort-icon"></span>
+              </th>
+              <th data-sort="writer" title="Click to sort by writer">
+                Writer <span class="sort-icon"></span>
+              </th>
+              <th data-sort="doctor" title="Click to sort by doctor">
+                Doctor <span class="sort-icon"></span>
+              </th>
+              <th data-sort="companion" title="Click to sort by companion">
+                Companion <span class="sort-icon"></span>
+              </th>
+              <th data-sort="cast" title="Click to sort by cast count">
+                Cast Count <span class="sort-icon"></span>
+              </th>
+            </tr>
+          </thead>
+          <tbody id="episodes-body">
+            <!-- Episodes will be inserted here -->
+          </tbody>
+        </table>
+
+        <!-- No Results Message -->
+        <div id="no-results" class="no-results" style="display: none">
+          No episodes match your search criteria.
+        </div>
+      </main>
+
+      <!-- Floating Action Button -->
+      <button id="scroll-to-top" class="fab" title="Back to top">⬆️</button>
+
+      <!-- Footer -->
+      <footer class="app-footer">
+        <div class="footer-content">
+          <p>
+            🎬 Built with ❤️ for Doctor Who fans | 🚀 Powered by modern web
+            technologies
+          </p>
+          <div class="footer-badges">
+            <span class="badge">✨ Responsive Design</span>
+            <span class="badge">⚡ High Performance</span>
+            <span class="badge">♿ Accessible</span>
+          </div>
+        </div>
+      </footer>
     </div>
 
     <script src="script.js"></script>
-</body>
+  </body>
 </html>

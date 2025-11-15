@@ -1,0 +1,122 @@
+[
+  {
+    "rank": 1,
+    "title": "An Unearthly Child",
+    "series": 1,
+    "era": "Classic",
+    "broadcast_date": "1963-11-23",
+    "director": "Waris Hussein",
+    "writer": "Anthony Coburn",
+    "doctor": { "actor": "William Hartnell", "incarnation": "First Doctor" },
+    "companion": { "actor": "Carole Ann Ford", "character": "Susan Foreman" },
+    "cast": [{ "actor": "William Russell", "character": "Ian Chesterton" }, { "actor": "Jacqueline Hill", "character": "Barbara Wright" }]
+  },
+  {
+    "rank": 2,
+    "title": "The Daleks",
+    "series": 1,
+    "era": "Classic",
+    "broadcast_date": "1963-12-21",
+    "director": "Christopher Barry",
+    "writer": "Terry Nation",
+    "doctor": { "actor": "William Hartnell", "incarnation": "First Doctor" },
+    "companion": null,
+    "cast": []
+  },
+  {
+    "rank": 3,
+  "title": "The \"Deadly\" Assassin",
+    "series": 14,
+    "era": "Classic",
+    "broadcast_date": "1976-10-30",
+    "director": "Graeme Harper",
+    "writer": "Tom Baker & Robert Holmes",
+    "doctor": { "actor": "Tom Baker", "incarnation": "Fourth Doctor" },
+    "companion": { "actor": "Louise Jameson", "character": "Leela" },
+    "cast": [{ "actor": "Bernard Horsfall", "character": "The Castellan" }]
+  },
+  {
+    "rank": 4,
+    "title": "The Doctor's Wife",
+    "series": 31,
+    "era": "Modern",
+    "broadcast_date": "2011-05-14",
+    "director": "Ben Wheatley",
+    "writer": "Neil Gaiman",
+    "doctor": { "actor": "Matt Smith", "incarnation": "Eleventh Doctor" },
+    "companion": { "actor": "Karen Gillan", "character": "Amy Pond" },
+    "cast": [{ "actor": "Suranne Jones", "character": "Ida" }]
+  },
+  {
+    "rank": -5,
+    "title": "Rank Negative Example",
+    "series": 2,
+    "era": "Classic",
+    "broadcast_date": "1970",
+    "director": "Director X",
+    "writer": "Writer Y",
+    "doctor": { "actor": "Jon Pertwee", "incarnation": "Third Doctor" },
+    "companion": { "actor": "Elisabeth Sladen", "character": "Sarah Jane" },
+    "cast": []
+  },
+  {
+    "rank": 0,
+    "title": "Zero Rank Example",
+    "series": 3,
+    "era": "Classic",
+    "broadcast_date": "01/04/1971",
+    "director": "Director Z",
+    "writer": "Writer A and Writer B",
+    "doctor": { "actor": "Jon Pertwee", "incarnation": "Third Doctor" },
+    "companion": null,
+    "cast": [{ "actor": "Actor A", "character": "Char A" }]
+  },
+  {
+    "rank": 10,
+    "title": "Time (Part 1)",
+    "series": 12,
+    "era": "Modern",
+    "broadcast_date": "March 26, 2010",
+    "director": "Director Y",
+    "writer": "Fictional Writer",
+    "doctor": { "actor": "David Tennant", "incarnation": "Tenth Doctor" },
+    "companion": { "actor": "Catherine Tate", "character": "Donna Noble" },
+    "cast": []
+  },
+  {
+    "rank": 11,
+    "title": "Bad Wolf / The Parting of the Ways",
+    "series": 2,
+    "era": "Modern",
+    "broadcast_date": "2005-06-18",
+    "director": "Euros Lyn",
+    "writer": "Russell T. Davies",
+    "doctor": { "actor": "Christopher Eccleston", "incarnation": "Ninth Doctor" },
+    "companion": { "actor": "Billie Piper", "character": "Rose Tyler" },
+    "cast": [{ "actor": "Noel Clarke", "character": "Mickey" }]
+  },
+  {
+    "rank": 12,
+    "title": "Doctor Who - The Movie",
+    "series": 0,
+    "era": "Recent",
+    "broadcast_date": "2026-01-01",
+    "director": "Future Director",
+    "writer": "Future Writer",
+    "doctor": { "actor": "Señor Doctor", "incarnation": "Thirteenth-ish" },
+    "companion": { "actor": "Accompañante", "character": "El Amigo" },
+    "cast": []
+  },
+  {
+    "rank": 13,
+    "title": null,
+    "series": 5,
+    "era": "Modern",
+    "broadcast_date": "2010-11-05",
+    "director": "Dir A",
+    "writer": "Writer C",
+    "doctor": { "actor": "Matt Smith", "incarnation": "Eleventh Doctor" },
+    "companion": { "actor": "Karen Gillan", "character": "Amy Pond" },
+    "cast": [{ "actor": "Actor B", "character": "Char B" }]
+  }
+]

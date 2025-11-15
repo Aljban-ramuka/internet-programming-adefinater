@@ -1,0 +1,17 @@
+#### 4. Data Validation (5 points)
+
+- Log console warnings for:
+  - Missing required fields
+  - Future broadcast dates
+  - Duplicate/invalid ranks
+  - Negative series numbers
+- Display warning count in UI
+
+#### 3. Smart Relevance Sort (5 points)
+
+When filtering, sort results by:
+
+1. Exact title matches
+2. Title contains search term
+3. Any field contains search term
+4. Default rank order

@@ -21,7 +21,7 @@
 
             <!-- Error State -->
             <div id="error" class="error hidden">
-                <p>Error loading data. Please try again.</p>
+                <p id="errorMessage">Error loading data. Please try again.</p>
             </div>
 
             <!-- Filters Section -->
@@ -42,9 +42,28 @@
                         </select>
                     </div>
 
+                    <!-- Author Filter -->
+                    <div class="filter-group">
+                        <label for="authorFilter">Author:</label>
+                        <select id="authorFilter">
+                            <option value="all">All authors</option>
+                        </select>
+                    </div>
+
+                    <!-- Decade Filter -->
+                    <div class="filter-group">
+                        <label for="decadeFilter">Decade:</label>
+                        <select id="decadeFilter">
+                            <option value="all">All decades</option>
+                        </select>
+                    </div>
+
                     <!-- Clear Filters -->
                     <div class="filter-group">
-                        <button id="clearFilters">Clear Filters</button>
+                        <div style="display:flex;gap:8px;align-items:center;">
+                            <button id="clearFilters">Clear Filters</button>
+                            <button id="exportCsv" type="button">Export CSV</button>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -52,6 +71,7 @@
             <!-- Results Info -->
             <section class="results-info">
                 <p id="resultsCount">Showing 0 of 0 books</p>
+                <p id="warningCount" class="warning-count" aria-live="polite"></p>
             </section>
 
             <!-- Books Table -->
@@ -100,6 +120,19 @@
                 <p>No books found matching your criteria.</p>
                 <p>Try adjusting your filters or search terms.</p>
             </div>
+
+            <!-- Pagination Controls -->
+            <div id="pagination" class="pagination hidden" aria-label="Pagination">
+                <button id="prevPage" type="button">Prev</button>
+                <span id="pageInfo">Page 1</span>
+                <button id="nextPage" type="button">Next</button>
+                <label for="pageSize">Page size:</label>
+                <select id="pageSize">
+                    <option value="10">10</option>
+                    <option value="20" selected>20</option>
+                    <option value="50">50</option>
+                </select>
+            </div>
         </main>
 
         <footer>
@@ -107,6 +140,8 @@
         </footer>
     </div>
 
-    <script src="script.js"></script>
+  
 </body>
+<script src="script.js"></script>
+
 </html>

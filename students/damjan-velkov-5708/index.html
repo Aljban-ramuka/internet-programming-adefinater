@@ -5,57 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor Who Episodes Explorer</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .row-focused {
+            background-color: #ffeeba;
+            outline: 2px solid #ffb700;
+        }
+        .filters select, .filters input {
+            margin-right: 10px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>Doctor Who Episodes Explorer</h1>
             <p>Explore episodes through time and space</p>
+            <div class="warning-bar" id="warning-bar" aria-live="polite">
+                Warnings: <span id="warning-count">0</span>
+                <button id="toggle-warnings" class="link-btn" aria-expanded="false">Show details</button>
+            </div>
+            <div id="warnings-details" class="warnings-details" style="display:none;">
+                <ul id="warnings-list"></ul>
+            </div>
         </header>
 
         <!-- Filter Section -->
         <section class="filters">
             <div class="filter-group">
-                <label for="name-filter">Episode Name:</label>
-                <input type="text" id="name-filter" placeholder="Search episodes...">
+                <label for="name-filter">Title:</label>
+                <input type="text" id="name-filter" placeholder="Filter by title...">
+
+                <label for="era-filter">Era:</label>
+                <select id="era-filter">
+                    <option value="">All</option>
+                </select>
+
+                <label for="doctor-filter">Doctor:</label>
+                <select id="doctor-filter">
+                    <option value="">All</option>
+                </select>
+
+                <label for="companion-filter">Companion:</label>
+                <select id="companion-filter">
+                    <option value="">All</option>
+                </select>
             </div>
-            <!-- Add more filters as needed -->
         </section>
 
         <!-- Main Content -->
         <main>
-            <!-- Loading State -->
-            <div id="loading" class="loading">
-                Loading episodes...
-            </div>
+            <div id="loading" class="loading">Loading episodes...</div>
+            <div id="error" class="error" style="display: none;"></div>
 
-            <!-- Error Display -->
-            <div id="error" class="error" style="display: none;">
-                <!-- Error messages will be inserted here -->
-            </div>
-
-            <!-- Episodes Table -->
             <table id="episodes-table" style="display: none;">
                 <thead>
                     <tr>
-                        <th data-sort="rank">Rank</th>
-                        <th data-sort="title">Title</th>
-                        <th data-sort="series">Series</th>
-                        <th data-sort="era">Era</th>
-                        <th data-sort="broadcast_date">Year</th>
-                        <th data-sort="director">Director</th>
-                        <th data-sort="writer">Writer</th>
-                        <th data-sort="doctor">Doctor</th>
-                        <th data-sort="companion">Companion</th>
-                        <th data-sort="cast">Cast</th>
+                        <th data-sort="rank" tabindex="0">Rank</th>
+                        <th data-sort="title" tabindex="0">Title</th>
+                        <th data-sort="series" tabindex="0">Series</th>
+                        <th data-sort="era" tabindex="0">Era</th>
+                        <th data-sort="broadcast_date" tabindex="0">Year</th>
+                        <th data-sort="director" tabindex="0">Director</th>
+                        <th data-sort="writer" tabindex="0">Writer</th>
+                        <th data-sort="doctor" tabindex="0">Doctor</th>
+                        <th data-sort="companion" tabindex="0">Companion</th>
+                        <th data-sort="cast" tabindex="0">Cast</th>
                     </tr>
                 </thead>
-                <tbody id="episodes-body">
-                    <!-- Episodes will be inserted here -->
-                </tbody>
+                <tbody id="episodes-body"></tbody>
             </table>
 
-            <!-- No Results Message -->
             <div id="no-results" class="no-results" style="display: none;">
                 No episodes match your search criteria.
             </div>

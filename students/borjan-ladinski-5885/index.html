@@ -19,6 +19,47 @@
                 <label for="name-filter">Episode Name:</label>
                 <input type="text" id="name-filter" placeholder="Search episodes...">
             </div>
+
+            <!-- Era filter (added) -->
+            <div class="filter-group">
+                <label for="era-filter">Era:</label>
+                <select id="era-filter">
+                    <option value="">All</option>
+                    <!-- options populated dynamically -->
+                </select>
+            </div>
+
+            <!-- Doctor filter (added) -->
+            <div class="filter-group">
+                <label for="doctor-filter">Doctor:</label>
+                <select id="doctor-filter">
+                    <option value="">All</option>
+                    <!-- options populated dynamically -->
+                </select>
+            </div>
+
+            <!-- Companion filter (added) -->
+            <div class="filter-group">
+                <label for="companion-filter">Companion:</label>
+                <select id="companion-filter">
+                    <option value="">All</option>
+                    <!-- options populated dynamically; includes a "None" entry for null companions -->
+                </select>
+            </div>
+
+            <!-- Warning count (from data validation) -->
+            <div class="filter-group" style="margin-top:8px;">
+                <span id="warning-count" class="warning-count" style="display:none;">0 warnings</span>
+                <!-- Export button -->
+                <button id="export-csv" style="margin-left:12px;padding:8px 12px;border-radius:4px;border:1px solid #2a5298;background:#2a5298;color:#fff;cursor:pointer;">
+                    Export CSV
+                </button>
+                <!-- Group by decade (added) -->
+                <label style="margin-left:12px; font-weight:500;">
+                    <input type="checkbox" id="group-decade" style="margin-right:6px;">
+                    Group by decade
+                </label>
+            </div>
             <!-- Add more filters as needed -->
         </section>
 
@@ -47,7 +88,7 @@
                         <th data-sort="writer">Writer</th>
                         <th data-sort="doctor">Doctor</th>
                         <th data-sort="companion">Companion</th>
-                        <th data-sort="cast">Cast</th>
+                        <th data-sort="cast">Cast Count</th>
                     </tr>
                 </thead>
                 <tbody id="episodes-body">

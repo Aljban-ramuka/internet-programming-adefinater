@@ -16,10 +16,37 @@
         <!-- Filter Section -->
         <section class="filters">
             <div class="filter-group">
-                <label for="name-filter">Episode Name:</label>
-                <input type="text" id="name-filter" placeholder="Search episodes...">
+                <label for="name-filter">Episode Title:</label>
+                <input type="text" id="name-filter" placeholder="Search episode titles...">
             </div>
-            <!-- Add more filters as needed -->
+            <div class="filter-group">
+                <label for="era-filter">Era:</label>
+                <select id="era-filter">
+                    <option value="">All Eras</option>
+                    <option value="Classic">Classic</option>
+                    <option value="Modern">Modern</option>
+                    <option value="Recent">Recent</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="doctor-filter">Doctor:</label>
+                <select id="doctor-filter">
+                    <option value="">All Doctors</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="companion-filter">Companion:</label>
+                <select id="companion-filter">
+                    <option value="">All Companions</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="view-toggle">View:</label>
+                <select id="view-toggle">
+                    <option value="table">Table View</option>
+                    <option value="decades">Decade Groups</option>
+                </select>
+            </div>
         </section>
 
         <!-- Main Content -->
@@ -40,9 +67,10 @@
                     <tr>
                         <th data-sort="rank">Rank</th>
                         <th data-sort="title">Title</th>
+                        <th data-sort="plot">Plot</th>
                         <th data-sort="series">Series</th>
                         <th data-sort="era">Era</th>
-                        <th data-sort="broadcast_date">Year</th>
+                        <th data-sort="broadcast_date">Broadcast Date</th>
                         <th data-sort="director">Director</th>
                         <th data-sort="writer">Writer</th>
                         <th data-sort="doctor">Doctor</th>
@@ -55,13 +83,60 @@
                 </tbody>
             </table>
 
+            <!-- Decades View -->
+            <div id="decades-view" style="display: none;">
+                <!-- Decade groups will be inserted here -->
+            </div>
+
             <!-- No Results Message -->
+                        <!-- No Results Message -->
             <div id="no-results" class="no-results" style="display: none;">
                 No episodes match your search criteria.
             </div>
         </main>
+
+        <!-- Cast Details Modal -->
+        <div id="cast-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="cast-modal-title">Cast Details</h3>
+                    <span class="modal-close">&times;</span>
+                </div>
+                <div class="modal-body" id="cast-modal-body">
+                    <!-- Cast list will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+        </main>
+
+        <!-- Cast Details Modal -->
+        <div id="cast-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="cast-modal-title">Cast Details</h3>
+                    <span class="modal-close">&times;</span>
+                </div>
+                <div class="modal-body" id="cast-modal-body">
+                    <!-- Cast list will be inserted here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Plot Details Modal -->
+        <div id="plot-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="plot-modal-title">Episode Plot</h3>
+                    <span class="modal-close">&times;</span>
+                </div>
+                <div class="modal-body" id="plot-modal-body">
+                    <!-- Plot text will be inserted here -->
+                </div>
+            </div>
+        </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=20251104e"></script>
 </body>
 </html>

@@ -1,67 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctor Who Episodes Explorer</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Doctor Who Episodes Explorer</title>
+
+  <!-- Fonts & Styles -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+
+  <meta name="description" content="Interactive explorer for Doctor Who episodes with sorting, filtering, and keyboard navigation." />
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Doctor Who Episodes Explorer</h1>
-            <p>Explore episodes through time and space</p>
-        </header>
+  <header class="site-header">
+    <h1>Doctor Who Episodes Explorer</h1>
+    <p class="subtitle">Sort, filter, and explore episodes across Classic, Modern, and Recent eras.</p>
+  </header>
 
-        <!-- Filter Section -->
-        <section class="filters">
-            <div class="filter-group">
-                <label for="name-filter">Episode Name:</label>
-                <input type="text" id="name-filter" placeholder="Search episodes...">
-            </div>
-            <!-- Add more filters as needed -->
-        </section>
+  <main class="container" id="main">
+    <!-- Controls -->
+    <section class="controls" aria-labelledby="filters-title">
+      <h2 id="filters-title" class="visually-hidden">Filters</h2>
 
-        <!-- Main Content -->
-        <main>
-            <!-- Loading State -->
-            <div id="loading" class="loading">
-                Loading episodes...
-            </div>
+      <div class="filters" role="form" aria-describedby="filters-help">
+        <!-- Title filter -->
+        <label class="field" for="filter-title">
+          <span>Title</span>
+          <input id="filter-title" type="text" placeholder="e.g., The Daleks" autocomplete="off" />
+        </label>
 
-            <!-- Error Display -->
-            <div id="error" class="error" style="display: none;">
-                <!-- Error messages will be inserted here -->
-            </div>
+        <!-- Era dropdown -->
+        <label class="field" for="filter-era">
+          <span>Era</span>
+          <select id="filter-era">
+            <option value="">All</option>
+            <option value="Classic">Classic</option>
+            <option value="Modern">Modern</option>
+            <option value="Recent">Recent</option>
+          </select>
+        </label>
 
-            <!-- Episodes Table -->
-            <table id="episodes-table" style="display: none;">
-                <thead>
-                    <tr>
-                        <th data-sort="rank">Rank</th>
-                        <th data-sort="title">Title</th>
-                        <th data-sort="series">Series</th>
-                        <th data-sort="era">Era</th>
-                        <th data-sort="broadcast_date">Year</th>
-                        <th data-sort="director">Director</th>
-                        <th data-sort="writer">Writer</th>
-                        <th data-sort="doctor">Doctor</th>
-                        <th data-sort="companion">Companion</th>
-                        <th data-sort="cast">Cast</th>
-                    </tr>
-                </thead>
-                <tbody id="episodes-body">
-                    <!-- Episodes will be inserted here -->
-                </tbody>
-            </table>
+        <!-- Doctor dropdown (populated from data) -->
+        <label class="field" for="filter-doctor">
+          <span>Doctor</span>
+          <select id="filter-doctor">
+            <option value="">All</option>
+          </select>
+        </label>
 
-            <!-- No Results Message -->
-            <div id="no-results" class="no-results" style="display: none;">
-                No episodes match your search criteria.
-            </div>
-        </main>
+        <!-- Companion dropdown (populated from data) -->
+        <label class="field" for="filter-companion">
+          <span>Companion</span>
+          <select id="filter-companion">
+            <option value="">All</option>
+          </select>
+        </label>
+
+        <!-- Year numeric filter -->
+        <label class="field" for="filter-year">
+          <span>Broadcast Year</span>
+          <input id="filter-year" type="number" placeholder="e.g., 2007" min="1900" step="1" />
+        </label>
+
+        <div class="actions">
+          <button id="btn-reset" type="button" class="secondary">Reset</button>
+          <button id="btn-export" type="button" title="Export current results as CSV">Export CSV</button>
+
+          <!-- BONUS: Group by decade toggle -->
+          <label class="checkbox-field" style="margin-left:.5rem">
+            <input id="toggle-decade" type="checkbox" />
+            <span>Group by decade</span>
+          </label>
+        </div>
+      </div>
+
+      <p id="filters-help" class="muted small">
+        Tip: Click a column header to sort. Click again to reverse.
+        <kbd>Shift</kbd>+Click adds multi-column sort (bonus).
+      </p>
+
+      <div class="meta">
+        <span id="result-count">0 episodes</span>
+        <span id="warn-count" title="Validation warnings are printed in the Console"></span>
+        <span id="load-status" role="status" aria-live="polite"></span>
+      </div>
+    </section>
+
+    <!-- Error banner -->
+    <div id="error-banner" class="error-banner" role="alert" aria-live="assertive" hidden></div>
+
+    <!-- Table -->
+    <section class="table-wrap" aria-labelledby="episodes-title">
+      <h2 id="episodes-title" class="visually-hidden">Episodes</h2>
+
+      <div class="table-scroll" tabindex="0" aria-label="Episodes table container">
+        <table id="episodes-table">
+          <thead>
+            <tr>
+              <th class="sortable" data-key="rank">Rank <span class="sort-indicator"></span></th>
+              <th class="sortable" data-key="title">Title <span class="sort-indicator"></span></th>
+              <th class="sortable" data-key="series">Series <span class="sort-indicator"></span></th>
+              <th class="sortable" data-key="era">Era <span class="sort-indicator"></span></th>
+              <th class="sortable" data-key="broadcastYear">Broadcast Year <span class="sort-indicator"></span></th>
+              <th class="sortable" data-key="director">Director <span class="sort-indicator"></span></th>
+              <th class="sortable" data-key="writer">Writer <span class="sort-indicator"></span></th>
+              <!-- IMPORTANT: these keys must match the object fields (doctorStr/companionStr) -->
+              <th class="sortable" data-key="doctorStr">Doctor <span class="sort-indicator"></span></th>
+              <th class="sortable" data-key="companionStr">Companion <span class="sort-indicator"></span></th>
+              <th class="sortable" data-key="castCount">Cast Count <span class="sort-indicator"></span></th>
+            </tr>
+          </thead>
+          <tbody id="episodes-tbody">
+            <!-- rows rendered dynamically -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Loading state overlay -->
+      <div id="loading-overlay" class="loading-overlay" hidden>
+        <div class="spinner" aria-hidden="true"></div>
+        <div class="loading-text">Loading episodes…</div>
+      </div>
+    </section>
+
+    <!-- BONUS: Pagination controls (disabled when grouped) -->
+    <div class="pagination" aria-label="Pagination">
+      <button id="pg-prev" type="button" class="secondary">Prev</button>
+      <span id="pg-info">Page 1 / 1</span>
+      <button id="pg-next" type="button">Next</button>
     </div>
+  </main>
 
-    <script src="script.js"></script>
+  <!-- Row template -->
+  <template id="row-template">
+    <tr tabindex="-1">
+      <td class="cell-rank"></td>
+      <td class="cell-title"></td>
+      <td class="cell-series"></td>
+      <td class="cell-era"></td>
+      <td class="cell-year"></td>
+      <td class="cell-director"></td>
+      <td class="cell-writer"></td>
+      <td class="cell-doctor"></td>
+      <td class="cell-companion"></td>
+      <td class="cell-castcount"></td>
+    </tr>
+  </template>
+
+  <!-- Footer / data source -->
+  <footer class="site-footer">
+    <small>
+      Data source:
+      <a href="https://raw.githubusercontent.com/sweko/internet-programming-adefinater/refs/heads/preparation/data/doctor-who-episodes-full.json" target="_blank" rel="noopener">
+        doctor-who-episodes-full.json
+      </a>
+    </small>
+  </footer>
+
+  <!-- App configuration -->
+  <script>
+    window.APP_CONFIG = {
+      // Single full dataset
+      FULL_URL: "https://raw.githubusercontent.com/sweko/internet-programming-adefinater/refs/heads/preparation/data/doctor-who-episodes-full.json",
+
+      // BONUS: chunked URLs (01-65)
+      CHUNK_URLS: [
+        "https://raw.githubusercontent.com/sweko/internet-programming-adefinater/refs/heads/preparation/data/doctor-who-episodes-01-10.json",
+        "https://raw.githubusercontent.com/sweko/internet-programming-adefinater/refs/heads/preparation/data/doctor-who-episodes-11-20.json",
+        "https://raw.githubusercontent.com/sweko/internet-programming-adefinater/refs/heads/preparation/data/doctor-who-episodes-21-30.json",
+        "https://raw.githubusercontent.com/sweko/internet-programming-adefinater/refs/heads/preparation/data/doctor-who-episodes-31-40.json",
+        "https://raw.githubusercontent.com/sweko/internet-programming-adefinater/refs/heads/preparation/data/doctor-who-episodes-41-50.json",
+        "https://raw.githubusercontent.com/sweko/internet-programming-adefinater/refs/heads/preparation/data/doctor-who-episodes-51-65.json"
+      ],
+
+      // Strategy: "full" or "chunks" (use "chunks" for the +5 bonus)
+      LOAD_STRATEGY: "chunks",
+
+
+      // Default sorting
+      defaultSort: { key: "rank", dir: "asc" }
+    };
+  </script>
+
+  <!-- Main script -->
+  <script src="script.js" type="module"></script>
 </body>
 </html>

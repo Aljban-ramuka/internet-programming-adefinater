@@ -97,28 +97,52 @@ th.sort-desc::after {
 
 /* Loading State */
 .loading {
+    display: block;
+    padding: 20px;
     text-align: center;
-    padding: 40px;
-    font-size: 1.2em;
+    font-size: 18px;
+    font-weight: bold;
     color: #666;
+    background-color: #f0f0f0;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    margin: 20px 0;
+    animation: pulse 1.5s infinite;
 }
 
-/* Error Display */
+/* Pulsing animation effect */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Error State Styling */
 .error {
+    display: block;
     padding: 15px;
     margin: 20px 0;
-    background: #f8d7da;
-    border: 1px solid #f5c6cb;
+    background-color: #ffebee;
+    color: #c62828;
+    border-left: 4px solid #c62828;
     border-radius: 4px;
-    color: #721c24;
+    font-weight: bold;
 }
 
 /* Empty State */
 .no-results {
+    display: block;
+    padding: 20px;
     text-align: center;
-    padding: 40px;
-    color: #666;
-    font-style: italic;
+    color: #999;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    margin: 20px 0;
 }
 
 /* Cast Count Badge */
@@ -129,6 +153,32 @@ th.sort-desc::after {
     color: white;
     border-radius: 12px;
     font-size: 0.85em;
+}
+
+/* Validation warnings - BRIGHT YELLOW BACKGROUND */
+#validation-warnings {
+    border: 3px solid #ffc107;
+    background-color: #ffeb3b !important;
+    color: #333;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 5px;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(255, 193, 7, 0.4);
+}
+
+#validation-warnings strong {
+    color: #ff6f00;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+#validation-warnings small {
+    display: block;
+    margin-top: 10px;
+    color: #666;
+    font-size: 13px;
+    font-weight: 400;
 }
 
 /* Responsive Design */
@@ -161,13 +211,29 @@ td:first-child {
     font-weight: 500;
 }
 
-/* Loading Animation */
-@keyframes pulse {
-    0% { opacity: 1; }
-    50% { opacity: 0.5; }
-    100% { opacity: 1; }
+/* Keyboard Navigation - Focused Row Styling */
+tbody tr.keyboard-focused {
+    background-color: #e3f2fd !important;
+    border-left: 5px solid #2196f3;
+    box-shadow: inset 0 0 8px rgba(33, 150, 243, 0.2);
+    font-weight: 500;
 }
 
-.loading {
-    animation: pulse 1.5s infinite;
+tbody tr.keyboard-focused td {
+    padding-left: 10px;
+    color: #1565c0;
+}
+
+tbody tr.keyboard-focused td:first-child {
+    font-weight: 600;
+}
+
+/* Smooth transitions for keyboard navigation */
+tbody tr {
+    transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* Hover state (only when not keyboard-focused) */
+tbody tr:hover:not(.keyboard-focused) {
+    background-color: #f9f9f9;
 }

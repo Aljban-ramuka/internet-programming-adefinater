@@ -50,7 +50,41 @@ header p {
 .loading {
     color: #3498db;
 }
+/* Data Warning Styles */
+.data-warnings {
+    background-color: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin: 10px 0;
+    color: #856404;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 
+.warning-icon {
+    margin-right: 8px;
+    font-size: 1.1em;
+}
+
+.warning-close {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+    color: #856404;
+    padding: 0 4px;
+}
+
+.warning-close:hover {
+    color: #533f03;
+}
+
+.data-warnings:hover {
+    background-color: #ffeaa7;
+}
 .error {
     color: #e74c3c;
     background-color: #fdf2f2;

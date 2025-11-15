@@ -113,6 +113,16 @@ th.sort-desc::after {
     color: #721c24;
 }
 
+/* Warning Display */
+.warnings {
+    padding: 10px 15px;
+    margin: 10px 0;
+    background: #fff3cd;
+    border: 1px solid #ffeeba;
+    border-radius: 4px;
+    color: #856404;
+}
+
 /* Empty State */
 .no-results {
     text-align: center;
@@ -151,9 +161,18 @@ select:focus {
     box-shadow: 0 0 0 2px rgba(42,82,152,0.2);
 }
 
-/* Table Row Hover */
+/* Table Row Hover and Selection */
 tbody tr:hover {
     background: #f8f9fa;
+}
+
+tr.selected-row {
+    background-color: #e3f2fd !important;
+    outline: 2px solid #2a5298;
+}
+
+tr.selected-row:hover {
+    background-color: #d8ecff !important;
 }
 
 /* Cell Formatting */

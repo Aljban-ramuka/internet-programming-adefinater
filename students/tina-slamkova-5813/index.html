@@ -1,67 +1,58 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctor Who Episodes Explorer</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Doctor Who Episodes Explorer</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Doctor Who Episodes Explorer</h1>
-            <p>Explore episodes through time and space</p>
-        </header>
+  <main class="container">
+    <header>
+      <h1>Doctor Who Episodes Explorer</h1>
+      <p class="subtitle">Freely browse, sort and filter Doctor Who episodes.</p>
+    </header>
 
-        <!-- Filter Section -->
-        <section class="filters">
-            <div class="filter-group">
-                <label for="name-filter">Episode Name:</label>
-                <input type="text" id="name-filter" placeholder="Search episodes...">
-            </div>
-            <!-- Add more filters as needed -->
-        </section>
+    <section class="controls">
+      <div class="filter-row">
+        <input id="filterInput" type="search" placeholder="Filter by title, doctor or companion..." aria-label="Filter episodes" />
+        <button id="clearFilterBtn" title="Clear filter" aria-label="Clear filter">✖</button>
+      </div>
 
-        <!-- Main Content -->
-        <main>
-            <!-- Loading State -->
-            <div id="loading" class="loading">
-                Loading episodes...
-            </div>
+      <div class="actions">
+        <button id="loadBtn" aria-controls="episodesTable">Load episodes</button>
+        <div id="loading" class="loading hidden" aria-live="polite">Loading…</div>
+        <div id="error" class="error hidden" role="alert"></div>
+      </div>
+    </section>
 
-            <!-- Error Display -->
-            <div id="error" class="error" style="display: none;">
-                <!-- Error messages will be inserted here -->
-            </div>
+    <section class="table-wrap" aria-live="polite">
+      <table id="episodesTable" class="episodes-table hidden" aria-describedby="tableDescription">
+        <caption id="tableDescription" class="sr-only">Doctor Who episodes table — sortable columns and filterable content</caption>
+        <thead>
+          <tr>
+            <th data-key="rank" class="sortable" scope="col">Rank <span class="sort-indicator"></span></th>
+            <th data-key="title" class="sortable" scope="col">Title <span class="sort-indicator"></span></th>
+            <th data-key="series" class="sortable" scope="col">Series <span class="sort-indicator"></span></th>
+            <th data-key="era" class="sortable" scope="col">Era <span class="sort-indicator"></span></th>
+            <th data-key="year" class="sortable" scope="col">Broadcast Year <span class="sort-indicator"></span></th>
+            <th data-key="director" class="sortable" scope="col">Director <span class="sort-indicator"></span></th>
+            <th data-key="writer" class="sortable" scope="col">Writer <span class="sort-indicator"></span></th>
+            <th data-key="doctor" class="sortable" scope="col">Doctor <span class="sort-indicator"></span></th>
+            <th data-key="companion" class="sortable" scope="col">Companion <span class="sort-indicator"></span></th>
+            <th data-key="castCount" class="sortable" scope="col">Cast Count <span class="sort-indicator"></span></th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+        </tbody>
+      </table>
+    </section>
 
-            <!-- Episodes Table -->
-            <table id="episodes-table" style="display: none;">
-                <thead>
-                    <tr>
-                        <th data-sort="rank">Rank</th>
-                        <th data-sort="title">Title</th>
-                        <th data-sort="series">Series</th>
-                        <th data-sort="era">Era</th>
-                        <th data-sort="broadcast_date">Year</th>
-                        <th data-sort="director">Director</th>
-                        <th data-sort="writer">Writer</th>
-                        <th data-sort="doctor">Doctor</th>
-                        <th data-sort="companion">Companion</th>
-                        <th data-sort="cast">Cast</th>
-                    </tr>
-                </thead>
-                <tbody id="episodes-body">
-                    <!-- Episodes will be inserted here -->
-                </tbody>
-            </table>
+    <footer class="footer">
+      <small>Doctor Who Episodes</small>
+    </footer>
+  </main>
 
-            <!-- No Results Message -->
-            <div id="no-results" class="no-results" style="display: none;">
-                No episodes match your search criteria.
-            </div>
-        </main>
-    </div>
-
-    <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>

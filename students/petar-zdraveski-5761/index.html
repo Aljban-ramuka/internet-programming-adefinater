@@ -17,7 +17,32 @@
         <section class="filters">
             <div class="filter-group">
                 <label for="name-filter">Episode Name:</label>
-                <input type="text" id="name-filter" placeholder="Search episodes...">
+                <input type="text" id="name-filter" placeholder="Search episodes..." aria-label="Search episodes by name">
+            </div>
+            <div class="filter-group">
+                <label for="era-filter">Era:</label>
+                <select id="era-filter" aria-label="Filter by era">
+                    <option value="">All</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="doctor-filter">Doctor:</label>
+                <select id="doctor-filter" aria-label="Filter by doctor">
+                    <option value="">All</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="companion-filter">Companion:</label>
+                <select id="companion-filter" aria-label="Filter by companion">
+                    <option value="">All</option>
+                </select>
+            </div>
+            <div class="filter-group" style="margin-left:12px; display:flex; align-items:center;">
+                <input type="checkbox" id="group-decade" />
+                <label for="group-decade" style="margin-left:6px;">Group by decade</label>
+            </div>
+            <div class="filter-group" style="margin-left: auto; text-align: right;">
+                <span id="warning-count" aria-live="polite" style="color:#b36a00; font-weight:600;"></span>
             </div>
             <!-- Add more filters as needed -->
         </section>
@@ -54,6 +79,31 @@
                     <!-- Episodes will be inserted here -->
                 </tbody>
             </table>
+
+            <!-- Pagination Controls -->
+            <div id="pagination-controls" class="pagination" style="display:none; margin-top:12px; align-items:center;">
+                <div style="display:flex; gap:8px; align-items:center;">
+                    <button id="page-first" aria-label="First page">« First</button>
+                    <button id="page-prev" aria-label="Previous page">‹ Prev</button>
+                    <span id="page-info" style="margin:0 8px; font-size:0.95em;"></span>
+                    <button id="page-next" aria-label="Next page">Next ›</button>
+                    <button id="page-last" aria-label="Last page">Last »</button>
+                </div>
+
+                <div style="margin-left:auto; display:flex; gap:8px; align-items:center;">
+                    <label for="page-size">Rows per page:</label>
+                    <select id="page-size" aria-label="Rows per page">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50" selected>50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Export button -->
+            <div style="margin-top:10px; text-align:right;">
+                <button id="export-csv" style="background:#2a5298; color:#fff; border:none; padding:8px 12px; border-radius:6px; cursor:pointer;">Export CSV</button>
+            </div>
 
             <!-- No Results Message -->
             <div id="no-results" class="no-results" style="display: none;">

@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hugo Award Books Explorer</title>
+    <title>Hugo Award Books Explorer - Browse Sci-Fi & Fantasy Winners</title>
+    <meta name="description" content="Explore Hugo Award nominated and winning science fiction and fantasy books. Search, filter, and sort through decades of acclaimed literature.">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -16,12 +17,14 @@
         <main>
             <!-- Loading State -->
             <div id="loading" class="loading">
+                <div class="spinner"></div>
                 <p>Loading books...</p>
             </div>
 
             <!-- Error State -->
             <div id="error" class="error hidden">
                 <p>Error loading data. Please try again.</p>
+                <button onclick="location.reload()">Retry</button>
             </div>
 
             <!-- Filters Section -->
@@ -39,6 +42,24 @@
                         <label for="winnerFilter">Winner status:</label>
                         <select id="winnerFilter">
                             <option value="all">All books</option>
+                            <option value="winners">Winners only</option>
+                            <option value="nominees">Nominees only</option>
+                        </select>
+                    </div>
+
+                    <!-- Decade Filter (Bonus - Enhanced Filters) -->
+                    <div class="filter-group">
+                        <label for="decadeFilter">Decade:</label>
+                        <select id="decadeFilter">
+                            <option value="all">All decades</option>
+                        </select>
+                    </div>
+
+                    <!-- Author Filter (Bonus - Enhanced Filters) -->
+                    <div class="filter-group">
+                        <label for="authorFilter">Author:</label>
+                        <select id="authorFilter">
+                            <option value="all">All authors</option>
                         </select>
                     </div>
 
@@ -46,8 +67,16 @@
                     <div class="filter-group">
                         <button id="clearFilters">Clear Filters</button>
                     </div>
+
+                    <!-- Export CSV (Bonus) -->
+                    <div class="filter-group">
+                        <button id="exportBtn" class="export-btn">Export to CSV</button>
+                    </div>
                 </div>
             </section>
+
+            <!-- Data Validation Warnings (Tier 3) -->
+            <div id="validationWarnings" class="validation-warnings hidden"></div>
 
             <!-- Results Info -->
             <section class="results-info">
