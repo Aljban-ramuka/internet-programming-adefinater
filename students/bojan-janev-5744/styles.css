@@ -134,6 +134,16 @@ header p {
     font-size: 0.9em;
 }
 
+.warning-count {
+    color: #856404;
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 4px;
+    margin-left: 10px;
+}
+
 /* Table Styles */
 .table-container {
     overflow-x: auto;
@@ -269,6 +279,47 @@ header p {
 
 .no-results p {
     margin-bottom: 10px;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 0;
+    border-top: 1px solid #e9ecef;
+}
+
+.pagination button {
+    padding: 6px 10px;
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    background: white;
+    cursor: pointer;
+}
+
+.pagination button:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+/* Export CSV button */
+#exportCsv {
+    padding: 8px 12px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#exportCsv:hover { background-color: #218838; }
+
+/* Focus styles for keyboard navigation */
+.books-table tbody tr:focus {
+    outline: 3px solid rgba(52,152,219,0.25);
+    background-color: #eef7ff;
 }
 
 /* Footer */
