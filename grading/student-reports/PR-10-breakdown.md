@@ -1,7 +1,7 @@
 # Grading Breakdown - PR #10
 
-**Student:** Midterm Exam David Stojchev 5945
-**Student ID:** 
+**Student:** David Stojchev
+**Student ID:** 5945
 **GitHub:** @DavidSt123
 **Alternative:** Doctor Who
 
@@ -11,14 +11,14 @@
 
 | Category | Score | Percentage |
 |----------|-------|------------|
-| **Tier 1** (Basic Functionality) | 30 / 60 | 50% |
-| **Tier 2** (Edge Case Handling) | 22 / 25 | 88% |
-| **Tier 3** (Advanced Features) | 0 / 15 | 0% |
-| **Subtotal** | 30220 / 100 | |
+| **Tier 1** (Basic Functionality) | 32 / 60 | 53% |
+| **Tier 2** (Edge Case Handling) | 15 / 25 | 60% |
+| **Tier 3** (Advanced Features) | 5 / 15 | 33% |
+| **Subtotal** | 52 / 100 | |
 | **Bonus Points** | +0 | |
-| **Deductions** | - | |
+| **Deductions** | -0 | |
 | **Total Points** | 52 / 100 | |
-| **FINAL GRADE** | **52%%** | |
+| **FINAL GRADE** | **52%** | |
 
 ---
 
@@ -32,18 +32,18 @@
 | ✅ | Semantic HTML Structure | 1 | 4 | 4 |
 | ❌ | Clicking Headers Sorts Table | 1 | 8 | 0 |
 | ❌ | Toggle Ascending/Descending | 1 | 4 | 0 |
-| ✅ | Sort Direction Indicator | 1 | 3 | 3 |
+| ❌ | Sort Direction Indicator | 1 | 3 | 0 |
 | ✅ | Filter Input Field Exists | 1 | 5 | 5 |
-| ❌ | Filter Actually Works | 1 | 5 | 0 |
-|  | **─── TIER 1 SUBTOTAL ───** |  | 60 | 30 |
+| ✅ | Filter Actually Works | 1 | 5 | 5 |
+|  | **─── TIER 1 SUBTOTAL ───** |  | 60 | 32 |
 | ✅ | No "undefined" or "null" Text | 2 | 5 | 5 |
 | ✅ | Empty Arrays Handled Gracefully | 2 | 3 | 3 |
 | ✅ | Special Characters Render Correctly | 2 | 4 | 4 |
-| ✅ | Error Messages User-Friendly | 2 | 3 | 3 |
+| ❌ | Error Messages User-Friendly | 2 | 3 | 0 |
 | ✅ | Missing Data Fields Handled | 2 | 3 | 3 |
-| ✅ | Nested Data Properly Formatted | 2 | 4 | 4 |
+| ❌ | Nested Data Properly Formatted | 2 | 4 | 0 |
 | ❌ | Multiple Date Formats Sorted | 2 | 3 | 0 |
-|  | **─── TIER 2 SUBTOTAL ───** |  | 25 | 22 |
+|  | **─── TIER 2 SUBTOTAL ───** |  | 25 | 15 |
 | ❌ | Performance Optimization | 3 | 5 | 0 |
 | ❌ | Keyboard Navigation | 3 | 5 | 0 |
 | ❌ | Smart Relevance Sorting | 3 | 5 | 0 |
@@ -51,12 +51,12 @@
 | ❌ | Additional Filters | 3 | 5 | 0 |
 | ❌ | Multi-Column Sorting | 3 | 5 | 0 |
 | ❌ | Export to CSV | 3 | 5 | 0 |
-| ❌ | Grouping/Decade Display | 3 | 5 | 0 |
-|  | **─── TIER 3 SUBTOTAL ───** |  | 15 | 0 |
+| ❌ | Grouping/Decade Display | 3 | 5 | 5 |
+|  | **─── TIER 3 SUBTOTAL ───** |  | 15 | 5 |
 | | | | | |
 |  | **BASE SCORE** |  | 100 | 52 |
 | | | | | |
-| **═══** | **FINAL TOTAL** | ═══ | 100 | 52 |
+|  | **FINAL TOTAL** | ═══ | 100 | 52 |
 
 ---
 
@@ -71,5 +71,11 @@
 
 ## Instructor Notes
 
-AutoTest: 52% | T1=30/60 (50%) | T2=22/25 (88%) | T3=0/40 (0%) | No data source detected in code (may be dynamic or missing)
+Manual Review: 47% | T1=32/60 (53%) | T2=15/25 (60%) | T3=5/15 (33%)
+
+**Modified Tests:**
+- Sort Direction Indicator: Changed to UNCHECKED (0 pts)
+- Filter Actually Works: Changed to CHECKED (5 pts)
+- Error Messages User-Friendly: Changed to UNCHECKED (0 pts)
+- Nested Data Properly Formatted: Changed to UNCHECKED (0 pts)
 
