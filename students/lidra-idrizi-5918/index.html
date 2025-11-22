@@ -1,112 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hugo Award Books Explorer</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hugo Award Books Explorer</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Hugo Award Books Explorer</h1>
-            <p>Explore Hugo Award nominated and winning science fiction and fantasy books</p>
-        </header>
+  <div class="container">
+    <header>
+      <h1>Hugo Award Books Explorer</h1>
+      <p>Explore Hugo Award nominated and winning science fiction and fantasy books</p>
+    </header>
 
-        <main>
-            <!-- Loading State -->
-            <div id="loading" class="loading">
-                <p>Loading books...</p>
-            </div>
+    <main>
+      <!-- Loading State -->
+      <div id="loading" class="loading hidden">
+        <p>Loading books...</p>
+      </div>
 
-            <!-- Error State -->
-            <div id="error" class="error hidden">
-                <p>Error loading data. Please try again.</p>
-            </div>
+      <!-- Error State -->
+      <div id="error" class="error hidden">
+        <p>Error loading data. Please try again.</p>
+      </div>
 
-            <!-- Filters Section -->
-            <section class="filters">
-                <h2>Filters</h2>
-                <div class="filter-controls">
-                    <!-- Title/Author Filter -->
-                    <div class="filter-group">
-                        <label for="nameFilter">Search by title or author:</label>
-                        <input type="text" id="nameFilter" placeholder="Enter title or author name...">
-                    </div>
+      <!-- Filters Section -->
+      <section class="filters">
+        <h2>Filters</h2>
+        <div class="filter-controls">
+          <div class="filter-group">
+            <label for="nameFilter">Search by title or author:</label>
+            <input type="text" id="nameFilter" placeholder="Enter title or author name..." />
+          </div>
 
-                    <!-- Winner Status Filter -->
-                    <div class="filter-group">
-                        <label for="winnerFilter">Winner status:</label>
-                        <select id="winnerFilter">
-                            <option value="all">All books</option>
-                        </select>
-                    </div>
+          <div class="filter-group">
+            <label for="winnerFilter">Winner status:</label>
+            <select id="winnerFilter">
+              <option value="all">All books</option>
+              <!-- JS will populate winners/nominees -->
+            </select>
+          </div>
 
-                    <!-- Clear Filters -->
-                    <div class="filter-group">
-                        <button id="clearFilters">Clear Filters</button>
-                    </div>
-                </div>
-            </section>
+          <div class="filter-group">
+            <button id="clearFilters">Clear Filters</button>
+          </div>
+        </div>
+      </section>
 
-            <!-- Results Info -->
-            <section class="results-info">
-                <p id="resultsCount">Showing 0 of 0 books</p>
-            </section>
+      <!-- Results Info -->
+      <section class="results-info">
+        <p id="resultsCount">Showing 0 of 0 books</p>
+      </section>
 
-            <!-- Books Table -->
-            <section class="table-container">
-                <table id="booksTable" class="books-table">
-                    <thead>
-                        <tr>
-                            <th class="sortable" data-column="title">
-                                Title
-                                <span class="sort-indicator"></span>
-                            </th>
-                            <th class="sortable" data-column="author">
-                                Author
-                                <span class="sort-indicator"></span>
-                            </th>
-                            <th class="sortable" data-column="category">
-                                Type
-                                <span class="sort-indicator"></span>
-                            </th>
-                            <th class="sortable" data-column="award">
-                                Award
-                                <span class="sort-indicator"></span>
-                            </th>
-                            <th class="sortable" data-column="publisher">
-                                Publisher
-                                <span class="sort-indicator"></span>
-                            </th>
-                            <th class="sortable" data-column="series">
-                                Series
-                                <span class="sort-indicator"></span>
-                            </th>
-                            <th class="sortable" data-column="genres">
-                                Genres
-                                <span class="sort-indicator"></span>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody id="booksTableBody">
-                        <!-- Books will be populated here by JavaScript -->
-                    </tbody>
-                </table>
-            </section>
+      <!-- Books Table -->
+      <section class="table-container">
+        <table id="booksTable" class="books-table">
+          <thead>
+            <tr>
+              <th class="sortable" data-column="title">Title</th>
+              <th class="sortable" data-column="author">Author</th>
+              <th class="sortable" data-column="category">Type</th>
+              <th class="sortable" data-column="award">Award</th>
+              <th class="sortable" data-column="publisher">Publisher</th>
+              <th class="sortable" data-column="series">Series</th>
+              <th class="sortable" data-column="genres">Genres</th>
+            </tr>
+          </thead>
+          <tbody id="booksTableBody">
+            <!-- JS will populate rows here -->
+          </tbody>
+        </table>
+      </section>
 
-            <!-- No Results Message -->
-            <div id="noResults" class="no-results hidden">
-                <p>No books found matching your criteria.</p>
-                <p>Try adjusting your filters or search terms.</p>
-            </div>
-        </main>
+      <!-- No Results Message -->
+      <div id="noResults" class="no-results hidden">
+        <p>No books found matching your criteria.</p>
+        <p>Try adjusting your filters or search terms.</p>
+      </div>
+    </main>
 
-        <footer>
-            <p>&copy; 2025 Hugo Award Books Explorer</p>
-        </footer>
-    </div>
+    <footer>
+      <p>&copy; 2025 Hugo Award Books Explorer</p>
+    </footer>
+  </div>
 
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
