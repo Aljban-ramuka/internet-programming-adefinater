@@ -1,67 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctor Who Episodes Explorer</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>"Doctor Who" Episodes</title>
+  <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Doctor Who Episodes Explorer</h1>
-            <p>Explore episodes through time and space</p>
-        </header>
+  <header>
+    <h1>"Doctor Who" Episodes</h1>
+    <p class="subtitle">Basic view of the inserted data</p>
+  </header>
 
-        <!-- Filter Section -->
-        <section class="filters">
-            <div class="filter-group">
-                <label for="name-filter">Episode Name:</label>
-                <input type="text" id="name-filter" placeholder="Search episodes...">
-            </div>
-            <!-- Add more filters as needed -->
-        </section>
+  <section class="controls">
+    <label>
+      Search title:
+      <input type="text" id="searchInput" placeholder="type to filter..."/>
+    </label>
+    <label class="inline">
+      <input type="checkbox" id="modernOnly"/>
+      Modern/Recent era only
+    </label>
+   <span id="status" class="status">
+	<span class="spinner"></span>
+	<span class="status-text"></span>
+   </span>
+  </section>
 
-        <!-- Main Content -->
-        <main>
-            <!-- Loading State -->
-            <div id="loading" class="loading">
-                Loading episodes...
-            </div>
+  <section class="table-wrap">
+    <table id="episodesTable">
+      <thead>
+        <tr>
+          <th data-field="rank">Rank   </th>
+          <th data-field="title">Title</th>
+          <th data-field="series">Series</th>
+          <th data-field="era">Era</th>
+          <th data-field="broadcastYear">Broadcast&nbsp;Year</th>
+          <th data-field="director">Director</th>
+          <th data-field="writer">Writer</th>
+          <th data-field="doctor">Doctor</th>
+          <th data-field="companion">Companion</th>
+          <th data-field="castCount">Cast&nbsp;Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- rows injected by script.js -->
+      </tbody>
+    </table>
+  </section>
 
-            <!-- Error Display -->
-            <div id="error" class="error" style="display: none;">
-                <!-- Error messages will be inserted here -->
-            </div>
+  <template id="rowTemplate">
+    <tr>
+      <td class="num rank"></td>
+      <td class="title"></td>
+      <td class="num series"></td>
+      <td class="era"></td>
+      <td class="num year"></td>
+      <td class="director"></td>
+      <td class="writer"></td>
+      <td class="doctor"></td>
+      <td class="companion"></td>
+      <td class="num cast"></td>
+    </tr>
+  </template>
 
-            <!-- Episodes Table -->
-            <table id="episodes-table" style="display: none;">
-                <thead>
-                    <tr>
-                        <th data-sort="rank">Rank</th>
-                        <th data-sort="title">Title</th>
-                        <th data-sort="series">Series</th>
-                        <th data-sort="era">Era</th>
-                        <th data-sort="broadcast_date">Year</th>
-                        <th data-sort="director">Director</th>
-                        <th data-sort="writer">Writer</th>
-                        <th data-sort="doctor">Doctor</th>
-                        <th data-sort="companion">Companion</th>
-                        <th data-sort="cast">Cast</th>
-                    </tr>
-                </thead>
-                <tbody id="episodes-body">
-                    <!-- Episodes will be inserted here -->
-                </tbody>
-            </table>
-
-            <!-- No Results Message -->
-            <div id="no-results" class="no-results" style="display: none;">
-                No episodes match your search criteria.
-            </div>
-        </main>
-    </div>
-
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
