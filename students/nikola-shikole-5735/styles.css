@@ -281,6 +281,19 @@ footer {
     font-size: 0.9em;
 }
 
+.warning-count {
+  color: #e67e22;
+  font-size: 0.9em;
+  margin-bottom: 10px;
+}
+
+/* Focused row highlight for keyboard navigation */
+tr.focused-row {
+  background-color: #dfefff !important;
+  outline: 2px solid #3498db;
+}
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
