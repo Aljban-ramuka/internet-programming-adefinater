@@ -23,28 +23,21 @@
             <div id="error" class="error hidden">
                 <p>Error loading data. Please try again.</p>
             </div>
+            <!-- Warnings (data validation) -->
+            <div id="warnings" class="warnings hidden"></div>
 
             <!-- Filters Section -->
             <section class="filters">
-                <h2>Filters</h2>
                 <div class="filter-controls">
-                    <!-- Title/Author Filter -->
                     <div class="filter-group">
-                        <label for="nameFilter">Search by title or author:</label>
-                        <input type="text" id="nameFilter" placeholder="Enter title or author name...">
-                    </div>
-
-                    <!-- Winner Status Filter -->
-                    <div class="filter-group">
-                        <label for="winnerFilter">Winner status:</label>
-                        <select id="winnerFilter">
+                        <input type="text" id="titleFilter" placeholder="Search by title...">
+                        <input type="text" id="authorFilter" placeholder="Search by author...">
+                        <label class="winner-filter" for="winnerFilter">Show:</label>
+                        <select id="winnerFilter" aria-label="Show winners or nominees">
                             <option value="all">All books</option>
+                            <option value="winners">Winners only</option>
+                            <option value="nominees">Nominees only</option>
                         </select>
-                    </div>
-
-                    <!-- Clear Filters -->
-                    <div class="filter-group">
-                        <button id="clearFilters">Clear Filters</button>
                     </div>
                 </div>
             </section>
@@ -56,42 +49,19 @@
 
             <!-- Books Table -->
             <section class="table-container">
-                <table id="booksTable" class="books-table">
+                <table class="books-table">
                     <thead>
                         <tr>
-                            <th class="sortable" data-column="title">
-                                Title
-                                <span class="sort-indicator"></span>
-                            </th>
-                            <th class="sortable" data-column="author">
-                                Author
-                                <span class="sort-indicator"></span>
-                            </th>
-                            <th class="sortable" data-column="category">
-                                Type
-                                <span class="sort-indicator"></span>
-                            </th>
-                            <th class="sortable" data-column="award">
-                                Award
-                                <span class="sort-indicator"></span>
-                            </th>
-                            <th class="sortable" data-column="publisher">
-                                Publisher
-                                <span class="sort-indicator"></span>
-                            </th>
-                            <th class="sortable" data-column="series">
-                                Series
-                                <span class="sort-indicator"></span>
-                            </th>
-                            <th class="sortable" data-column="genres">
-                                Genres
-                                <span class="sort-indicator"></span>
-                            </th>
+                            <th class="sortable" data-sort="title">Title<span class="sort-indicator"></span></th>
+                            <th class="sortable" data-sort="author">Author<span class="sort-indicator"></span></th>
+                            <th class="sortable" data-sort="award.category">Type<span class="sort-indicator"></span></th>
+                            <th class="sortable" data-sort="award.year">Award<span class="sort-indicator"></span></th>
+                            <th class="sortable" data-sort="publisher">Publisher<span class="sort-indicator"></span></th>
+                            <th class="sortable" data-sort="series">Series<span class="sort-indicator"></span></th>
+                            <th class="sortable" data-sort="genres">Genres<span class="sort-indicator"></span></th>
                         </tr>
                     </thead>
-                    <tbody id="booksTableBody">
-                        <!-- Books will be populated here by JavaScript -->
-                    </tbody>
+                    <tbody id="booksTableBody"></tbody>
                 </table>
             </section>
 
@@ -108,5 +78,31 @@
     </div>
 
     <script src="script.js"></script>
+    <script>
+        // Initialize keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'SELECT') {
+                const focusedRow = document.querySelector('tr:focus');
+                let newRow;
+                
+                switch(e.key) {
+                    case 'ArrowDown':
+                        e.preventDefault();
+                        newRow = focusedRow ? 
+                            focusedRow.nextElementSibling : 
+                            document.querySelector('tbody tr:first-child');
+                        if (newRow) newRow.focus();
+                        break;
+                    case 'ArrowUp':
+                        e.preventDefault();
+                        newRow = focusedRow ? 
+                            focusedRow.previousElementSibling : 
+                            document.querySelector('tbody tr:last-child');
+                        if (newRow) newRow.focus();
+                        break;
+                }
+            }
+        });
+    </script>
 </body>
 </html>
