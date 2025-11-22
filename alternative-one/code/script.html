@@ -1,0 +1,551 @@
+// Configuration
+const CONFIG = {
+    DATA_URL: 'https://raw.githubusercontent.com/sweko/internet-programming-adefinater/refs/heads/preparation/data/doctor-who-episodes-full.json',
+    // For bonus alternative (split files) you could change this to an array and fetchAll
+    DATE_FORMATS: {
+        ISO: 'YYYY-MM-DD',
+        UK: 'DD/MM/YYYY',
+        LONG: 'MMMM DD, YYYY',
+        YEAR: 'YYYY'
+    },
+    FILTER_DEBOUNCE_MS: 250,
+};
+
+// State Management
+let state = {
+    episodes: [],          // Original normalized data
+    filtered: [],          // Filtered + possibly resorted
+    loading: true,         // Loading state
+    error: null,           // Error message
+    sort: {
+        field: 'rank',     // Current sort field
+        ascending: true    // Sort direction
+    },
+    filters: {
+        name: ''           // Current filter value
+    },
+    warnings: []           // Data validation warnings collected
+};
+
+// DOM refs (cache)
+const refs = {
+    loading: null,
+    error: null,
+    table: null,
+    tbody: null,
+    noResults: null,
+    nameFilter: null,
+    warningBadge: null
+};
+
+// ---------------------- Initialization ----------------------
+document.addEventListener('DOMContentLoaded', init);
+
+async function init() {
+    // cache DOM
+    refs.loading = document.getElementById('loading');
+    refs.error = document.getElementById('error');
+    refs.table = document.getElementById('episodes-table');
+    refs.tbody = document.getElementById('episodes-body');
+    refs.noResults = document.getElementById('no-results');
+    refs.nameFilter = document.getElementById('name-filter');
+
+    injectWarningBadge(); // add the warnings badge to the header
+
+    setupEventListeners();
+    await loadEpisodes();
+}
+
+// ---------------------- UI Helper ----------------------
+function showLoading(show) {
+    refs.loading.style.display = show ? 'block' : 'none';
+    refs.table.style.display = show ? 'none' : (refs.tbody.children.length ? 'table' : 'none');
+}
+
+function showError(message) {
+    refs.error.textContent = message || '';
+    refs.error.style.display = message ? 'block' : 'none';
+}
+
+function setWarningCount(n) {
+    if (!refs.warningBadge) return;
+    refs.warningBadge.textContent = n > 0 ? `Warnings: ${n}` : '';
+    refs.warningBadge.style.display = n > 0 ? 'inline-block' : 'none';
+}
+
+// Inject a small warning badge into the header for data validation visibility
+function injectWarningBadge() {
+    const header = document.querySelector('header');
+    if (!header) return;
+    const badge = document.createElement('div');
+    badge.style.display = 'none';
+    badge.style.marginTop = '8px';
+    badge.style.fontSize = '0.9em';
+    badge.style.color = '#7a2a2a';
+    badge.style.background = '#fff5f5';
+    badge.style.border = '1px solid #f5c6cb';
+    badge.style.padding = '6px 10px';
+    badge.style.borderRadius = '6px';
+    badge.style.display = 'none';
+    header.appendChild(badge);
+    refs.warningBadge = badge;
+}
+
+// ---------------------- Event Listeners ----------------------
+function setupEventListeners() {
+    // Debounced filter input
+    const debouncedFilter = debounce(() => {
+        state.filters.name = refs.nameFilter.value.trim();
+        filterEpisodes(); // will also re-render with smart sort
+    }, CONFIG.FILTER_DEBOUNCE_MS);
+
+    refs.nameFilter.addEventListener('input', debouncedFilter);
+
+    // Sorting: click on any th with data-sort
+    const headers = document.querySelectorAll('#episodes-table th[data-sort]');
+    headers.forEach(th => {
+        th.addEventListener('click', () => sortEpisodes(th.dataset.sort));
+        // make headers focusable for minimal keyboard accessibility
+        th.tabIndex = 0;
+        th.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') sortEpisodes(th.dataset.sort);
+        });
+    });
+}
+
+// ---------------------- Data Loading & Normalization ----------------------
+async function loadEpisodes() {
+    try {
+        showError(null);
+        showLoading(true);
+
+        // Fetch
+        const resp = await fetch(CONFIG.DATA_URL);
+        if (!resp.ok) throw new Error(`Network response was not ok (${resp.status})`);
+
+        const raw = await resp.json();
+
+        // Normalization & validation
+        const normalized = [];
+        state.warnings = [];
+
+        if (!Array.isArray(raw)) {
+            throw new Error('Fetched data is not an array');
+        }
+
+        const rankMap = new Map();
+
+        raw.forEach((item, idx) => {
+            const norm = normalizeEpisode(item, idx);
+            normalized.push(norm);
+
+            // Validation checks
+            validateEpisode(norm, idx, rankMap);
+        });
+
+        // Save state
+        state.episodes = normalized;
+        // default filtered view is full dataset
+        state.filtered = [...state.episodes];
+
+        // update warnings badge and console logs
+        if (state.warnings.length) {
+            console.warn('Data validation warnings:', state.warnings);
+        }
+        setWarningCount(state.warnings.length);
+
+        // initial sorting by default field
+        sortEpisodes(state.sort.field, /*skipRender*/ false);
+
+    } catch (err) {
+        showError('Failed to load episodes: ' + (err.message || err));
+        console.error(err);
+    } finally {
+        showLoading(false);
+    }
+}
+
+// Normalize a single episode object to expected schema and handle edge cases
+function normalizeEpisode(raw, idx) {
+    // Create a shallow copy with defaults
+    const ep = {
+        rank: parseIntSafe(raw.rank, null),
+        title: raw.title ?? `Untitled #${idx + 1}`,
+        series: parseIntSafe(raw.series, null),
+        era: raw.era ?? 'Unknown',
+        broadcast_date: raw.broadcast_date ?? null,
+        director: raw.director ?? '—',
+        writer: normalizeWriters(raw.writer),
+        doctor: raw.doctor ?? '—',
+        companion: normalizeCompanion(raw.companion),
+        cast: Array.isArray(raw.cast) ? raw.cast : (raw.cast ? [raw.cast] : []),
+        // Keep original raw for debugging if needed
+        _raw: raw
+    };
+
+    // Year extraction for convenience (may be null if date invalid)
+    const parsed = parseDate(ep.broadcast_date);
+    ep._parsedDate = parsed;
+    ep._year = parsed ? parsed.getFullYear() : null;
+
+    return ep;
+}
+
+function parseIntSafe(val, fallback = 0) {
+    const n = parseInt(val);
+    return Number.isFinite(n) ? n : fallback;
+}
+
+function normalizeWriters(writerField) {
+    // Writers may come as:
+    // - string "Writer Name"
+    // - string "Name1, Name2"
+    // - array ["Name1", "Name2"]
+    if (!writerField && writerField !== 0) return ['—'];
+    if (Array.isArray(writerField)) {
+        if (writerField.length === 0) return ['—'];
+        return writerField.map(w => String(w).trim());
+    }
+    if (typeof writerField === 'string') {
+        // split on comma or " & " or "/"
+        const parts = writerField.split(/\s*(?:,|&|\/|;)\s*/).map(s => s.trim()).filter(Boolean);
+        return parts.length ? parts : [writerField.trim()];
+    }
+    // fallback
+    return [String(writerField)];
+}
+
+function normalizeCompanion(comp) {
+    // companion may be null, string, object, or array
+    if (!comp) return '—';
+    if (typeof comp === 'string') return comp;
+    if (Array.isArray(comp)) {
+        // join multiple companions
+        return comp.join(', ');
+    }
+    // if object with actor & character
+    if (typeof comp === 'object') {
+        if (comp.actor && comp.character) {
+            return `${comp.actor} (${comp.character})`;
+        }
+        // fallback to JSON string
+        return JSON.stringify(comp);
+    }
+    return String(comp);
+}
+
+// Validate episode and push warnings if needed
+function validateEpisode(ep, idx, rankMap) {
+    const warnings = state.warnings;
+    const today = new Date();
+
+    // Required fields
+    if (ep.rank === null || ep.rank === undefined) {
+        warnings.push({ type: 'missing_rank', idx, message: `Missing/invalid rank for item index ${idx}` });
+    } else {
+        // Duplicate rank
+        if (rankMap.has(ep.rank)) {
+            warnings.push({ type: 'duplicate_rank', idx, rank: ep.rank, message: `Duplicate rank ${ep.rank} (indexes ${rankMap.get(ep.rank)} and ${idx})` });
+        } else {
+            rankMap.set(ep.rank, idx);
+        }
+    }
+
+    if (!ep.title || ep.title === 'Untitled') {
+        warnings.push({ type: 'missing_title', idx, message: `Missing title for item index ${idx}` });
+    }
+
+    if (!ep.broadcast_date) {
+        warnings.push({ type: 'missing_broadcast_date', idx, message: `Missing broadcast_date for rank ${ep.rank}` });
+    } else {
+        const d = ep._parsedDate;
+        if (!d) {
+            warnings.push({ type: 'invalid_date', idx, val: ep.broadcast_date, message: `Invalid date format "${ep.broadcast_date}" for rank ${ep.rank}` });
+        } else if (d > today) {
+            warnings.push({ type: 'future_date', idx, val: ep.broadcast_date, message: `Future broadcast date "${ep.broadcast_date}" for rank ${ep.rank}` });
+        }
+    }
+
+    // Series negative?
+    if (typeof ep.series === 'number' && ep.series < 0) {
+        warnings.push({ type: 'negative_series', idx, val: ep.series, message: `Negative series number ${ep.series} for rank ${ep.rank}` });
+    }
+
+    // Cast array validation
+    if (!Array.isArray(ep.cast)) {
+        warnings.push({ type: 'invalid_cast', idx, message: `Cast field not an array for rank ${ep.rank}` });
+    }
+
+    // Collected warnings to global state
+    // (they are appended as objects; later we display a count and console.warn)
+}
+
+// ---------------------- Parsing Dates (mixed formats) ----------------------
+// Returns a Date object or null if cannot parse
+function parseDate(value) {
+    if (!value) return null;
+    // If already a Date
+    if (value instanceof Date) return value;
+
+    // Try ISO first (YYYY-MM-DD or full ISO)
+    const isoAttempt = Date.parse(value);
+    if (!Number.isNaN(isoAttempt)) {
+        return new Date(isoAttempt);
+    }
+
+    // Try DD/MM/YYYY (UK)
+    // e.g. 23/11/1963
+    const ukMatch = /^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/.exec(value);
+    if (ukMatch) {
+        const d = parseInt(ukMatch[1], 10);
+        const m = parseInt(ukMatch[2], 10) - 1;
+        const y = parseInt(ukMatch[3], 10);
+        const date = new Date(y, m, d);
+        if (!Number.isNaN(date.getTime())) return date;
+    }
+
+    // Try "Month DD, YYYY" (long format) - Date.parse may handle it, but we already tried parse
+    // As a fallback, attempt to replace unusual separators and try again
+    const cleaned = value.replace(/(\.|st|nd|rd|th)/g, '').trim();
+    const fallback = Date.parse(cleaned);
+    if (!Number.isNaN(fallback)) return new Date(fallback);
+
+    // Can't parse
+    return null;
+}
+
+// ---------------------- Displaying Episodes ----------------------
+function displayEpisodes(episodes) {
+    // Clear
+    refs.tbody.innerHTML = '';
+
+    // No results
+    if (!Array.isArray(episodes) || episodes.length === 0) {
+        refs.table.style.display = 'none';
+        refs.noResults.style.display = 'block';
+        return;
+    }
+
+    refs.noResults.style.display = 'none';
+    refs.table.style.display = 'table';
+
+    // Use a document fragment for better performance
+    const frag = document.createDocumentFragment();
+
+    // Build rows
+    episodes.forEach(ep => {
+        const tr = document.createElement('tr');
+
+        // Rank
+        const tdRank = document.createElement('td');
+        tdRank.textContent = ep.rank ?? '—';
+        tr.appendChild(tdRank);
+
+        // Title (render safely)
+        const tdTitle = document.createElement('td');
+        tdTitle.textContent = ep.title ?? '—';
+        tr.appendChild(tdTitle);
+
+        // Series
+        const tdSeries = document.createElement('td');
+        tdSeries.textContent = (ep.series !== null && ep.series !== undefined) ? ep.series : '—';
+        tr.appendChild(tdSeries);
+
+        // Era
+        const tdEra = document.createElement('td');
+        tdEra.textContent = ep.era ?? '—';
+        tr.appendChild(tdEra);
+
+        // Broadcast Year (extracted)
+        const tdYear = document.createElement('td');
+        tdYear.textContent = ep._year ?? '—';
+        tr.appendChild(tdYear);
+
+        // Director
+        const tdDirector = document.createElement('td');
+        tdDirector.textContent = ep.director ?? '—';
+        tr.appendChild(tdDirector);
+
+        // Writer(s) - join multiple writers with comma and space
+        const tdWriter = document.createElement('td');
+        tdWriter.textContent = Array.isArray(ep.writer) ? ep.writer.join(', ') : String(ep.writer ?? '—');
+        tr.appendChild(tdWriter);
+
+        // Doctor
+        const tdDoctor = document.createElement('td');
+        tdDoctor.textContent = ep.doctor ?? '—';
+        tr.appendChild(tdDoctor);
+
+        // Companion
+        const tdComp = document.createElement('td');
+        tdComp.textContent = ep.companion ?? '—';
+        tr.appendChild(tdComp);
+
+        // Cast count badge
+        const tdCast = document.createElement('td');
+        const span = document.createElement('span');
+        span.className = 'cast-count';
+        span.textContent = Array.isArray(ep.cast) ? ep.cast.length : 0;
+        tdCast.appendChild(span);
+        tr.appendChild(tdCast);
+
+        frag.appendChild(tr);
+    });
+
+    refs.tbody.appendChild(frag);
+}
+
+// ---------------------- Filtering ----------------------
+// Smart Relevance Sort + filter: when name filter is active, results are ordered by relevance
+function filterEpisodes() {
+    const q = (state.filters.name || '').trim().toLowerCase();
+    if (!q) {
+        // No filter -> show all and apply the current sort
+        state.filtered = [...state.episodes];
+        applySortOnFiltered(); // uses state.sort
+        displayEpisodes(state.filtered);
+        return;
+    }
+
+    // Compute relevance score for each episode:
+    // 0: exact title match (case-insensitive)
+    // 1: title contains query
+    // 2: any other field contains query
+    // 3: no match (shouldn't happen since we filter)
+    const results = [];
+
+    state.episodes.forEach(ep => {
+        const title = (ep.title || '').toLowerCase();
+        const director = (ep.director || '').toLowerCase();
+        const writer = (Array.isArray(ep.writer) ? ep.writer.join(' ') : (ep.writer || '')).toLowerCase();
+        const doctor = (ep.doctor || '').toLowerCase();
+        const companion = (ep.companion || '').toLowerCase();
+        const era = (ep.era || '').toLowerCase();
+
+        let score = 3; // default not matched
+        if (title === q) score = 0;
+        else if (title.includes(q)) score = 1;
+        else if (director.includes(q) || writer.includes(q) || doctor.includes(q) || companion.includes(q) || era.includes(q) || String(ep._year || '').includes(q)) {
+            score = 2;
+        }
+
+        if (score < 3) {
+            results.push({ ep, score });
+        }
+    });
+
+    // Sort by score first, then rank as tiebreaker
+    results.sort((a, b) => {
+        if (a.score !== b.score) return a.score - b.score;
+        // fallback to numeric rank
+        const ra = (a.ep.rank === null || a.ep.rank === undefined) ? Number.MAX_SAFE_INTEGER : a.ep.rank;
+        const rb = (b.ep.rank === null || b.ep.rank === undefined) ? Number.MAX_SAFE_INTEGER : b.ep.rank;
+        return ra - rb;
+    });
+
+    // Map back to array of episodes
+    state.filtered = results.map(r => r.ep);
+
+    // If the user had clicked a column sort, keep that sort within same score group:
+    // For simplicity, we will NOT reapply column sort now (smart relevance takes precedence).
+    displayEpisodes(state.filtered);
+}
+
+// ---------------------- Sorting ----------------------
+// If `skipRender` is true, it will set the sort but not re-render display
+function sortEpisodes(field, skipRender = false) {
+    // Toggle if same field, otherwise set ascending
+    if (state.sort.field === field) {
+        state.sort.ascending = !state.sort.ascending;
+    } else {
+        state.sort.field = field;
+        state.sort.ascending = true;
+    }
+
+    // update header indicators
+    updateSortIndicators();
+
+    // Apply sort to filtered dataset
+    applySortOnFiltered();
+
+    if (!skipRender) {
+        displayEpisodes(state.filtered);
+    }
+}
+
+function applySortOnFiltered() {
+    const field = state.sort.field;
+    const ascending = state.sort.ascending ? 1 : -1;
+
+    // Comparator that handles nulls, numbers, strings, and dates
+    const cmp = (a, b) => {
+        let va = a[field];
+        let vb = b[field];
+
+        // Special-case: broadcast_date should sort by parsed Date if available,
+        // or _parsedDate if we normalized.
+        if (field === 'broadcast_date') {
+            const da = a._parsedDate;
+            const db = b._parsedDate;
+            if (da && db) return (da - db) * ascending;
+            if (da && !db) return -1 * ascending;
+            if (!da && db) return 1 * ascending;
+            // fallback to string compare
+            va = a.broadcast_date ?? '';
+            vb = b.broadcast_date ?? '';
+        }
+
+        // For writer array, compare joined string
+        if (Array.isArray(va)) va = va.join(' ');
+        if (Array.isArray(vb)) vb = vb.join(' ');
+
+        // Normalize strings
+        if (typeof va === 'string') va = va.toLowerCase();
+        if (typeof vb === 'string') vb = vb.toLowerCase();
+
+        // Handle null/undefined
+        if (va === null || va === undefined || va === '') {
+            if (vb === null || vb === undefined || vb === '') return 0;
+            return 1 * ascending; // push nulls to end
+        }
+        if (vb === null || vb === undefined || vb === '') return -1 * ascending;
+
+        // Numeric compare when both numbers
+        if (typeof va === 'number' && typeof vb === 'number') {
+            return (va - vb) * ascending;
+        }
+
+        // Date objects
+        if (va instanceof Date && vb instanceof Date) {
+            return (va - vb) * ascending;
+        }
+
+        // Fallback string compare
+        if (String(va) < String(vb)) return -1 * ascending;
+        if (String(va) > String(vb)) return 1 * ascending;
+        return 0;
+    };
+
+    // Important: sort in-place for state.filtered
+    state.filtered.sort(cmp);
+}
+
+// Update visual sort indicators on table headers (adds classes sort-asc / sort-desc)
+function updateSortIndicators() {
+    document.querySelectorAll('#episodes-table th').forEach(th => {
+        th.classList.remove('sort-asc', 'sort-desc');
+    });
+    const active = document.querySelector(`#episodes-table th[data-sort="${state.sort.field}"]`);
+    if (active) {
+        active.classList.add(state.sort.ascending ? 'sort-asc' : 'sort-desc');
+    }
+}
+
+// ---------------------- Utilities ----------------------
+function debounce(fn, wait = 200) {
+    let t = null;
+    return function (...args) {
+        clearTimeout(t);
+        t = setTimeout(() => fn.apply(this, args), wait);
+    };
+}
